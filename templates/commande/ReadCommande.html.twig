@@ -1,0 +1,32 @@
+<h1> Liste des categories des produits </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Etat</th>
+    <th>Date</th>
+    <th>Prix total</th>
+    <th>Editer</th>
+    </tr>
+    {% for com in Commandes %}
+    <tr>
+        <td>
+            {{com.getId_Com()}}
+        </td>
+        <td>
+            {{com.isEtatCom()}}
+        </td>
+        <td>
+            {{com.getDateCom()|date("d/m/Y")}}
+        </td>
+        <td>
+            {{com.getPrixtotal()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Commande',{'id_com':com.id_com})}}">Remove</a>
+            <a href="{{path('Update_Commande',{'id_com':com.id_com})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Commande')}}">Create Commande</a>

@@ -1,0 +1,32 @@
+<h1> Liste des livraisons </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>description</th>
+    <th>Etat</th>
+    <th>Adresse</th>
+    <th>Editer</th>
+    </tr>
+    {% for liv in Livraisons %}
+    <tr>
+        <td>
+            {{liv.getId_Liv()}}
+        </td>
+        <td>
+            {{liv.getDescriptionLiv()}}
+        </td>
+        <td>
+            {{liv.isEtatLiv()}}
+        </td>
+        <td>
+            {{liv.getAdresseLiv()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Livraison',{'id_liv':liv.id_liv})}}">Remove</a>
+            <a href="{{path('Update_Livraison',{'id_liv':liv.id_liv})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Livraison')}}">Create Livraison</a>

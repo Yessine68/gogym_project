@@ -1,0 +1,24 @@
+<h1> Liste des categories des produits </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Editer</th>
+    </tr>
+    {% for cat_p in CategorieProduits %}
+    <tr>
+        <td>
+            {{cat_p.getId_Cat_P()}}
+        </td>
+        <td>
+            {{cat_p.getNomCatP()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_CategorieProduit',{'id_cat_p':cat_p.id_cat_p})}}">Remove</a>
+            <a href="{{path('Update_CategorieProduit',{'id_cat_p':cat_p.id_cat_p})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_CategorieProduit')}}">Create Categorie Produit</a>

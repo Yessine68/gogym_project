@@ -1,0 +1,24 @@
+<h1> Liste des Lignes commandes</h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Quantite demandee</th>
+    <th>Editer</th>
+    </tr>
+    {% for ligne in LigneCommandes %}
+    <tr>
+        <td>
+            {{ligne.getId_Ligne()}}
+        </td>
+        <td>
+            {{ligne.getQteDem()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_LigneCommande',{'id_ligne':ligne.id_ligne})}}">Remove</a>
+            <a href="{{path('Update_LigneCommande',{'id_ligne':ligne.id_ligne})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_LigneCommande')}}">Create Ligne Commande</a>

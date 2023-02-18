@@ -1,0 +1,54 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Liste des abonnements{% endblock %}
+
+{% block body %}
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Libelle</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Prix</th>
+    <th>Durée</th>
+    <th>Début</th>
+    <th>Fin</th>
+    <th>Editer</th>
+    </tr>
+    {% for a in Abonnements %}
+    <tr>
+        <td>
+            {{a.getId_A()}}
+        </td>
+        <td>
+            {{a.getLibelleA()}}
+        </td>
+        <td>
+            {{a.getTypeA()}}
+        </td>
+        <td>
+            {{a.getDescriptionA()}}
+        </td>
+        <td>
+            {{a.getPrixA()}}
+        </td>
+        <td>
+            {{a.getDureeA}}
+        </td>
+        <td>
+            {{a.getDebutA()|date("d/m/Y")}}
+        </td>
+        <td>
+            {{a.getFinA()|date("d/m/Y")}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Abonnement',{'id_a':a.id_a})}}">Remove</a>
+            <a href="{{path('Update_Abonnement',{'id_a':a.id_a})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{path('Create_Abonnement')}}">Create Abonnement</a>
+<br>
+<a href="{{path('Create_Salle')}}">Create Salle</a>
+{% endblock %}

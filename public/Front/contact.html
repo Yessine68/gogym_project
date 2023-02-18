@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+	<title>Go Gym</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="X Gym Fitness HTML Template">
+	<meta name="keywords" content="fitness, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- Favicon -->
+	<link href="img/favicon.ico" rel="shortcut icon"/>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="css/flaticon.css"/>
+	<link rel="stylesheet" href="css/slicknav.min.css"/>
+
+	<!-- Main Stylesheets -->
+	<link rel="stylesheet" href="css/style.css"/>
+
+
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	
+
+	<link rel="icon" href="assets/images/favicon/13.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="assets/images/favicon/13.png" type="image/x-icon" />
+
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/font-awesome.css">
+
+    <!--Slick slider css-->
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/slick.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/slick-theme.css">
+
+    <!-- Animate icon -->
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/animate.css">
+
+    <!-- Themify icon -->
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/themify-icons.css">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/bootstrap.css">
+
+    <!-- Theme css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+
+</head>
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Header section -->
+	<header class="header-section">
+		<ul class="main-menu">
+			<a href="index.html" class="site-logo">
+				<img src="img/logo.png" alt="">
+			</a>
+			<li><a href="index.html">Accueil</a></li>
+			<li><a href="Apropos.html">À propos</a></li>
+			<li><a href="salles.html">Salles</a></li>
+			<li><a href="Activités.html">Activités</a></li>
+			<li><a href="offres.html">Offres</a></li>
+			<li><a href="Evénements.html">Evénements</a></li>
+			<li><a href="boutique.html">Boutique</a></li>
+			<li><a class="active" href="contact.html">Contact</a></li>
+			<li class="header-right">
+				<div class="menu-right pull-right">
+				<div class="hr-box">
+					<div class="icon-nav">
+						<ul>
+							<li class="onhover-div mobile-search">
+								<div><img src="assets/images/icon/search.png" onclick="openSearch()"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-search" onclick="openSearch()"></i>
+								</div>
+								<div id="search-overlay" class="search-overlay">
+									<div>
+										<span class="closebtn" onclick="closeSearch()"
+											title="Close Overlay">×</span>
+										<div class="overlay-content">
+											<div class="container">
+												<div class="row">
+													<div class="col-xl-12">
+														<form>
+															<div class="form-group">
+																<input type="text" class="form-control"
+																	id="exampleInputPassword1"
+																	placeholder="Search a Product">
+															</div>
+															<button type="submit" class="btn btn-primary"><i
+																	class="fa fa-search"></i></button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="onhover-div mobile-cart">
+								<div><img src="assets/images/icon/cart.png"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-shopping-cart"></i>
+								</div>
+								<ul class="show-div shopping-cart">
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="assets/images/fashion/product/1.jpg"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="assets/images/fashion/product/2.jpg"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="total">
+											<h5>subtotal : <span>$299.00</span></h5>
+										</div>
+									</li>
+									<li>
+										<div class="buttons">
+											<a href="cart.html" class="view-cart">view cart</a>
+											<a href="#" class="checkout">checkout</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			</li>
+		</ul>
+	</header>
+	<div class="clearfix"></div>
+	<!-- Header section end -->
+
+	<!-- Page top section -->
+	<section class="page-top-section set-bg" data-setbg="img/header-bg/4.jpg">
+		<div class="container">
+			<h2>Contact</h2>
+		</div>
+	</section>
+	<!-- Page top section end -->
+
+	<!-- Contact section -->
+	<section class="contact-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<h2 class="contact-title">Contact Info</h2>
+					<div class="contact-info-warp">
+						<h4>Location</h4>
+						<div class="contact-info">
+							<img src="img/icons/1-dark.png" alt="">
+							<div class="cf-text">
+								<p>1525  Awesome Lane, Los Angeles, CA</p>
+							</div>
+						</div>
+					</div>
+					<div class="contact-info-warp">
+						<h4>Subscriptions</h4>
+						<div class="contact-info">
+							<img src="img/icons/2-dark.png" alt="">
+							<div class="cf-text">
+								<p>+1 (603)535-4592</p>
+								<p>+1 (603)535-4556</p>
+							</div>
+						</div>
+					</div>
+					<div class="contact-info-warp">
+						<h4>E-mail</h4>
+						<div class="contact-info">
+							<img src="img/icons/3-dark.png" alt="">
+							<div class="cf-text">
+								<p>go.gym@sayhii.tn</p>
+								<p>www.gogym.tn</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<h2 class="contact-title">Get in touch</h2>
+					<form class="contact-form">
+						<div class="row">
+							<div class="col-md-6">
+								<input type="text" placeholder="Your name">
+							</div>
+							<div class="col-md-6">
+								<input type="text" placeholder="Your e-mail">
+							</div>
+							<div class="col-md-12">
+								<input type="text" placeholder="Subject">
+								<textarea placeholder="Message"></textarea>
+								<button class="site-btn">Send Message</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Contact section end -->
+	
+	<!-- Footer Section Begin -->
+	<footer class="footer-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-text">
+						<div class="col-md-9 align-content-center">
+							<ul class="footer-menu">
+								<li><a href="">Accueil</a></li>
+								<li><a href="">À propos de nous</a></li>
+								<li><a href="">Salles</a></li>
+								<li><a href="">Activités</a></li>
+								<li><a href="">Offres</a></li>
+								<li><a href="">Evénements</a></li>
+								<li><a href="">Contact</a></li>
+							</ul>
+						</div>
+						<br>
+                        <div class="social-links">
+							<a href="#"><i class="fa fa-email"></i></a>
+							<a href="#"><i class="fa fa-phone"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+						</div>
+						<br>
+						<div class="reserved">
+							<p>
+								<font color="#FFFFFF">
+									Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by SAYHII</a>
+								</font>
+							</p>
+						</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+	
+    <!-- tap to top -->
+    <div class="tap-top gradient-top">
+        <div>
+            <i class="fa fa-angle-double-up"></i>
+        </div>
+    </div>
+    <!-- tap to top End -->
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/circle-progress.min.js"></script>
+	<script src="js/main.js"></script>
+	
+	<script>
+		new WOW().init();
+	</script>
+
+	    <!-- latest jquery-->
+		<script src="assets/js/jquery-3.3.1.min.js"></script>
+
+		<!-- menu js-->
+		<script src="assets/js/menu.js"></script>
+	
+		<!-- lazyload js-->
+		<script src="assets/js/lazysizes.min.js"></script>
+	
+		<!-- slick js-->
+		<script src="assets/js/slick.js"></script>
+	
+		<!-- Bootstrap js-->
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+	
+		<!-- Bootstrap Notification js-->
+		<script src="assets/js/bootstrap-notify.min.js"></script>
+	
+		<!-- Theme js-->
+		<script src="assets/js/theme-setting.js"></script>
+		<script src="assets/js/color-setting.js"></script>
+		<script src="assets/js/script.js"></script>
+	
+		<script>
+			$(window).on('load', function () {
+				setTimeout(function () {
+					$('#exampleModal').modal('show');
+				}, 2500);
+			});
+	
+			function openSearch() {
+				document.getElementById("search-overlay").style.display = "block";
+			}
+	
+			function closeSearch() {
+				document.getElementById("search-overlay").style.display = "none";
+			}
+		</script>	
+
+	</body>
+</html>

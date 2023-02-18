@@ -1,0 +1,28 @@
+<h1> Liste des paniers </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Quantite</th>
+    <th>Total</th>
+    <th>Editer</th>
+    </tr>
+    {% for pan in Paniers %}
+    <tr>
+        <td>
+            {{pan.getId_Panier()}}
+        </td>
+        <td>
+            {{pan.getQuantite()}}
+        </td>
+        <td>
+            {{pan.getTotal()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Panier',{'id_panier':pan.id_panier})}}">Remove</a>
+            <a href="{{path('Update_Panier',{'id_panier':pan.id_panier})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Panier')}}">Create Panier</a>
