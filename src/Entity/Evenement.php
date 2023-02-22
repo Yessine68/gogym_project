@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -11,16 +14,13 @@ class Evenement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_e = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom_e = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description_e = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $cat_e = null;
 
     #[ORM\Column(length: 255)]
     private ?string $date_e = null;
@@ -31,16 +31,32 @@ class Evenement
     #[ORM\Column]
     private ?int $nbr_participants = null;
 
-    public function getId_E(): ?int
+    #[ORM\Column(length: 1000)]
+    private ?string $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'evenements')]
+    private ?CategorieEvenement $categorieEvenement = null;
+
+    public function getId(): ?int   
     {
-        return $this->id_e;
+        return $this->id;
     }
 
     public function getNomE(): ?string
     {
         return $this->nom_e;
     }
+ public function getImage(): ?string
+    {
+        return $this->image;
+    }
 
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
     public function setNomE(string $nom_e): self
     {
         $this->nom_e = $nom_e;
@@ -60,17 +76,7 @@ class Evenement
         return $this;
     }
 
-    public function getCatE(): ?string
-    {
-        return $this->cat_e;
-    }
-
-    public function setCatE(string $cat_e): self
-    {
-        $this->cat_e = $cat_e;
-
-        return $this;
-    }
+    
 
     public function getDateE(): ?string
     {
@@ -106,5 +112,21 @@ class Evenement
         $this->nbr_participants = $nbr_participants;
 
         return $this;
+    }
+
+    public function getCategorieEvenement(): ?CategorieEvenement
+    {
+        return $this->categorieEvenement;
+    }
+
+    public function setCategorieEvenement(?CategorieEvenement $categorieEvenement): self
+    {
+        $this->categorieEvenement = $categorieEvenement;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom_e.' '.$this->id;
     }
 }

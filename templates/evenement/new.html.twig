@@ -1,0 +1,18 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}New evenement{% endblock %}
+
+{% block body %}
+    <h1>Create new Evenement</h1>
+<div class="col-sm-12 col-xl-6">
+<div class="bg-light rounded h-100 p-4">
+    {{ include('evenement/_form.html.twig') }}
+    {#{form_start(form)}}
+        {{form_label(form.nom_e,'nom_e : ',{'attr':{'class':'form-label'}})}}
+        {{form_widget(form.userName,{'attr':{'class':'form-control'}})}}
+    {{form_end(form)}#}
+
+</div>
+</div>
+    <a href="{{ path('app_evenement_index') }}">back to list</a>
+{% endblock %}
