@@ -1,40 +1,45 @@
-<h1> Liste des utilisateurs </h1>
-<table border="1">
-    <tr>
-    <th>ID</th>
-    <th>Nom</th>
-    <th>Prenom</th>
-    <th>Username</th>
-    <th>Email</th>
-    <th>Password</th>
-    <th>Editer</th>
-    </tr>
-    {% for u in Users %}
-    <tr>
-        <td>
-            {{u.getId()}}
-        </td>
-        <td>
-            {{u.getNom()}}
-        </td>
-        <td>
-            {{u.getPrenom()}}
-        </td>
-        <td>
-            {{u.getUsername()}}
-        </td>
-        <td>
-            {{u.getEmail()}}
-        </td>
-        <td>
-            {{u.getPassword()}}
-        </td>
-        <td>
-            <a href="{{path('Delete_User',{'id':u.id})}}">Remove</a>
-            <a href="{{path('Update_User',{'id':u.id})}}">Update</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<a href="{{path('Create_User')}}">Create Utilisateur </a>
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+                            <h1 class="mb-4">Liste des utilisateurs</h1>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prenom</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Editer</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {% for u in Users %}
+                                        <th scope="row">{{u.getId()}}</th>
+                                        <td>{{u.getNom()}}</td>
+                                        <td>{{u.getPrenom()}}</td>
+                                        <td>{{u.getUsername()}}</td>
+                                        <td>{{u.getEmail()}}</td>
+                                        <td>{{u.getPassword()}}</td>
+                                    <td>
+                                     <a href="{{path('Delete_User',{'id':u.id})}}">Remove</a>
+                                     <a href="{{path('Update_User',{'id':u.id})}}">Update</a>
+                                     </td>    
+                                        
+                                    </tr>
+                                   
+                                   
+                                </tbody>
+                                 {% endfor %}
+                            </table>
+                            <br>
+                            <a href="{{path('Create_User')}}">Create Utilisateur </a>
+                        </div>
+
+
+
+{% endblock %}

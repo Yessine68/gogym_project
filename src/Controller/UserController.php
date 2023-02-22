@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Repository\UserRepository;
 
@@ -17,7 +18,22 @@ use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
-{
+{   
+    #[Route('/test', name: 'test')]
+    public function test(UserRepository $repo): Response
+    {
+        $Users = $repo->findAll();
+        
+        return $this->render('test.html.twig', ["Users"=>$Users]);
+    }
+
+    #[Route('/baseBack', name: 'baseBack')]
+    public function baseBack()
+    {
+        
+        
+        return $this->render('baseBack.html.twig');
+    }
 
     #[Route('/User/Read', name: 'Read_User')]
     public function ReadUser(UserRepository $repo): Response
@@ -28,7 +44,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/User/Create', name: 'Create_User')]
-    public function CreateUser(ManagerRegistry $doctrine, Request $req): Response 
+    public function CreateUser(ManagerRegistry $doctrine, Request $req,UserPasswordEncoderInterface $encoder): Response 
     {
         $em = $doctrine->getManager();
         $User = new User();
@@ -36,7 +52,9 @@ class UserController extends AbstractController
         $form->handleRequest($req); 
 
         if($form->isSubmitted())
-        {
+        {   
+            $User->setPassword($encoder->encodePassword($User, $form->get('password')->getData()));
+            // lena try catch
             $em->persist($User);
             $em->flush();
             return $this->redirectToRoute('Read_User');
