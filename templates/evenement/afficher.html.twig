@@ -11,11 +11,11 @@
                 <th>Id</th>
               <th>nom_e</th>
                 <th>description_e</th>
+                <th>evenements</th>
                 <th>Image</th>
-                <th>Date</th>
                 <th>lieu_e</th>
                 <th>nbr_participants</th>
-                
+                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +24,8 @@
                 <td>{{ evenement.id }}</td>
                 <td>{{ evenement.getNomE() }}</td>
                 <td>{{ evenement.getDescriptionE()}}</td>
-                <td>{{ evenement.getImage() }}</td>            
+                <td>{{ evenement.getImage() }}</td>
+                <td>{{ evenement.getCategorieEvenement() }}</td>
                 <td>{{ evenement.getDateE() }}</td>
                 <td>{{ evenement.getLieuE() }}</td>
                 <td>{{ evenement.getNbrParticipants() }}</td>

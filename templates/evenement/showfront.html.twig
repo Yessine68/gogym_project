@@ -120,7 +120,7 @@
 	<!-- Page top section -->
 	<section class="page-top-section set-bg" data-setbg={{ asset("Front/img/header-bg/3.jpg")}}>
 		<div class="container">
-			<h2>Evenement</h2>
+			<h2>Blog</h2>
 		</div>
 	</section>
 	<!-- Page top section end -->
@@ -134,8 +134,7 @@
 				 {% for event in evenements %}
 
 					<div class="blog-item">
-					
-						<img src="{{ asset("uploads/evenement/") }}{{ event.getImage() }}">
+						<img src={{ asset("Front/img/blog/1.jpg")}} alt="">
 						<h2>{{event.getNomE()}}  </h2>
 						
 						<p>DESCRIPTION : {{event.getDescriptionE()}}</p>

@@ -48,7 +48,7 @@ class ProduitController extends AbstractController
                 // Déplacement du fichier dans le dossier des images
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directoryE'),
+                        $this->getParameter('images_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -116,29 +116,10 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Traitement de l'image
-            $imageFile = $form->get('image')->getData();
-            if ($imageFile) {
-                // Génération d'un nom de fichier unique
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
-
-                // Déplacement du fichier dans le dossier des images
-                try {
-                    $imageFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Gestion de l'erreur
-                }
-
-                // Stockage du nom de fichier dans l'entité Produit
-                $produit->setImage($newFilename);
-            }
-
             $produitRepository->save($produit, true);
 
             return $this->redirectToRoute('app_produit_afficher', [], Response::HTTP_SEE_OTHER);
+            
         }
 
         return $this->renderForm('produit/edit.html.twig', [

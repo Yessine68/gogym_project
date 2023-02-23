@@ -17,7 +17,6 @@ class CategorieEvenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le nom de Categorie ne doit pas être vide.')]
     private ?string $nom_cat_e = null;
 
     #[ORM\OneToMany(mappedBy: 'categorieEvenement', targetEntity: Evenement::class,cascade:["remove"], orphanRemoval:true)]

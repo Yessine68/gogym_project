@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class EvenementType extends AbstractType
 {
@@ -19,10 +18,7 @@ class EvenementType extends AbstractType
             ->add('description_e')
             ->add('date_e')
             ->add('lieu_e')
-            ->add('imageE', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-            ])
+            ->add('image')
             ->add('nbr_participants')       
             ->add('categorieEvenement')
             ->add('Envoyer',SubmitType::class)
