@@ -5,13 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Repository\EvenementRepository;
 use App\Repository\CategorieEvenementRepository;
-
-
 use Doctrine\Persistence\ManagerRegistry;
-
 use App\Entity\Evenement;
 use App\Entity\CategorieEvenement;
 use App\Form\EvenementType; 
@@ -37,7 +33,45 @@ class EvenementController extends AbstractController
         ]);
         
     }
-    
+    #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EvenementRepository $evenementRepository): Response
+    {
+        $evenement = new Evenement();
+        $form = $this->createForm( EvenementType::class, $evenement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newImage = $form->get('imageE')->getData();
+            if ($newImage) {
+                // Génération d'un nom de fichier unique
+                $filename = uniqid().'.'.$newImage->guessExtension();
+            
+                // Déplacement du fichier dans le dossier des images
+                try {
+                    $newImage->move(
+                        $this->getParameter('images_directoryE'),
+                        $filename
+                    );
+                } catch (FileException $e) {
+                    // Gestion de l'erreur
+                }
+            
+                // Stockage du nom de fichier dans l'entité Événement
+                $evenement->setImage($filename);
+            }
+            
+            // Sauvegarde de l'entité Événement dans la base de données
+            $evenementRepository->save($evenement, true);
+
+            return $this->redirectToRoute('app_evenement_afficher', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('evenement/new.html.twig', [
+            'evenement' => $evenement,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/afficher', name: 'app_evenement_afficher', methods: ['GET'])]
     public function afficher(EvenementRepository $evenementRepository,CategorieEvenementRepository $categorieEvenementRepository): Response
     {
@@ -73,24 +107,7 @@ class EvenementController extends AbstractController
 
 
 
-    #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EvenementRepository $evenementRepository): Response
-    {
-        $evenement = new Evenement();
-        $form = $this->createForm( EvenementType::class, $evenement);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $evenementRepository->save($evenement, true);
-
-            return $this->redirectToRoute('app_evenement_afficher', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('evenement/new.html.twig', [
-            'evenement' => $evenement,
-            'form' => $form,
-        ]);
-    }
+    
 
     #[Route('/{id}', name: 'app_evenement_show', methods: ['GET'])]
     public function show(Evenement $evenement): Response
@@ -107,7 +124,27 @@ class EvenementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $evenementRepository->save($evenement, true);
+            $newImage = $form->get('imageE')->getData();
+                if ($newImage) {
+                    // Génération d'un nom de fichier unique
+                    $filename = uniqid().'.'.$newImage->guessExtension();
+                
+                    // Déplacement du fichier dans le dossier des images
+                    try {
+                        $newImage->move(
+                            $this->getParameter('images_directoryE'),
+                            $filename
+                        );
+                    } catch (FileException $e) {
+                        // Gestion de l'erreur
+                    }
+                
+                    // Stockage du nom de fichier dans l'entité Événement
+                    $evenement->setImage($filename);
+                }
+                
+                // Sauvegarde de l'entité Événement dans la base de données
+                $evenementRepository->save($evenement, true);
 
             return $this->redirectToRoute('app_evenement_afficher', [], Response::HTTP_SEE_OTHER);
         }
@@ -117,6 +154,7 @@ class EvenementController extends AbstractController
             'form' => $form,
         ]);
     }
+
 
     #[Route('/{id}', name: 'app_evenement_delete', methods: ['POST'])]
     public function delete(Request $request, Evenement $evenement, EvenementRepository $evenementRepository): Response

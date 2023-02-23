@@ -17,18 +17,24 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
     private ?string $nom_e = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La Description ne doit pas être vide.')]
     private ?string $description_e = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Date(message: 'La date  doit être de type DD/MM/YY.')]
     private ?string $date_e = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le lieu ne doit pas être vide.')]
     private ?string $lieu_e = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'La nombre de participant ne doit pas être vide.')]
+    #[Assert\GreaterThanOrEqual(value: 1, message: 'La nombre de participant doit être supérieur ou égal à 1.')]
     private ?int $nbr_participants = null;
 
     #[ORM\Column(length: 1000)]
