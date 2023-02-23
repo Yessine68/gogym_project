@@ -1,0 +1,40 @@
+<h1> Liste des produits </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Prix</th>
+    <th>Quantite de stock</th>
+    <th>Description</th>
+    <th>Categorie</th>
+    <th>Editer</th>
+    </tr>
+    {% for p in Produits %}
+    <tr>
+        <td>
+            {{p.getId_P()}}
+        </td>
+        <td>
+            {{p.getNomP()}}
+        </td>
+        <td>
+            {{p.getPrixP()}}
+        </td>
+        <td>
+            {{p.getQteStock()}}
+        </td>
+        <td>
+            {{p.getDescriptionP()}}
+        </td>
+        <td>
+            {{p.getCatP()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Produit',{'id_p':p.id_p})}}">Remove</a>
+            <a href="{{path('Update_Produit',{'id_p':p.id_p})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Produit')}}">Create Produit</a>

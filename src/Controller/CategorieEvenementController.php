@@ -14,75 +14,68 @@ use App\Entity\CategorieEvenement;
 
 use App\Form\CategorieEvenementType; 
 
-
 use Symfony\Component\HttpFoundation\Request;
 
-#[Route('/categorieE')]
 class CategorieEvenementController extends AbstractController
 {
 
-    #[Route('/', name: 'app_categorieE_index', methods: ['GET'])]
-    public function index(CategorieEvenementRepository $categorieRepository): Response
+    #[Route('/CategorieEvenement/Read', name: 'Read_CategorieEvenement')]
+    public function ReadCategorieEvenement(CategorieEvenementRepository $repo): Response
     {
-        return $this->render('CategorieEvenement/index.html.twig',  [
-            'categories' => $categorieRepository->findAll(),
-        ]);
+        $CategorieEvenements = $repo->findAll();
         
+        return $this->render('CategorieEvenement/ReadCategorieEvenement.html.twig', ["CategorieEvenements"=>$CategorieEvenements]);
     }
 
-    #[Route('/new', name: 'app_categorieE_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CategorieEvenementRepository $categorieRepository): Response
+    #[Route('/CategorieEvenement/Create', name: 'Create_CategorieEvenement')]
+    public function CreateCategorieEvenement(ManagerRegistry $doctrine, Request $req): Response 
     {
-        $categorieEvenement = new CategorieEvenement();
-        $form = $this->createForm(CategorieEvenementType::class, $categorieEvenement);
-        $form->handleRequest($request);
+        $em = $doctrine->getManager();
+        $CategorieEvenement = new CategorieEvenement();
+        $form = $this->createForm(CategorieEvenementType::class,$CategorieEvenement);
+        $form->handleRequest($req); 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categorieRepository->save($categorieEvenement, true);
-
-            return $this->redirectToRoute('app_categorieE_index', [], Response::HTTP_SEE_OTHER);
+        if($form->isSubmitted())
+        {
+            $em->persist($CategorieEvenement);
+            $em->flush();
+            return $this->redirectToRoute('Read_CategorieEvenement');
         }
 
-        return $this->renderForm('CategorieEvenement/new.html.twig', [
-            'categorie' => $categorieEvenement,
-            'form' => $form,
-        ]);
+        return $this->renderForm('CategorieEvenement/CreateCategorieEvenement.html.twig',['form'=>$form]);
+    
     }
 
-    #[Route('/{id}', name: 'app_categorieE_show', methods: ['GET'])]
-    public function show(CategorieEvenement $categorieEvenement): Response
+    #[Route('/CategorieEvenement/Delete/{id_cat_e}', name: 'Delete_CategorieEvenement')]
+    public function DeleteCategorieEvenement(ManagerRegistry $doctrine, $id_cat_e): Response 
     {
-        return $this->render('CategorieEvenement/show.html.twig', [
-            'categorie' => $categorieEvenement,
-        ]);
+        $em= $doctrine->getManager();
+        $repo= $doctrine->getRepository(CategorieEvenement::class);
+        $CategorieEvenement= $repo->find($id_cat_e);
+        $em->remove($CategorieEvenement);
+        $em->flush();
+
+        return $this->redirectToRoute('Read_CategorieEvenement');
     }
 
-    #[Route('/{id}/edit', name: 'app_categorieE_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, CategorieEvenement $categorieEvenement, CategorieEvenementRepository $categorieRepository): Response
+    #[Route('/CategorieEvenement/Update/{id_cat_e}', name: 'Update_CategorieEvenement')]
+    public function UpdateCategorieEvenement(ManagerRegistry $doctrine, $id_cat_e, Request $req): Response 
     {
-        $form = $this->createForm(CategorieEvenementType::class, $categorieEvenement);
-        $form->handleRequest($request);
+        $em = $doctrine->getManager();
+        $CategorieEvenement = $doctrine->getRepository(CategorieEvenement::class)->find($id_cat_e);
+        $form = $this->createForm(CategorieEvenementType::class,$CategorieEvenement);
+        $form->handleRequest($req); 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categorieRepository->save($categorieEvenement, true);
-
-            return $this->redirectToRoute('app_categorieE_index', [], Response::HTTP_SEE_OTHER);
+        if($form->isSubmitted())
+        {
+            $em->persist($CategorieEvenement);
+            $em->flush();
+            return $this->redirectToRoute('Read_CategorieEvenement');
         }
 
-        return $this->renderForm('CategorieEvenement/edit.html.twig', [
-            'categorie' => $categorieEvenement,
-            'form' => $form,
-        ]);
+        return $this->renderForm('CategorieEvenement/CreateCategorieEvenement.html.twig',['form'=>$form]);
+
     }
 
-    #[Route('/{id}', name: 'app_categorieE_delete', methods: ['POST'])]
-    public function delete(Request $request, CategorieEvenement $categorieEvenement, CategorieEvenementRepository $categorieEvenementRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$categorieEvenement->getId(), $request->request->get('_token'))) {
-            $categorieEvenementRepository->remove($categorieEvenement, true);
-        }
-
-        return $this->redirectToRoute('app_categorieE_index', [], Response::HTTP_SEE_OTHER);
-    }
 }
 ?>

@@ -9,20 +9,20 @@
 	
 	{% block css %}
 	<!-- Favicon -->
-	<link href={{ asset("Front/assets/img/favicon.ico") }} rel="shortcut icon"/>
+	<link href="img/favicon.ico" rel="shortcut icon"/>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href={{ asset("Front/css/bootstrap.min.css") }} />
-	<link rel="stylesheet" href={{ asset("Front/css/font-awesome.css") }}/>
-	<link rel="stylesheet" href={{ asset("Front/css/owl.carousel.min.css") }} />
-	<link rel="stylesheet" href={{ asset("Front/css/flaticon.css") }} />
-	<link rel="stylesheet" href={{ asset("Front/css/slicknav.min.css") }} />
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="css/flaticon.css"/>
+	<link rel="stylesheet" href="css/slicknav.min.css"/>
 
 	<!-- Main Stylesheets -->
-	<link rel="stylesheet" href={{ asset("Front/css/style.css")}}  />
+	<link rel="stylesheet" href="css/style.css"/>
 
 
 	<!--[if lt IE 9]>
@@ -41,23 +41,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/assets/css/vendors/font-awesome.css") }}>
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/font-awesome.css">
 
     <!--Slick slider css-->
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/assets/css/vendors/slick.css") }}>
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/assets/css/vendors/slick-theme.css") }}>
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/slick.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/slick-theme.css">
 
     <!-- Animate icon -->
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/assets/css/vendors/animate.css") }}>
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/animate.css">
 
     <!-- Themify icon -->
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/assets/css/vendors/themify-icons.css") }}>
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/themify-icons.css">
 
     <!-- Bootstrap css -->
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/css/vendors/bootstrap.css") }}>
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/bootstrap.css">
 
     <!-- Theme css -->
-    <link rel="stylesheet" type="text/css" href={{ asset("Front/assets/css/style.css") }}>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 	{% endblock %}
 
@@ -478,42 +478,41 @@
         </div>
     </div>
     <!-- tap to top End -->
-	{% endblock %}
 {% block js %}
 	<!--====== Javascripts & Jquery ======-->
-	<script src={{ asset("Front/js/jquery-3.2.1.min.js") }}></script>
-	<script src={{ asset("Front/js/bootstrap.min.js") }}></script>
-	<script src={{ asset("Front/js/jquery.slicknav.js") }}></script>
-	<script src={{ asset("Front/js/owl.carousel.min.js") }}></script>
-	<script src={{ asset("Front/js/circle-progress.min.js") }}></script>
-	<script src={{ asset("Front/js/main.js") }}></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/circle-progress.min.js"></script>
+	<script src="js/main.js"></script>
 	
 	<script>
 		new WOW().init();
 	</script>
 
 	    <!-- latest jquery-->
-		<script src={{ asset("Front/assets/js/jquery-3.3.1.min.js") }}></script>
+		<script src="assets/js/jquery-3.3.1.min.js"></script>
 
 		<!-- menu js-->
-		<script src={{ asset("Front/assets/js/menu.js") }}></script>
+		<script src="assets/js/menu.js"></script>
 	
 		<!-- lazyload js-->
-		<script src={{ asset("Front/assets/js/lazysizes.min.js") }}></script>
+		<script src="assets/js/lazysizes.min.js"></script>
 	
 		<!-- slick js-->
-		<script src={{ asset("Front/assets/js/slick.js") }}></script>
+		<script src="assets/js/slick.js"></script>
 	
 		<!-- Bootstrap js-->
-		<script src={{ asset("Front/assets/js/bootstrap.bundle.min.js") }}></script>
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
 	
 		<!-- Bootstrap Notification js-->
-		<script src={{ asset("Front/assets/js/bootstrap-notify.min.js") }}></script>
+		<script src="assets/js/bootstrap-notify.min.js"></script>
 	
 		<!-- Theme js-->
-		<script src={{ asset("Front/assets/js/theme-setting.js") }}></script>
-		<script src={{ asset("Front/assets/js/color-setting.js") }}></script>
-		<script src={{ asset("Front/assets/js/script.js") }}></script>
+		<script src="assets/js/theme-setting.js"></script>
+		<script src="assets/js/color-setting.js"></script>
+		<script src="assets/js/script.js"></script>
 	
 		<script>
 			$(window).on('load', function () {
@@ -530,7 +529,7 @@
 				document.getElementById("search-overlay").style.display = "none";
 			}
 		</script>	
-		
+		{% endblock %}
+{% endblock %}
 	</body>
 </html>
-{% endblock %}
