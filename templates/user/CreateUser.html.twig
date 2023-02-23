@@ -36,10 +36,10 @@
                                     <label for="review">Password</label>
                                     {{ form_row(form.password) }}
                                 </div>
-                                 <div class="col-md-6">
+                                 {# <div class="col-md-6">
                                     <label for="review">Type</label>
                                     {{ form_row(form.type) }}
-                                </div>
+                                </div> #}
                             </div>
                             <button class="btn btn-solid w-auto" type="submit" onclick="return validateForm()"> create Account </button>
                             
@@ -63,6 +63,10 @@
    var nom = document.forms["user"]["user[nom]"].value;
             var nom2 = document.forms["user"]["user[nom]"];
     var reNom =/^[a-zA-Z ]+$/;
+// prenom
+     var prenom = document.forms["user"]["user[prenom]"].value;
+             var prenom2 = document.forms["user"]["user[prenom]"];
+     var rePrenom =/^[a-zA-Z ]+$/;
             
              if (!reNom.test(nom)) {
                 //alert("done");
@@ -70,6 +74,12 @@
                 return false;
                 
             }
+             else if (!rePrenom.test(prenom)) {
+                 //alert("done");
+                 prenom2.style.border = "red solid 3px";
+               return false;
+                
+             }
             else if (!re.test(email)) {
                 email2.style.border = "red solid 3px";
                 return false;

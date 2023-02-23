@@ -120,11 +120,17 @@
                     <li class="onhover-dropdown mobile-account">
                         <i class="fa fa-user" aria-hidden="true"></i> My Account
                         
-                            {% if app.user %}
+                            {# {% if app.user %}
                           <ul class="onhover-show-div">
                             <li><a href="{{ path('logout') }}">Logout</a></li>
                             </ul>
-                             {% else %}
+                             {% else %} #}
+
+                             {% if app.user %}
+        <div class="onhover-show-div">
+            {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% else %}
                         
                         
                         
@@ -148,17 +154,17 @@
             <div class="col-sm-12">
     <div>
         <ul class="main-menu">
-			<a href="index.html" class="site-logo">
+			<a href="/Front/index.html" class="site-logo">
 				<img src="img/logo.png" alt="">
 			</a>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="Apropos.html">À propos</a></li>
-            <li><a href="salles.html">Salles</a></li>
-            <li><a href="Activités.html">Activités</a></li>
-            <li><a href="offres.html">Offres</a></li>
-            <li><a href="Evénements.html">Evénements</a></li>
-            <li><a href="boutique.html">Boutique</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/Front/index.html">Accueil</a></li>
+            <li><a href="/Front/Apropos.html">À propos</a></li>
+            <li><a href="/Front/salles.html">Salles</a></li>
+            <li><a href="/Front/Activités.html">Activités</a></li>
+            <li><a href="/Front/offres.html">Offres</a></li>
+            <li><a href="/Front/Evénements.html">Evénements</a></li>
+            <li><a href="/Front/boutique.html">Boutique</a></li>
+            <li><a href="/Front/contact.html">Contact</a></li>
             <li class="header-right">
                 <div class="menu-right pull-right">
                 <div class="hr-box">

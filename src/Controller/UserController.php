@@ -19,14 +19,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {   
-    #[Route('/test', name: 'test')]
+    #[Route('/afterlogin', name: 'afterlogin')]
     public function test(UserRepository $repo): Response
     {
-        $Users = $repo->findAll();
         
-        return $this->render('test.html.twig', ["Users"=>$Users]);
-    }
 
+        return $this->render('afterlogin.html.twig');
+    }
+    
     #[Route('/baseBack', name: 'baseBack')]
     public function baseBack()
     {
@@ -55,11 +55,11 @@ class UserController extends AbstractController
         {   
             $User->setPassword($encoder->encodePassword($User, $form->get('password')->getData()));
             // lena try catch
+            $User->setRoles(["ROLE_USER"]);
             $em->persist($User);
             $em->flush();
-            return $this->redirectToRoute('Read_User');
+            return $this->redirectToRoute('afterlogin');
         }
-
         return $this->renderForm('User/CreateUser.html.twig',['form'=>$form]);
     
     }
@@ -77,7 +77,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/User/Update/{id}', name: 'Update_User')]
-    public function UpdateUser(ManagerRegistry $doctrine, $id, Request $req): Response 
+    public function UpdateUser(ManagerRegistry $doctrine, $id, Request $req,UserPasswordEncoderInterface $encoder): Response 
     {
         $em = $doctrine->getManager();
         $User = $doctrine->getRepository(User::class)->find($id);
@@ -85,7 +85,8 @@ class UserController extends AbstractController
         $form->handleRequest($req); 
 
         if($form->isSubmitted())
-        {
+        {   
+            $User->setPassword($encoder->encodePassword($User, $form->get('password')->getData()));
             $em->persist($User);
             $em->flush();
             return $this->redirectToRoute('Read_User');
