@@ -1,0 +1,39 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Liste des cours{% endblock %}
+
+{% block body %}
+<h1>Liste des cours</h1>
+    <!-- Product slider -->
+    <section class="pt-0 section-b-space gym-product ratio_square">
+		{% for c in Cours %}
+        <div class="container">
+            <div class="row partition-cls">
+                <div class="col-xl-3 col-6">
+                    <div class="product-box ">
+                    <div>
+                    </div>
+                        <div class="cart-info cart-wrap">
+                            <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart"><i
+                                    class="ti-shopping-cart"></i></button>
+                            <a href="javascript:void(0)" title="Add to Wishlist"><i class="ti-heart"
+                                    aria-hidden="true"></i></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View"><i
+                                    class="ti-search" aria-hidden="true"></i></a>
+                            <a href="compare.html" title="Compare"><i class="ti-reload" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="product-detail">
+                            <a href="product-page(no-sidebar).html">
+                                <h6>{{c.getNom()}}</h6>
+                            </a>
+                            <h4>{{c.getDuree()}}</h4>
+                            <h4>{{c.getIntensite()}}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    <!-- Product slider end -->
+{% endblock %}

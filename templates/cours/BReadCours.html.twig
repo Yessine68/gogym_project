@@ -1,0 +1,47 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Liste des cours{% endblock %}
+
+{% block body %}
+<h1>Liste des cours</h1>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Durée</th>
+        <th>Intensité</th>
+        <th>Bienfaits</th>
+        <th>Editer</th>
+    </tr>
+    {% for c in Cours %}
+    <tr>
+        <td>
+            {{c.getId()}}
+        </td>
+        <td>
+            {{c.getNom()}}
+        </td>
+        <td>
+            {{c.getDuree()}}
+        </td>
+        <td>
+            {{c.getIntensite()}}
+        </td>
+        <td>
+            {{c.getBienfaits()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Cours',{'id':c.id})}}" class="btn btn-primary" type="submit" >Supprimer</a>
+            <a href="{{path('Update_Cours',{'id':c.id})}}" class="btn btn-primary" type="submit" >Modifier</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="4">no records found</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Cours')}}" class="btn btn-primary" type="submit" >Ajouter un Cours</a>
+<br>
+{% endblock %}

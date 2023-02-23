@@ -1,0 +1,67 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Liste des salles{% endblock %}
+
+{% block body %}
+<h1>Liste des salles</h1>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Adresse</th>
+        <th>Ville</th>
+        <th>Perimetre</th>
+        <th>Abonnements</th>
+        <th>Editer</th>
+    </tr>
+    {% for s in Salles %}
+    <tr>
+        <td>
+            {{s.getId()}}
+        </td>
+        <td>
+            {{s.getNomS()}}
+        </td>
+        <td>
+            {{s.getTelS()}}
+        </td>
+        <td>
+            {{s.getEmailS()}}
+        </td>
+        <td>
+            {{s.getAdresseS()}}
+        </td>
+        <td>
+            {{s.getVilleS()}}
+        </td>
+        <td>
+            {{s.getPerimetreS()}}
+        </td>
+        <td>
+            <ul>
+                {% for a in s.getAbonnements() %}
+                    <li>
+                    {{a.getNomA()}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>
+            <a href="{{path('Delete_Salle',{'id':s.id})}}" class="btn btn-primary" type="submit" >Supprimer</a>
+            <a href="{{path('Update_Salle',{'id':s.id})}}" class="btn btn-primary" type="submit" >Modifier</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="4">no records found</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Salle')}}" class="btn btn-primary" type="submit" >Ajouter un salle</a>
+<br>
+<br>
+<a href="{{path('Create_Abonnement')}}" class="btn btn-primary" type="submit" >Ajouter un abonnement</a>
+{% endblock %}
