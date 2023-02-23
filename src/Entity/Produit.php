@@ -3,7 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -11,85 +16,112 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_p = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom_p = null;
+    #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
+    private ?string $nom_Prod = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     #[ORM\Column]
-    private ?float $prix_p = null;
+    #[Assert\NotBlank(message: 'Le prix ne doit pas être vide.')]
+    #[Assert\GreaterThan(value: 0, message: 'Le prix doit être supérieur à 0.')]
+    private ?float $prix = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $qte_stock = null;
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'La Quantite ne doit pas être vide.')]
+    #[Assert\GreaterThanOrEqual(value: 1, message: 'La Quantite doit être supérieur ou égal à 1.')]
+    private ?int $nbr_Prods = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description_p = null;
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    private ?Categorie $categorie = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $cat_p = null;
+   
 
-    public function getId_P(): ?int
+    public function getId(): ?int
     {
-        return $this->id_p;
+        return $this->id;
     }
 
-    public function getNomP(): ?string
+    public function getNomProd(): ?string
     {
-        return $this->nom_p;
+        return $this->nom_Prod;
     }
 
-    public function setNomP(string $nom_p): self
+    public function setNomProd(string $nom_Prod): self
     {
-        $this->nom_p = $nom_p;
+        $this->nom_Prod = $nom_Prod;
 
         return $this;
     }
 
-    public function getPrixP(): ?float
+    public function getDescription(): ?string
     {
-        return $this->prix_p;
+        return $this->description;
     }
 
-    public function setPrixP(float $prix_p): self
+    public function setDescription(string $description): self
     {
-        $this->prix_p = $prix_p;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getQteStock(): ?string
+    public function getImage(): ?string
     {
-        return $this->qte_stock;
+        return $this->image;
     }
 
-    public function setQteStock(string $qte_stock): self
+    public function setImage(string $image): self
     {
-        $this->qte_stock = $qte_stock;
+        $this->image = $image;
 
         return $this;
     }
 
-    public function getDescriptionP(): ?string
+    public function getPrix(): ?float
     {
-        return $this->description_p;
+        return $this->prix;
     }
 
-    public function setDescriptionP(string $description_p): self
+    public function setPrix(float $prix): self
     {
-        $this->description_p = $description_p;
+        $this->prix = $prix;
 
         return $this;
     }
 
-    public function getCatP(): ?string
+    public function getNbrProds(): ?int
     {
-        return $this->cat_p;
+        return $this->nbr_Prods;
     }
 
-    public function setCatP(string $cat_p): self
+    public function setNbrProds(int $nbr_Prods): self
     {
-        $this->cat_p = $cat_p;
+        $this->nbr_Prods = $nbr_Prods;
 
         return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom_Prod.' '.$this->id;
     }
 }
