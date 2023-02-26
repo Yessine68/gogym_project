@@ -3,76 +3,69 @@
 {% block title %}Ajout des salles{% endblock %}
 
 {% block body %}
-<!-- Content Start -->
-<div class="content">
     <!-- Form Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-120 col-xl-60">
-                <div class="bg-light rounded h-100 p-4">
-                    <h6 class="mb-4">Salle</h6>
-                        {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Nom</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.nom_s,{ 'attr': {'class': 'form-control'} }) }}                         
-                                {{ form_errors(form.nom_s) }}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Telephone</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.tel_s,{ 'attr': {'class': 'form-control'} }) }}    
-                                {{ form_errors(form.tel_s) }}                     
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.email_s,{ 'attr': {'class': 'form-control'} }) }}                         
-                                {{ form_errors(form.email_s) }}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Adresse</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.adresse_s,{ 'attr': {'class': 'form-control'} }) }}
-                                {{ form_errors(form.adresse_s) }}                          
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Ville</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.ville_s,{ 'attr': {'class': 'form-control'} }) }} 
-                                {{ form_errors(form.ville_s) }}                         
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Perimetre</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.perimetre_s,{ 'attr': {'class': 'form-control'} }) }} 
-                                {{ form_errors(form.perimetre_s) }}                         
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <legend class="col-form-label col-sm-2 pt-0">Abonnements</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check-label">
-                                    {{ form_widget(form.abonnements,{ 'attr': {'class': 'form-check-label'} }) }}
-                                    {{ form_errors(form.abonnements) }} 
-                                </div>
-                            </div>
-                        </div>
-                        <br>    
-                        <a href="{{path('Read_Back_Salle')}}">Liste des salles</a>
-                        <br>
-                        <br>
-                        {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
-                    {{form_end(form)}}
+    <div class="col-sm-120 col-xl-60">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Salle</h6>
+                {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Nom</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.nom_s,{ 'attr': {'class': 'form-control'} }) }}                         
+                        {{ form_errors(form.nom_s) }}
+                    </div>
                 </div>
-            </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Telephone</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.tel_s,{ 'attr': {'class': 'form-control'} }) }}    
+                        {{ form_errors(form.tel_s) }}                     
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.email_s,{ 'attr': {'class': 'form-control'} }) }}                         
+                        {{ form_errors(form.email_s) }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Adresse</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.adresse_s,{ 'attr': {'class': 'form-control'} }) }}
+                        {{ form_errors(form.adresse_s) }}                          
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Ville</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.ville_s,{ 'attr': {'class': 'form-control'} }) }} 
+                        {{ form_errors(form.ville_s) }}                         
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Perimetre</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.perimetre_s,{ 'attr': {'class': 'form-control'} }) }} 
+                        {{ form_errors(form.perimetre_s) }}                         
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Abonnements</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check-label">
+                            {{ form_widget(form.abonnements,{ 'attr': {'class': 'form-check-label'} }) }}
+                            {{ form_errors(form.abonnements) }} 
+                        </div>
+                    </div>
+                </div>
+                <br>    
+                <a href="{{path('Read_Back_Salle')}}">Liste des salles</a>
+                <br>
+                <br>
+                {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
+            {{form_end(form)}}
         </div>
     </div>
     <!-- Form End -->
-</div>
 {% endblock %}

@@ -3,78 +3,71 @@
 {% block title %}Ajout des abonnements{% endblock %}
 
 {% block body %}
-<!-- Content Start -->
-<div class="content">
     <!-- Form Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-120 col-xl-60">
-                <div class="bg-light rounded h-100 p-4">
-                    <h6 class="mb-4">Abonnement</h6>
-                        {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Nom</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.nom_a,{ 'attr': {'class': 'form-control'} }) }}  
-                                {{ form_errors(form.nom_a) }}                        
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Type</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.type_a,{ 'attr': {'class': 'form-control', 'placeholder': 'Mensuel, Bimestriel, trimestriel, semestriel, annuel...'} }) }} 
-                                {{ form_errors(form.type_a) }}                         
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Description</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.description_a,{ 'attr': {'class': 'form-control'} }) }} 
-                                {{ form_errors(form.description_a) }}                         
-                            </div>
-                        </div>
-
-    
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Prix</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.prix_a,{ 'attr': {'class': 'form-control'} }) }}  
-                                {{ form_errors(form.prix_a) }}                        
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Debut</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.debut_a,{ 'attr': {'class': 'form-control'} }) }}
-                                {{ form_errors(form.debut_a) }}                          
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Fin</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.fin_a,{ 'attr': {'class': 'form-control'} }) }}   
-                                {{ form_errors(form.fin_a) }}                       
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <legend class="col-form-label col-sm-2 pt-0">Salles</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check-label">
-                                    {{ form_widget(form.salle_a,{ 'attr': {'class': 'form-check-label'} }) }}
-                                    {{ form_errors(form.salle_a) }} 
-                                </div>
-                            </div>
-                        </div>
-                        <br>    
-                        <a href="{{path('Read_Back_Abonnement')}}">Liste des abonnement</a>
-                        <br>
-                        <br>
-                        {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
-                    {{form_end(form)}}
+    <div class="col-sm-120 col-xl-60">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Abonnement</h6>
+                {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Nom</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.nom_a,{ 'attr': {'class': 'form-control'} }) }}  
+                        {{ form_errors(form.nom_a) }}                        
+                    </div>
                 </div>
-            </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Type</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.type_a,{ 'attr': {'class': 'form-control', 'placeholder': 'Mensuel, Bimestriel, trimestriel, semestriel, annuel...'} }) }} 
+                        {{ form_errors(form.type_a) }}                         
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Description</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.description_a,{ 'attr': {'class': 'form-control'} }) }} 
+                        {{ form_errors(form.description_a) }}                         
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Prix</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.prix_a,{ 'attr': {'class': 'form-control'} }) }}  
+                        {{ form_errors(form.prix_a) }}                        
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Debut</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.debut_a,{ 'attr': {'class': 'form-control'} }) }}
+                        {{ form_errors(form.debut_a) }}                          
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Fin</label>
+                    <div class="col-sm-10">
+                        {{ form_widget(form.fin_a,{ 'attr': {'class': 'form-control'} }) }}   
+                        {{ form_errors(form.fin_a) }}                       
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Salles</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check-label">
+                            {{ form_widget(form.salle_a,{ 'attr': {'class': 'form-check-label'} }) }}
+                            {{ form_errors(form.salle_a) }} 
+                        </div>
+                    </div>
+                </div>
+                <br>    
+                <a href="{{path('Read_Back_Abonnement')}}">Liste des abonnement</a>
+                <br>
+                <br>
+                {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
+            {{form_end(form)}}
         </div>
     </div>
     <!-- Form End -->
-</div>
 {% endblock %}
