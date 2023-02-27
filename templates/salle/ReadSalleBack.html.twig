@@ -1,43 +1,50 @@
 {% extends 'baseBack.html.twig' %}
 
+
 {% block title %}Liste des salles{% endblock %}
 
 {% block body %}
-<h1>Liste des salles</h1>
-<table class="table">
-    <tr>
+<br>
+<br>
+<h1 style="text-align: left;" >Liste des salles</h1>
+<br>
+<table class="table" style="text-align: center;">
+    <tr style="text-align: center; vertical-align: middle;">
         <th>ID</th>
         <th>Nom</th>
         <th>Téléphone</th>
         <th>Email</th>
         <th>Adresse</th>
         <th>Ville</th>
-        <th>Perimetre</th>
-        <th>Abonnements</th>
+        <th>Périmetre</th>
+        <th>Abonnement disponible</th>
         <th>Editer</th>
     </tr>
     {% for s in Salles %}
-    <tr>
+    <tr style="text-align: center; vertical-align: middle;">
         <td>
             {{s.getId()}}
         </td>
         <td>
-            {{s.getNomS()}}
+            Go Gym {{s.getNomS()}}
         </td>
         <td>
-            {{s.getTelS()}}
+        +216
+            <span>{{ s.getTelS()[0:2] }} </span> 
+            <span>{{ s.getTelS()[2:3] }} </span> 
+            <span>{{ s.getTelS()[5:8] }} </span>
         </td>
         <td>
             {{s.getEmailS()}}
         </td>
         <td>
-            {{s.getAdresseS()}}
+            {{s.getAdresseS()}}, {{s.getVilleS()}}
         </td>
         <td>
             {{s.getVilleS()}}
         </td>
         <td>
-            {{s.getPerimetreS()}}
+            {{s.getPerimetreS()}} m²
         </td>
         <td>
             <ul>
@@ -49,19 +56,28 @@
             </ul>
         </td>
         <td>
-            <a href="{{path('Delete_Salle',{'id':s.id})}}" class="btn btn-primary" type="submit" >Supprimer</a>
-            <a href="{{path('Update_Salle',{'id':s.id})}}" class="btn btn-primary" type="submit" >Modifier</a>
+            <div style="text-align: center;">
+                <a href="{{path('Update_Salle',{'id':s.id})}}" class="btn btn-primary" type="submit" > Modifier </a>
+                <br>
+                <br>
+                <a href="{{path('Delete_Salle',{'id':s.id})}}" class="btn btn-primary" type="submit" > Supprimer </a>
+                <br>
+            </div>
         </td>
     </tr>
     {% else %}
     <tr>
-        <td colspan="4">no records found</td>
+        <td colspan="4" style="text-align: center;">no records found</td>
     </tr>
     {% endfor %}
 </table>
-<br>
-<a href="{{path('Create_Salle')}}" class="btn btn-primary" type="submit" >Ajouter un salle</a>
-<br>
-<br>
-<a href="{{path('Create_Abonnement')}}" class="btn btn-primary" type="submit" >Ajouter un abonnement</a>
+<div style="text-align: center;">
+    <br>
+    <a href="{{path('Create_Salle')}}" class="btn btn-primary" type="submit" style="text-align: center;">Ajouter un salle</a>
+    <br>
+    <br>
+    <a href="{{path('Create_Abonnement')}}" class="btn btn-primary" type="submit" style="text-align: center;">Ajouter un abonnement</a>
+    <br>
+    <br>
+</div>
 {% endblock %}

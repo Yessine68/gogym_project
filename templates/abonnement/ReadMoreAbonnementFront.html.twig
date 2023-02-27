@@ -113,35 +113,22 @@
 	<div class="clearfix"></div>
 	<!-- Header section end -->
 
-	<!-- Pricing section end -->
-	<section class="pricing-section set-bg" data-setbg="/Front/img/haan.png">
+    {% for a in Abonnements %}
+    <section class="page-top-section set-bg" data-setbg="/Front/img/haan.png"
 		<div class="container">
-			<div class="page-top-section set-bg section-title text-white text-center">
-                <h2>Abonnements</h2>
-			</div>
-			<div class="row">
-                {% for a in Abonnements %}
-				<div class="col-lg-3 col-sm-6">
-					<div class="pricing-box">
-                        <br>
-						<h2>{{a.getPrixA()}}</h2>
-						<p>{{a.getTypeA()}}</p>
-                        <br>
-                        <br>
-                        <br>
-                        <h2 class="text-white text-center">{{a.getNomA()}}</h2>
-                        <br>
-						<a href="{{path('Read_More_Front_Abonnement',{'id':a.id})}}" class="site-btn">Plus d'info</a>
-                        <br>
-                        <div class="cart-info cart-wrap">
-                            <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart"><i class="ti-shopping-cart"></i></button>
-                        </div>
-                        <br>
-					</div>
-				</div>
-                {% endfor %}
-			</div>
+			<h2>{{a.getNomA()}}</h2>
 		</div>
 	</section>
-	<!-- Pricing section  -->
+        <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>{{a.getTypeA()}}</td>
+                        <td>{{a.getPrixA()}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>{{a.getDescriptionA()}}</p>
+    {% endfor %} 
 {% endblock %}
