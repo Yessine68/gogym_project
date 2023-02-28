@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\Abonnement;
+use App\Form\AbonnementType; 
 use App\Repository\AbonnementRepository;
 
 use Doctrine\Persistence\ManagerRegistry;
 
-use App\Entity\Abonnement;
-
-use App\Form\AbonnementType; 
+use Twig\Node\Expression\FilterExpression;
 
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AbonnementController extends AbstractController
 {
@@ -55,6 +57,9 @@ class AbonnementController extends AbstractController
         {
             $em->persist($Abonnement);
             $em->flush();
+
+            $this->addFlash('notice','Ajout avec success!');
+
             return $this->redirectToRoute('Read_Back_Abonnement');
         }
 
@@ -70,6 +75,8 @@ class AbonnementController extends AbstractController
         $Abonnement= $repo->find($id);
         $em->remove($Abonnement);
         $em->flush();
+        
+        $this->addFlash('notice','Suppression avec success!');
 
         return $this->redirectToRoute('Read_Back_Abonnement');
     }
@@ -86,6 +93,9 @@ class AbonnementController extends AbstractController
         {
             $em->persist($Abonnement);
             $em->flush();
+
+            $this->addFlash('notice','Modification avec success!');
+
             return $this->redirectToRoute('Read_Back_Abonnement');
         }
 
@@ -93,5 +103,10 @@ class AbonnementController extends AbstractController
 
     }
 
+    // public function configureFilters(Filters $filters): Filters
+    // {
+    //     return $filters
+    //     ->add('type_a');
+    // }
 }
 ?>

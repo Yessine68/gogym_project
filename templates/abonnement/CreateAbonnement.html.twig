@@ -4,6 +4,10 @@
 
 {% block body %}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -37,6 +41,7 @@
 
                 <div class="row mb-3">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     <label class="col-sm-2 col-form-label">Prix</label>
                     <div class="col-sm-10">
                         {{ form_widget(form.prix_a,{ 'attr': {'class': 'form-control'} }) }}  
@@ -46,6 +51,8 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Debut</label>
 =======
+=======
+>>>>>>> Stashed changes
                     <label class="col-sm-2 col-form-label">Prix (TND)</label>
                     <div class="col-sm-10">
                         {{ form_widget(form.prix_a,{ 'attr': {'class': 'form-control'} }) }}  
@@ -54,6 +61,9 @@
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Date début</label>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                     <div class="col-sm-10">
                         {{ form_widget(form.debut_a,{ 'attr': {'class': 'form-control'} }) }}
@@ -62,7 +72,11 @@
                 </div>
                 <div class="row mb-3">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     <label class="col-sm-2 col-form-label">Fin</label>
+=======
+                    <label class="col-sm-2 col-form-label">Date fin</label>
+>>>>>>> Stashed changes
 =======
                     <label class="col-sm-2 col-form-label">Date fin</label>
 >>>>>>> Stashed changes
@@ -75,8 +89,13 @@
                     <legend class="col-form-label col-sm-2 pt-0">Salles</legend>
                     <div class="col-sm-10">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         <div class="form-check-label">
                             {{ form_widget(form.salle_a,{ 'attr': {'class': 'form-check-label'} }) }}
+=======
+                        <div class="checkboxes">
+                            {{ form_widget(form.salle_a,{ 'attr': {'class': 'checkboxes'} }) }}
+>>>>>>> Stashed changes
 =======
                         <div class="checkboxes">
                             {{ form_widget(form.salle_a,{ 'attr': {'class': 'checkboxes'} }) }}
@@ -86,12 +105,21 @@
                     </div>
                 </div>
                 <br>    
+<<<<<<< Updated upstream
                 <a href="{{path('Read_Back_Abonnement')}}">Liste des abonnement</a>
                 <br>
                 <br>
 <<<<<<< Updated upstream
                 {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
 =======
+                <div style="text-align: right;">
+                    {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
+                </div>
+>>>>>>> Stashed changes
+=======
+                <a href="{{path('Read_Back_Abonnement')}}" class="mt-2" >Liste des abonnement</a>
+                <br>
+                <br>
                 <div style="text-align: right;">
                     {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
                 </div>

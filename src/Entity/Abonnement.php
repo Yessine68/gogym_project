@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AbonnementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AbonnementRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -16,39 +17,53 @@ class Abonnement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('Abonnements')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Le nom est un champ obligatoire")]
     #[Assert\Regex(pattern:"/^[a-zA-Z]+$/", message:"Le nom '{{ value }}' ne doit contenir que des lettres")]
+    #[Groups('Abonnements')]
     private ?string $nom_a = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Le type d'abonnement est un champ obligatoire")]
+    #[Groups('Abonnements')]
     private ?string $type_a = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"La description est un champ obligatoire")]
+    #[Groups('Abonnements')]
     private ?string $description_a = null;
 
     #[ORM\Column]
     #[Assert\NotNull(message:"Le prix ne peut pas être nulle")]
     #[Assert\Regex(pattern:"/^[0-9]+$/", message:"Le prix '{{ value }}' ne doit contenir que des chiffres")]
     #[Assert\Positive(message:"Le prix doit être positif")]
+    #[Groups('Abonnements')]
     private ?int $prix_a = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"La date est un champ obligatoire")]
     #[Assert\Type('\DateTimeInterface', message: "La date '{{ value }}' n'est pas une date valide.")]
+<<<<<<< Updated upstream
+=======
+    #[Groups('Abonnements')]
+>>>>>>> Stashed changes
     private ?\DateTimeInterface $debut_a = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"La date est un champ obligatoire")]
     #[Assert\Type('\DateTimeInterface', message: "La date '{{ value }}' n'est pas une date valide.")]
+<<<<<<< Updated upstream
+=======
+    #[Groups('Abonnements')]
+>>>>>>> Stashed changes
     private ?\DateTimeInterface $fin_a = null;
 
     #[ORM\ManyToMany(targetEntity: Salle::class, inversedBy: 'abonnements')]
     #[Assert\NotBlank(message:"La salle est un champ obligatoire")]
+    #[Groups('Abonnements')]
     private Collection $salle_a;
 
     public function __construct()
