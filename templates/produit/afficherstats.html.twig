@@ -1,0 +1,18 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+    
+
+    <h1>Produit Stats</h1>
+
+    <div id="div_chart"></div>
+
+<script type="text/javascript">
+        {{ gc_draw(piechart, 'div_chart') }}
+    </script>
+
+
+{% endblock %}
+

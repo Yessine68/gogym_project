@@ -7,6 +7,8 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "blackknight467/star-rating-bundle": "2.*",
+        "cmen/google-charts-bundle": "^5.0",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -99,7 +101,6 @@
         "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^6.2",
-        "symfony/stopwatch": "5.4.*",
-        "symfony/web-profiler-bundle": "5.4.*"
+        "symfony/stopwatch": "5.4.*"
     }
 }

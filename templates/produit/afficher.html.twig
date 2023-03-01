@@ -15,6 +15,7 @@
                 <th>Prix</th>
                 <th>Nbr_Prods</th>
                 <th>Categorie</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@
                 <td>
                     <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
                     <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                    <a href="{{ path('app_produit_delete', {'id': produit.id}) }}">Delete</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +43,7 @@
     </table>
 
     <a href="{{ path('app_produit_new') }}">Create new</a>
+    <a href="{{ path('app_produit_stats') }}">Stats</a>
+
 
 {% endblock %}

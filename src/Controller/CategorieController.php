@@ -22,6 +22,17 @@ class CategorieController extends AbstractController
         
     }
 
+    #[Route('/JSON/getAll', name: 'app_produit_JSON', methods: ['GET'])]
+    public function index_JSON(SerializerInterface $serializer,CategorieRepository $categorieRepository): Response
+    {
+        $reclamations = $reclamationRepository->findAll();
+        $json = $serializer->serialize($reclamations, 'json',[
+            AbstractNormalizer::IGNORED_ATTRIBUTES => ['reponses'],
+        ]);
+
+        return new JsonResponse($json, 200, [], true);
+    }
+
     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CategorieRepository $categorieRepository): Response
     {
@@ -76,4 +87,5 @@ class CategorieController extends AbstractController
 
         return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

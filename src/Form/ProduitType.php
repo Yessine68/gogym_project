@@ -22,6 +22,7 @@ class ProduitType extends AbstractType
         ->add('prix')
         ->add('nbr_Prods')
         ->add('categorie')
+       
     ;
 }
 

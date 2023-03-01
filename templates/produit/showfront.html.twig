@@ -45,10 +45,11 @@
 											<div class="container">
 												<div class="row">
 													<div class="col-xl-12">
-														<form>
+														<form action="{{ path('app_produit_rechercher') }}">
 															<div class="form-group">
 																<input type="text" class="form-control"
 																	id="exampleInputPassword1"
+																	name="prod"
 																	placeholder="Search a Product">
 															</div>
 															<button type="submit" class="btn btn-primary"><i
@@ -131,6 +132,7 @@
                 <div class="title1 title_gradient">
                     <h4>special offer</h4>
                     <h2 class="title-inner1">top collection</h2>
+                    
                 </div>
                 
                 <div class="row">
@@ -140,7 +142,7 @@
 						<h2 class="widget-title">Categories</h2>
 						<ul>
                         {% for categorie in categories %}
-							<li><a href="">{{ categorie.getNom() }}</a></li>
+							<li><a href="{{ path('app_produit_tri_cat', {'id_cat': categorie.getId() }) }}">{{ categorie.getNom() }}</a></li>
 							{% else %}
                 <h3>no records found</h3>
         {% endfor %}

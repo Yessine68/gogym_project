@@ -38,6 +38,34 @@ class ProduitRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findProd(string $search = null): array
+    {
+            return $this->createQueryBuilder('produit')
+            ->andWhere('produit.nom_Prod LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$search.'%')
+            ->getQuery()
+            ->execute();
+    }
+    public function triProdByCat(int $id_cat = null): array
+    {
+            return $this->createQueryBuilder('produit')
+            ->leftJoin('produit.categorie', 'categorie')
+            ->andWhere('categorie.id = :searchTerm')
+            ->setParameter('searchTerm', $id_cat)
+            ->getQuery()
+            ->execute();
+
+    }
+    public function getStat(): array
+    {
+            return $this->createQueryBuilder('produit')
+            ->select('count(produit.nom_Prod) as nbre,categorie.nom')
+            ->leftJoin('produit.categorie', 'categorie')
+            ->groupBy("produit.categorie")
+            ->getQuery()
+            ->execute();
+
+    }
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

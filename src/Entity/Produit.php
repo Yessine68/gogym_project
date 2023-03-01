@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -16,32 +16,42 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("produit")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
+    #[Groups("produit")]
     private ?string $nom_Prod = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'LA Description ne doit pas être vide.')]
+    #[Groups("produit")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("produit")]
     private ?string $image = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Le prix ne doit pas être vide.')]
     #[Assert\GreaterThan(value: 0, message: 'Le prix doit être supérieur à 0.')]
+    #[Groups("produit")]
     private ?float $prix = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'La Quantite ne doit pas être vide.')]
     #[Assert\GreaterThanOrEqual(value: 1, message: 'La Quantite doit être supérieur ou égal à 1.')]
+    #[Groups("produit")]
     private ?int $nbr_Prods = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Categorie $categorie = null;
 
+  
    
+
+
 
     public function getId(): ?int
     {
@@ -95,6 +105,7 @@ class Produit
 
         return $this;
     }
+
 
     public function getNbrProds(): ?int
     {
