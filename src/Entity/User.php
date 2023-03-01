@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -27,6 +29,14 @@ class User
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'idUser', targetEntity: Participate::class)]
+    private Collection $participates;
+
+    public function __construct()
+    {
+        $this->participates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +99,36 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participate>
+     */
+    public function getParticipates(): Collection
+    {
+        return $this->participates;
+    }
+
+    public function addParticipate(Participate $participate): self
+    {
+        if (!$this->participates->contains($participate)) {
+            $this->participates->add($participate);
+            $participate->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipate(Participate $participate): self
+    {
+        if ($this->participates->removeElement($participate)) {
+            // set the owning side to null (unless already changed)
+            if ($participate->getIdUser() === $this) {
+                $participate->setIdUser(null);
+            }
+        }
 
         return $this;
     }
