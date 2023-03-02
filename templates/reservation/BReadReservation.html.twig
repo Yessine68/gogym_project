@@ -1,0 +1,58 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Liste des reservations{% endblock %}
+
+{% block body %}
+  <div id="div_chart"></div>
+
+  <script
+    type="text/javascript"
+    src="https://www.gstatic.com/charts/loader.js"
+  ></script>
+  <script type="text/javascript">
+    {{gc_draw(piechart, "div_chart")}}
+  </script>
+<h1>Liste des reservations</h1>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Cours</th>
+        <th>Editer</th>
+    </tr>
+    {% for r in Reservations %}
+    <tr>
+        <td>
+            {{r.getId()}}
+        </td>
+        <td>
+            {{r.getDate()|date("d/m/Y")}}
+        </td>
+        <td>
+            {{r.getType()}}
+        </td>
+        <td>
+            <ul>
+                {% for c in r.getCours() %}
+                    <li>
+                    {{a.getNom()}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>
+            <a href="{{path('Delete_Reservation',{'id':r.id})}}" class="btn btn-primary" type="submit" >Supprimer</a>
+            <a href="{{path('Update_Reservation',{'id':r.id})}}" class="btn btn-primary" type="submit" >Modifier</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="4">no records found</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Reservation')}}" class="btn btn-primary" type="submit" >Ajouter un Resevation</a>
+<br>
+{% endblock %}

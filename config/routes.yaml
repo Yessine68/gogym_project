@@ -1,3 +1,5 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+app_send_email:
+  path: /Reservation/Create
+  controller: App\Controller\ReservationController::CreateReservation
+  methods: [GET, POST]
