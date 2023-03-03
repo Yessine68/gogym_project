@@ -1,0 +1,32 @@
+<h1> Liste des cours </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Description</th>
+    <th>Duree</th>
+    <th>Editer</th>
+    </tr>
+    {% for cours in Cours %}
+    <tr>
+        <td>
+            {{cours.getId_Cours()}}
+        </td>
+        <td>
+            {{cours.getNomCours()}}
+        </td>
+        <td>
+            {{cours.getDescriptionCours()}}
+        </td>
+        <td>
+            {{cours.getDureeCours()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Cours',{'id_cours':cours.id_cours})}}">Remove</a>
+            <a href="{{path('Update_Cours',{'id_cours':cours.id_cours})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Cours')}}">Create Cours</a>

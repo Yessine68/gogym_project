@@ -1,0 +1,28 @@
+<h1> Liste des réservations </h1>
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Date</th>
+    <th>Type</th>
+    <th>Editer</th>
+    </tr>
+    {% for res in Reservations %}
+    <tr>
+        <td>
+            {{res.getId_Res()}}
+        </td>
+        <td>
+            {{res.getDateRes()|date("d/m/Y")}}
+        </td>
+        <td>
+            {{res.getTypeRes()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Reservation',{'id_res':res.id_res})}}">Remove</a>
+            <a href="{{path('Update_Reservation',{'id_res':res.id_res})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{path('Create_Reservation')}}">Create Reservation</a>
+<br>

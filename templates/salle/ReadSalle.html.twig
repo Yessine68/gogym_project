@@ -1,0 +1,41 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Liste des salles{% endblock %}
+
+{% block body %}
+<table border="1">
+    <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Adresse</th>
+    <th>Ville</th>
+    <th>Perimetre</th>
+    <th>Editer</th>
+    </tr>
+    {% for s in Salles %}
+    <tr>
+        <td>
+            {{s.getId_S()}}
+        </td>
+        <td>
+            {{s.getNomS()}}
+        </td>
+        <td>
+            {{s.getAdresseS()}}
+        </td>
+        <td>
+            {{s.getVilleS()}}
+        </td>
+        <td>
+            {{s.getPerimetreS()}}
+        </td>
+        <td>
+            <a href="{{path('Delete_Salle',{'id_s':s.id_s})}}">Remove</a>
+            <a href="{{path('Update_Salle',{'id_s':s.id_s})}}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{path('Create_Salle')}}">Create Salle</a>
+{% endblock %}
