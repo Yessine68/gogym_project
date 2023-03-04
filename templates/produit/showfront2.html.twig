@@ -221,12 +221,12 @@
                     <div class="topnav">
                     <div class="search-container">
                         <form action="/action_page.php">
-                        <input type="text" placeholder="Search.." name="search" id="search">
+                        <input type="text" placeholder="Search.." name="search">
                         <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                     </div>
-                <div class="row" id="result">
+                <div class="row">
                   {% for produit in produits %}
 
                     <div class="col-xl-3 col-6">
@@ -259,7 +259,6 @@
                 </div>
                 </div>
                     
-                        {{ pagerfanta(produits, 'twitter_bootstrap5') }}
 
                     
                 </div>
@@ -398,32 +397,8 @@
     </div>
     <!-- tap to top End -->
 <script>
-	$(document).ready(function(){
-		load_data();
-		function load_data(query)
-		{
-			$.ajax({
-			url:"{{ path('app_produit_rechercher') }}",
-			method:"GET",
-			data:{prod:query},
-			success:function(data)
-			{
-				$('#result').html(data);
-			}
-			});
-		}
-		$('#search').keyup(function(){
-		var search = $(this).val();
-		if(search != '')
-		{
-			load_data(search);
-		}
-		else
-		{
-			load_data();
-		}
-		});
-	});
-	</script>
+
+
+</script>
 
 {% endblock %}

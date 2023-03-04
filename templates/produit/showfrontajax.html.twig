@@ -1,0 +1,38 @@
+
+
+{% block body %}
+
+                
+                  {% for produit in produits %}
+
+                    <div class="col-xl-3 col-6">
+                        <a href="{{ path('app_produit_afficher_item', {'id': produit.id }) }}" >
+                        <div class="product-box ">
+                            <div class="img-wrapper">
+                                <div class="front">
+                                    <a href="{{ path('app_produit_afficher_item', {'id': produit.id }) }}"><img src={{ asset("uploads/produit/") }}{{ produit.getImage() }}
+                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                </div>
+                                <div class="cart-info cart-wrap">
+                                    
+                                    <a href="{{ path('app_produit_afficher_item', {'id': produit.id }) }}" 
+                                        title="Quick View"><i class="ti-search" aria-hidden="true"></i></a>
+                                    
+                                </div>
+                            </div>
+                            <div class="product-detail">
+                                <a href="product-page(no-sidebar).html">
+                                    <h6>{{ produit.getNomProd() }}</h6>
+                                </a>
+                                <h4>{{ produit.getPrix() }} TND</h4>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+         {% else %}
+                <h3>no records found</h3>
+        {% endfor %}
+               
+            
+
+{% endblock %}

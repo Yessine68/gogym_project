@@ -39,6 +39,14 @@ class AbonnementRepository extends ServiceEntityRepository
         }
     }
 
+    public function findById($id) : array {
+        return $this->createQueryBuilder('a')
+        ->where('a.id LIKE :id')
+        ->setParameter('id',$id)
+        ->getQuery()
+        ->getResult();
+    }
+
 //    /**
 //     * @return Abonnement[] Returns an array of Abonnement objects
 //     */

@@ -66,6 +66,11 @@ class ProduitRepository extends ServiceEntityRepository
             ->execute();
 
     }
+    public function getProdsforPag()
+    {
+            return $this->createQueryBuilder('produit');
+            
+    }
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

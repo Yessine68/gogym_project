@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Options\PieChart\PieSlice;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\BarChart;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -74,6 +76,23 @@ class ProduitController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/front', name: 'app_produit_afficher_front', methods: ['GET'])]
+    public function afficherfront(Request $request, ProduitRepository $produitRepository,CategorieRepository $categorieRepository): Response
+    {
+        $products = $produitRepository->getProdsforPag();
+        $adapter = new QueryAdapter($products);
+        $pagination = new Pagerfanta($adapter);
+        $pagination->setMaxPerPage(8);
+        $pagination->setCurrentPage($request->query->get('page', 1));
+
+
+        return $this->render('produit/showfront.html.twig', [
+            'produits' => $pagination,
+            'categories' => $categorieRepository->findAll(),
+            
+        ]);
+        
+    }
     #[Route('/afficher', name: 'app_produit_afficher', methods: ['GET'])]
     public function afficher(ProduitRepository $produitRepository,CategorieRepository $categorieRepository): Response
     {
@@ -84,16 +103,7 @@ class ProduitController extends AbstractController
         ]);
         
     }
-    #[Route('/front', name: 'app_produit_afficher_front', methods: ['GET'])]
-    public function afficherfront(Request $request, ProduitRepository $produitRepository,CategorieRepository $categorieRepository): Response
-    {
-        return $this->render('produit/showfront.html.twig', [
-            'produits' => $produitRepository->findAll(),
-            'categories' => $categorieRepository->findAll(),
-            
-        ]);
-        
-    }
+    
     #[Route('/search', name: 'app_produit_rechercher')]
      public function search(Request $request,CategorieRepository $categorieRepository, ProduitRepository $produitRepository): Response
      {
@@ -105,7 +115,7 @@ class ProduitController extends AbstractController
             
              $produits = $produitRepository->findProd($nom);
 
-        return $this->render('produit/showfront.html.twig', [
+        return $this->render('produit/showfrontajax.html.twig', [
             'produits' => $produits,
             'categories' => $categorieRepository->findAll(),
 
@@ -153,7 +163,7 @@ class ProduitController extends AbstractController
  
             
         $produits = $produitRepository->triProdByCat($id_cat);
-        return $this->render('produit/showfront.html.twig', [
+        return $this->render('produit/showfront2.html.twig', [
             'produits' => $produits,
             'categories' => $categorieRepository->findAll(),
 
