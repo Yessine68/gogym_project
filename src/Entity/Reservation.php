@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -12,39 +13,58 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_res = null;
+    private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_res = null;
+    // #[Assert\Date(message:"La date '{{ value }}' n'est pas une date valide.")]
+    private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type_res = null;
+    #[Assert\NotBlank(message:"Le type est un champ obligatoire")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z]+$/", message:"Le type '{{ value }}' ne doit contenir que des lettres")]
+    private ?string $type = null;
 
-    public function getId_Res(): ?int
+    #[ORM\ManyToOne(inversedBy: 'reservation_c')]
+    // #[Assert\NotBlank(message:"Le cours est un champ obligatoire")]
+    private ?Cours $cours = null;
+
+    public function getId(): ?int
     {
-        return $this->id_res;
+        return $this->id;
     }
 
-    public function getDateRes(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->date_res;
+        return $this->date;
     }
 
-    public function setDateRes(\DateTimeInterface $date_res): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->date_res = $date_res;
+        $this->date = $date;
 
         return $this;
     }
 
-    public function getTypeRes(): ?string
+    public function getType(): ?string
     {
-        return $this->type_res;
+        return $this->type;
     }
 
-    public function setTypeRes(string $type_res): self
+    public function setType(string $type): self
     {
-        $this->type_res = $type_res;
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCours(): ?Cours
+    {
+        return $this->cours;
+    }
+
+    public function setCours(?Cours $cours): self
+    {
+        $this->cours = $cours;
 
         return $this;
     }

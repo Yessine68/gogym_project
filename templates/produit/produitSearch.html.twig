@@ -1,0 +1,19 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+    <h1>Rechercher des produits</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.nom_prod, {'label': 'Nom du produit'}) }}
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    {{ form_end(form) }}
+
+    {% if produits is not empty %}
+        <h2>Résultats de la recherche</h2>
+        <ul>
+            {% for produit in produits %}
+                <li>{{ produit.nom_Prod }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

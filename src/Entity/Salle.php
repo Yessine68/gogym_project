@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\SalleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
@@ -13,26 +14,63 @@ class Salle
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_s = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"Il faut saisie un nom")]
+    #[Assert\NotBlank(message:"Le nom de la salle est obligatoire")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z]+$/", message:"Le nom de la salle '{{ value }}' ne doit contenir que des lettres")]
     private ?string $nom_s = null;
 
+    #[ORM\Column]
+    #[Assert\NotNull(message:"Le numéro de téléphone ne peut pas être nulle")]
+    #[Assert\Length(min:8, minMessage:"Le numéro de téléphone doit contenir '{{ limit }}' numéro", max:8, maxMessage:"Le numéro de téléphone doit contenir '{{ limit }}' numéro")]
+    #[Assert\Regex(pattern:"/^[0-9]+$/", message:"Le numéro de téléphone '{{ value }}' ne doit contenir que des chiffres")]
+    private ?int $tel_s = null;
+
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"Il faut saisie un adresse")]
+    #[Assert\NotBlank(message:"L'adresse mail est obligatoire")]
+    #[Assert\Email(message:"L'adresse mail '{{ value }}' n'est pas un email valide ")]
+    private ?string $email_s = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"L'adresse est obligatoire")]
     private ?string $adresse_s = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"La ville est obligatoire")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z]+$/", message:"La ville '{{ value }}' ne doit contenir que des lettres")]
     private ?string $ville_s = null;
 
     #[ORM\Column]
-    #[Assert\Positive(message:"Le perimetre de la salle doit etre positive")]
+    #[Assert\NotNull(message:"Le perimetre de la salle ne peut pas être nulle")]
+    #[Assert\Positive(message:"Le perimetre de la salle doit être positif")]
+    #[Assert\Regex(pattern:"/^[0-9]+$/", message:"Le perimetre de la salle '{{ value }}' ne doit contenir que des chiffres")]
     private ?float $perimetre_s = null;
 
-    public function getId_S(): ?int
+    #[ORM\ManyToMany(targetEntity: Abonnement::class, mappedBy: 'salle_a')]
+    #[Assert\NotBlank(message:"L'abonnement est obligatoire")]
+    private Collection $abonnements;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
+    #[ORM\Column]
+    private ?float $pos1 = null;
+
+    #[ORM\Column]
+    private ?float $pos2 = null;
+
+    #[ORM\Column]
+    private ?int $likes = 0;
+
+    public function __construct()
     {
-        return $this->id_s;
+        $this->abonnements = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getNomS(): ?string
@@ -43,6 +81,30 @@ class Salle
     public function setNomS(string $nom_s): self
     {
         $this->nom_s = $nom_s;
+
+        return $this;
+    }
+
+    public function getTelS(): ?int
+    {
+        return $this->tel_s;
+    }
+
+    public function setTelS(int $tel_s): self
+    {
+        $this->tel_s = $tel_s;
+
+        return $this;
+    }
+
+    public function getEmailS(): ?string
+    {
+        return $this->email_s;
+    }
+
+    public function setEmailS(string $email_s): self
+    {
+        $this->email_s = $email_s;
 
         return $this;
     }
@@ -82,4 +144,84 @@ class Salle
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Abonnement>
+     */
+    public function getAbonnements(): Collection
+    {
+        return $this->abonnements;
+    }
+
+    public function addAbonnement(Abonnement $abonnement): self
+    {
+        if (!$this->abonnements->contains($abonnement)) {
+            $this->abonnements->add($abonnement);
+            $abonnement->addSalleA($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbonnement(Abonnement $abonnement): self
+    {
+        if ($this->abonnements->removeElement($abonnement)) {
+            $abonnement->removeSalleA($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string {
+        return $this->nom_s;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getPos1(): ?float
+    {
+        return $this->pos1;
+    }
+
+    public function setPos1(float $pos1): self
+    {
+        $this->pos1 = $pos1;
+
+        return $this;
+    }
+
+    public function getPos2(): ?float
+    {
+        return $this->pos2;
+    }
+
+    public function setPos2(float $pos2): self
+    {
+        $this->pos2 = $pos2;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(int $likes): self
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+    
 }

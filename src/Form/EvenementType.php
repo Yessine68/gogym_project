@@ -16,10 +16,11 @@ class EvenementType extends AbstractType
         $builder
             ->add('nom_e')
             ->add('description_e')
-            ->add('cat_e')
             ->add('date_e')
             ->add('lieu_e')
-            ->add('nbr_participants')
+            ->add('image')
+            ->add('nbr_participants')       
+            ->add('categorieEvenement')
             ->add('Envoyer',SubmitType::class)
         ;
     }

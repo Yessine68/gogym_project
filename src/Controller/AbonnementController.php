@@ -2,31 +2,46 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\Abonnement;
+use App\Form\AbonnementType; 
 use App\Repository\AbonnementRepository;
 
 use Doctrine\Persistence\ManagerRegistry;
 
-use App\Entity\Abonnement;
-
-use App\Form\AbonnementType; 
-
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AbonnementController extends AbstractController
 {
 
-    #[Route('/Abonnement/Read', name: 'Read_Abonnement')]
-    public function ReadAbonnement(AbonnementRepository $repo): Response
+    #[Route('/Abonnement/Read_Back', name: 'Read_Back_Abonnement')]
+    public function ReadBackAbonnement(AbonnementRepository $repo): Response
     {
         $Abonnements = $repo->findAll();
         
-        return $this->render('Abonnement/ReadAbonnement.html.twig', ["Abonnements"=>$Abonnements]);
+        return $this->render('Abonnement/ReadAbonnementBack.html.twig', ["Abonnements"=>$Abonnements]);
     }
 
+    #[Route('/Abonnement/Read_Front', name: 'Read_Front_Abonnement')]
+    public function ReadFrontAbonnement(AbonnementRepository $repo): Response
+    {
+        $Abonnements = $repo->findAll();
+        
+        return $this->render('Abonnement/ReadAbonnementFront.html.twig', ["Abonnements"=>$Abonnements]);
+    }
+
+    #[Route('/Abonnement/Read_More_Front/{id}', name: 'Read_More_Front_Abonnement')]
+    public function ReadMoreFrontAbonnement(AbonnementRepository $repo, $id): Response
+    {
+        $Abonnements = $repo->findById($id);
+
+        return $this->render('Abonnement/ReadMoreAbonnementFront.html.twig', ["Abonnements"=>$Abonnements]);
+        
+    }
     #[Route('/Abonnement/Create', name: 'Create_Abonnement')]
     public function CreateAbonnement(ManagerRegistry $doctrine, Request $req): Response 
     {
@@ -39,30 +54,35 @@ class AbonnementController extends AbstractController
         {
             $em->persist($Abonnement);
             $em->flush();
-            return $this->redirectToRoute('Read_Abonnement');
+
+            $this->addFlash('notice','Ajout avec success!');
+
+            return $this->redirectToRoute('Read_Back_Abonnement');
         }
 
         return $this->renderForm('Abonnement/CreateAbonnement.html.twig',['form'=>$form]);
     
     }
 
-    #[Route('/Abonnement/Delete/{id_a}', name: 'Delete_Abonnement')]
-    public function DeleteAbonnement(ManagerRegistry $doctrine, $id_a): Response 
+    #[Route('/Abonnement/Delete/{id}', name: 'Delete_Abonnement')]
+    public function DeleteAbonnement(ManagerRegistry $doctrine, $id): Response 
     {
         $em= $doctrine->getManager();
         $repo= $doctrine->getRepository(Abonnement::class);
-        $Abonnement= $repo->find($id_a);
+        $Abonnement= $repo->find($id);
         $em->remove($Abonnement);
         $em->flush();
+        
+        $this->addFlash('notice','Suppression avec success!');
 
-        return $this->redirectToRoute('Read_Abonnement');
+        return $this->redirectToRoute('Read_Back_Abonnement');
     }
 
-    #[Route('/Abonnement/Update/{id_a}', name: 'Update_Abonnement')]
-    public function UpdateAbonnement(ManagerRegistry $doctrine, $id_a, Request $req): Response 
+    #[Route('/Abonnement/Update/{id}', name: 'Update_Abonnement')]
+    public function UpdateAbonnement(ManagerRegistry $doctrine, $id, Request $req): Response 
     {
         $em = $doctrine->getManager();
-        $Abonnement = $doctrine->getRepository(Abonnement::class)->find($id_a);
+        $Abonnement = $doctrine->getRepository(Abonnement::class)->find($id);
         $form = $this->createForm(AbonnementType::class,$Abonnement);
         $form->handleRequest($req); 
 
@@ -70,7 +90,10 @@ class AbonnementController extends AbstractController
         {
             $em->persist($Abonnement);
             $em->flush();
-            return $this->redirectToRoute('Read_Abonnement');
+
+            $this->addFlash('notice','Modification avec success!');
+
+            return $this->redirectToRoute('Read_Back_Abonnement');
         }
 
         return $this->renderForm('Abonnement/UpdateAbonnement.html.twig',['form'=>$form]);
