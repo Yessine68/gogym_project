@@ -51,6 +51,18 @@ class Salle
     #[Assert\NotBlank(message:"L'abonnement est obligatoire")]
     private Collection $abonnements;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image_s = null;
+
+    #[ORM\Column]
+    private ?int $like_s = 0;
+
+    #[ORM\Column]
+    private ?float $pos1 = null;
+
+    #[ORM\Column]
+    private ?float $pos2 = null;
+
     public function __construct()
     {
         $this->abonnements = new ArrayCollection();
@@ -162,6 +174,54 @@ class Salle
 
     public function __toString(): string {
         return $this->nom_s;
+    }
+
+    public function getImageS(): ?string
+    {
+        return $this->image_s;
+    }
+
+    public function setImageS(string $image_s): self
+    {
+        $this->image_s = $image_s;
+
+        return $this;
+    }
+
+    public function getLikeS(): ?int
+    {
+        return $this->like_s;
+    }
+
+    public function setLikeS(int $like_s): self
+    {
+        $this->like_s = $like_s;
+
+        return $this;
+    }
+
+    public function getPos1(): ?float
+    {
+        return $this->pos1;
+    }
+
+    public function setPos1(float $pos1): self
+    {
+        $this->pos1 = $pos1;
+
+        return $this;
+    }
+
+    public function getPos2(): ?float
+    {
+        return $this->pos2;
+    }
+
+    public function setPos2(float $pos2): self
+    {
+        $this->pos2 = $pos2;
+
+        return $this;
     }
     
 }

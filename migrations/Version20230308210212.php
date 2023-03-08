@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230223013319 extends AbstractMigration
+final class Version20230308210212 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,16 @@ final class Version20230223013319 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE reservation ADD cours_id INT DEFAULT NULL');
+        $this->addSql('CREATE TABLE cours (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, duree INT NOT NULL, intensite VARCHAR(255) NOT NULL, bienfaits VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE reservation (id INT AUTO_INCREMENT NOT NULL, cours_id INT DEFAULT NULL, date DATE NOT NULL, type VARCHAR(255) NOT NULL, INDEX IDX_42C849557ECF78B0 (cours_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C849557ECF78B0 FOREIGN KEY (cours_id) REFERENCES cours (id)');
-        $this->addSql('CREATE INDEX IDX_42C849557ECF78B0 ON reservation (cours_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE reservation DROP FOREIGN KEY FK_42C849557ECF78B0');
-        $this->addSql('DROP INDEX IDX_42C849557ECF78B0 ON reservation');
-        $this->addSql('ALTER TABLE reservation DROP cours_id');
+        $this->addSql('DROP TABLE cours');
+        $this->addSql('DROP TABLE reservation');
     }
 }

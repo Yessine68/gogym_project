@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CoursType extends AbstractType
 {
@@ -17,6 +18,7 @@ class CoursType extends AbstractType
             ->add('duree')
             ->add('intensite')
             ->add('bienfaits')
+            ->add('image', FileType::class, ['mapped' => false])
             ->add('Envoyer',SubmitType::class)
         ;
     }

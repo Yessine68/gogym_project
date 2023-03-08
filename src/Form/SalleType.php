@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SalleType extends AbstractType
@@ -16,9 +17,12 @@ class SalleType extends AbstractType
     {
         $builder
             ->add('nom_s')
+            ->add('image_s', FileType::class, ['mapped' => false]) //hedhi jarab nahi mapped
             ->add('tel_s')
             ->add('email_s')
             ->add('adresse_s')
+            ->add('pos1')
+            ->add('pos2')
             ->add('ville_s')
             ->add('perimetre_s')
             ->add('abonnements', EntityType::class, [

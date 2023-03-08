@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Abonnement PDF</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; vertical-align: middle;">Abonnements</h1>
+    <br>
+    <br>
+    <table>
+        <thead>
+            <tr style="text-align: center; vertical-align: middle;">
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Salle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in Abonnements %}
+            <tr style="text-align: center; vertical-align: middle;">
+                <td>
+                    {{a.getId()}}
+                </td>
+                <td>
+                    {{a.getNomA()}}
+                </td>
+                <td>
+                    {{a.getTypeA()}}
+                </td>
+                <td>
+                    {{a.getDescriptionA()|raw}}
+                </td>
+                <td>
+                    {{a.getPrixA()}} TND
+                </td>
+                <td>
+                    {{a.getDebutA()|date("d/m/Y")}}
+                </td>
+                <td>
+                    {{a.getFinA()|date("d/m/Y")}}
+                </td>
+                <td>
+                    <ul>
+                        {% for s in a.getSalleA() %}
+                            <li>
+                            {{s.getNomS()}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <p style="text-align: right; vertical-align: right;">Generated on {{ "now"|date("d/m/Y") }}</p>
+</body>
+</html>

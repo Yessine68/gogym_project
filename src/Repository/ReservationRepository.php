@@ -38,6 +38,36 @@ class ReservationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    public function findByDate($date)
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        if ($date) {
+            $qb->andWhere('r.date = :date')
+               ->setParameter('date', $date);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function sortByAscDate(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function sortByDescDate(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects

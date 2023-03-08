@@ -1,6 +1,6 @@
 {% extends 'baseFront.html.twig' %}
 
-{% block title %}Liste des abonnements{% endblock %}
+{% block title %}Information sur un abonnement{% endblock %}
 
 {% block body %}
 
@@ -13,7 +13,7 @@
 			<li><a href="index.html">Accueil</a></li>
 			<li><a href="Apropos.html">À propos</a></li>
 			<li><a href="{{path('Read_Front_Salle')}}">Salles</a></li>
-			<li><a href="{{path('FRead_Cours')}}">Activités</a></li>
+			<li><a href="{{path ('FRead_Cours')}}">Activités</a></li>
 			<li><a class="active" href="{{path('Read_Front_Abonnement')}}">Offres</a></li>
 			<li><a href="Evénements.html">Evénements</a></li>
 			<li><a href="boutique.html">Boutique</a></li>
@@ -113,22 +113,56 @@
 	<div class="clearfix"></div>
 	<!-- Header section end -->
 
-    {% for a in Abonnements %}
-    <section class="page-top-section set-bg" data-setbg="/Front/img/haan.png"
-		<div class="container">
-			<h2>{{a.getNomA()}}</h2>
-		</div>
-	</section>
-        <div>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>{{a.getTypeA()}}</td>
-                        <td>{{a.getPrixA()}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Salle slider -->
+    <div class="full-banner gym-parallax parallax p-0 ratio_square">
+        <br>
+        <br>
+        <br>
+        <a href="{{ path('Read_Front_Abonnement') }}" class="btn btn-primary mt-2" type="submit" style="text-align: center;">Return</a>
+        <div class="section-t-space section-b-space gym-product">
+		    {% for a in Abonnements %}
+            <div class="container">
+			    <div class="section-title text-center">
+                    <h2>{{a.getNomA()}}</h2>
+                </div>
+                <br>
+                <br>
+                <table class="table" style="text-align: center;">
+                    <tbody style="text-align: center; vertical-align: middle;">
+                        <tr>
+							<th>Type : </th>
+							<td>
+								{{a.getTypeA()}}
+							</td>
+						</tr>
+						<tr>
+                            <th>Description</th>
+                            <td><p>{{a.getDescriptionA()|raw}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Prix</th>
+                            <td>{{a.getPrixA()}} TND</td>
+                        </tr>
+                        <tr>
+                            <th>Dans</th>
+                            <td>
+                                <ul>
+                                    {% for s in a.getSalleA() %}
+                                        <li>
+                                        {{s.getNomS()}}, 
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+				<br>
+				<br>
+            </div>
+			{% endfor %} 
         </div>
-        <p>{{a.getDescriptionA()}}</p>
-    {% endfor %} 
+    </div>
+    <!-- Salle slider end -->
 {% endblock %}

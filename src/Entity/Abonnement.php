@@ -46,19 +46,13 @@ class Abonnement
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"La date est un champ obligatoire")]
     #[Assert\Type('\DateTimeInterface', message: "La date '{{ value }}' n'est pas une date valide.")]
-<<<<<<< Updated upstream
-=======
     #[Groups('Abonnements')]
->>>>>>> Stashed changes
     private ?\DateTimeInterface $debut_a = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message:"La date est un champ obligatoire")]
     #[Assert\Type('\DateTimeInterface', message: "La date '{{ value }}' n'est pas une date valide.")]
-<<<<<<< Updated upstream
-=======
     #[Groups('Abonnements')]
->>>>>>> Stashed changes
     private ?\DateTimeInterface $fin_a = null;
 
     #[ORM\ManyToMany(targetEntity: Salle::class, inversedBy: 'abonnements')]

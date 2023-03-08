@@ -12,7 +12,7 @@
 			<li><a href="index.html">Accueil</a></li>
 			<li><a href="Apropos.html">À propos</a></li>
 			<li><a class="active" href="{{path('Read_Front_Salle')}}">Salles</a></li>
-			<li><a href="{{path('FRead_Cours')}}">Activités</a></li>
+			<li><a href="{{path ('FRead_Cours')}}">Activités</a></li>
 			<li><a href="{{path('Read_Front_Abonnement')}}">Offres</a></li>
 			<li><a href="Evénements.html">Evénements</a></li>
 			<li><a href="boutique.html">Boutique</a></li>
@@ -112,55 +112,78 @@
 	<div class="clearfix"></div>
 	<!-- Header section end -->
 	
-<h1>Liste des salles</h1>
-
-	<!-- Blog section -->
-	<section class="blog-section">
-        {% for s in Salles %}
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="blog-item">
-						<h2>{{s.getNomS()}}</h2>
-						<p>{{s.getPerimetreS()}}</p>
-						<div class="site-btn">Read More</div>
-					</div>
+    <!-- Salle slider -->
+    <div class="full-banner gym-parallax parallax p-0 ratio_square">
+        <img src="/Front/assets/images/parallax/25.jpg" alt="" class="bg-img">
+        <div class="section-t-space section-b-space gym-product">
+            <div class="container">
+				<div class="title1 title_gradient">
+					<h4>Nos</h4>
+					<h2 class="title-inner1 text-white">Salles</h2>
 				</div>
-			</div>
-		</div>
-        {% endfor %}
-	</section>
-	<!-- Blog section end -->
-
-<!-- Call To Section Begin -->
-<section class="callto-section">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<div class="callto-text">
-					<h2>Come & Train With Us</h2>
-					<p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<a href="#" class="primary-btn callto-btn"><font color="#FFFFFF">Join Now</font></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- Call To Section End -->
-
-<!-- Map Section Begin -->
-<div class="map">
-    <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24182.553681405774!2d-73.99529774360377!3d40.744003480221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259737e225aa1%3A0x652ff78189c0e104!2sStuyvesant%20Town-Peter%20Cooper%20Village%2C%20New%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1567961277124!5m2!1sen!2sbd"
-        height="585" style="border:0" allowfullscreen></iframe>
-    <div class="map-address">
-        <div class="map-address-text">
-            <ul>
-                <li>Mall Ariana <br /> Tunis</li>
-                <li>+216 70 740 750<br />go.gum@sayhii.tn</li>
-            </ul>
+				<br>
+				<form class="d-none d-md-flex ms-1" id="search-form" action="{{ path('Find_Salle_Front') }}">
+    				<input class="form-control border-0.5" type="search"  name="q" placeholder="Rechercher..." value="{{ query }}">
+				</form>
+				<br>
+				<br>
+				<br>
+                <div class="row part-cls" id="search-results">
+				    {% for s in Salles %}
+                    <div class="col-xl-3 col-6">
+                        <div class="product-box ">
+                            <div class="img-wrapper">
+                                <div class="front">
+                                    <a href="product-page(no-sidebar).html"><img src="{{ asset('Uploads/' ~ s.getImageS()) }}"
+                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                </div>
+                                <div class="cart-info cart-wrap">
+                                    <a href="{{ path('Like_Salle', { id: s.id }) }}" title="Like" style="display: flex; color: white;">
+										<i class="fa fa-heart" aria-hidden="true" style="color: white;">
+											{{s.getLikeS()}}
+										</i>
+									</a>
+                                </div>
+                            </div>
+                            <div class="product-detail">
+                                <a href="product-page(no-sidebar).html">
+                                    <h2>Go Gym</h2>  
+                                    <h2>{{s.getNomS()}}</h2>
+                                </a>
+                                <h3>{{s.getPerimetreS()}} m²</h3>
+                            </div>
+							<br>
+                        </div>
+						<br>
+						<a class="site-btn" href="{{ path('Read_Front_One_Salle', { id: s.id }) }}" type="submit">Read More</a>
+                    </div>
+					{% endfor %}
+                </div>
+				<div id="search"></div>
+            </div>
         </div>
+	<div class="d-flex justify-content-center">
+		{% do Salles.setPageRange(2) %}
+		{{ knp_pagination_render(Salles, 'salle/pagination.html.twig') }}
+	</div>
+	<br>
+	<br>
     </div>
-</div>
-<!-- Map Section End -->
+    <!-- Salle slider end -->
+
+<script>
+    $(function () {
+        $('#search-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#search-results').html(data);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

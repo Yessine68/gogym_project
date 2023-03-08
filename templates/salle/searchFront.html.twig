@@ -1,0 +1,189 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Liste des salles{% endblock %}
+
+{% block body %}
+	<!-- Header section -->
+	<header class="header-section">
+		<ul class="main-menu">
+			<a href="index.html" class="site-logo">
+				<img src="{{asset('Front/img/logo.png')}}" alt="">
+			</a>
+			<li><a href="index.html">Accueil</a></li>
+			<li><a href="Apropos.html">À propos</a></li>
+			<li><a class="active" href="{{path('Read_Front_Salle')}}">Salles</a></li>
+			<li><a href="{{path ('FRead_Cours')}}">Activités</a></li>
+			<li><a href="{{path('Read_Front_Abonnement')}}">Offres</a></li>
+			<li><a href="Evénements.html">Evénements</a></li>
+			<li><a href="boutique.html">Boutique</a></li>
+			<li><a href="contact.html">Contact</a></li>
+			<li class="header-right">
+				<div class="menu-right pull-right">
+				<div class="hr-box">
+					<div class="icon-nav">
+						<ul>
+							<li class="onhover-div mobile-search">
+								<div><img src="{{asset('Front/assets/images/icon/search.png')}}" onclick="openSearch()"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-search" onclick="openSearch()"></i>
+								</div>
+								<div id="search-overlay" class="search-overlay">
+									<div>
+										<span class="closebtn" onclick="closeSearch()"
+											title="Close Overlay">×</span>
+										<div class="overlay-content">
+											<div class="container">
+												<div class="row">
+													<div class="col-xl-12">
+														<form>
+															<div class="form-group">
+																<input type="text" class="form-control"
+																	id="exampleInputPassword1"
+																	placeholder="Search a Product">
+															</div>
+															<button type="submit" class="btn btn-primary"><i
+																	class="fa fa-search"></i></button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="onhover-div mobile-cart">
+								<div><img src="{{asset('Front/assets/images/icon/cart.png')}}"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-shopping-cart"></i>
+								</div>
+								<ul class="show-div shopping-cart">
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="{{asset('Front/assets/images/fashion/product/1.jpg')}}"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="{{asset('Front/assets/images/fashion/product/2.jpg')}}"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="total">
+											<h5>subtotal : <span>$299.00</span></h5>
+										</div>
+									</li>
+									<li>
+										<div class="buttons">
+											<a href="cart.html" class="view-cart">view cart</a>
+											<a href="#" class="checkout">checkout</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			</li>
+		</ul>
+	</header>
+	<div class="clearfix"></div>
+	<!-- Header section end -->
+	
+    <!-- Salle slider -->
+    <div class="full-banner gym-parallax parallax p-0 ratio_square">
+        <img src="/Front/assets/images/parallax/25.jpg" alt="" class="bg-img">
+        <div class="section-t-space section-b-space gym-product">
+            <div class="container">
+				<div class="title1 title_gradient">
+					<h4>Nos</h4>
+					<h2 class="title-inner1 text-white">Salles</h2>
+				</div>
+                <br>
+				<form class="d-none d-md-flex ms-1" id="search-form" action="{{ path('Find_Salle_Front') }}">
+                    <input class="form-control border-0.5" type="search"  name="q" placeholder="Rechercher..." value="{{ query }}">
+                    <a href="{{path('Read_Front_Salle')}}" type="submit" class="btn" style="color: white;">Return</a> 
+                </form>
+				<br>
+				<br>
+                <div class="row part-cls" id="search-results">
+				    {% for s in SallesR %}
+                    <div class="col-xl-3 col-6">
+                        <div class="product-box ">
+                            <div class="img-wrapper">
+                                <div class="front">
+                                    <a href="product-page(no-sidebar).html"><img src="{{ asset('Uploads/' ~ s.getImageS()) }}"
+                                            class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                </div>
+                                <div class="cart-info cart-wrap">
+                                    <a href="{{ path('Like_Salle', { id: s.id }) }}" title="Like" style="display: flex; color: white;">
+										<i class="fa fa-heart" aria-hidden="true" style="color: white;">
+											{{s.getLikeS()}}
+										</i>
+									</a>
+                                </div>
+                            </div>
+                            <div class="product-detail">
+                                <a href="product-page(no-sidebar).html">
+                                    <h2>Go Gym</h2>  
+                                    <h2>{{s.getNomS()}}</h2>
+                                </a>
+                                <h3>{{s.getPerimetreS()}} m²</h3>
+                            </div>
+							<br>
+                        </div>
+						<br>
+						<a class="site-btn" href="{{ path('Read_Front_One_Salle', { id: s.id }) }}" type="submit">Read More</a>
+                    </div>
+					{% endfor %}
+                </div>
+				<div id="search"></div>
+            </div>
+        </div>
+		<div class="d-flex justify-content-center">
+			{% do Salles.setPageRange(2) %}
+			{{ knp_pagination_render(Salles, 'salle/pagination.html.twig') }}
+		</div>
+	<br>
+	<br>
+    </div>
+    <!-- Salle slider end -->
+
+<script>
+    $(function () {
+        $('#search-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#search-results').html(data);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

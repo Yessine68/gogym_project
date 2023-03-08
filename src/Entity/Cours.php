@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
 class Cours
@@ -14,9 +15,11 @@ class Cours
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("cours")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("cours")]
     #[Assert\NotBlank(message:"Le nom est un champ obligatoire")]
     #[Assert\Regex(pattern:"/^[a-zA-Z]+$/", message:"Le nom '{{ value }}' ne doit contenir que des lettres")]
     private ?string $Nom = null;
@@ -39,6 +42,9 @@ class Cours
     #[ORM\OneToMany(mappedBy: 'cours', targetEntity: Reservation::class)]
     // #[Assert\NotBlank(message:"La reservation est un champ obligatoire")]
     private Collection $reservation_c;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -130,5 +136,17 @@ class Cours
 
     public function __toString(): string {
         return $this->Nom;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

@@ -3,10 +3,6 @@
 {% block title %}Liste des abonnements{% endblock %}
 
 {% block body %}
-<<<<<<< Updated upstream
-<br>
-<br>
-=======
 
 {% for message in app.flashes('notice') %}
     <div class="alert alert-success ">
@@ -14,86 +10,104 @@
     </div>
 {% endfor %}
 
->>>>>>> Stashed changes
 <h1 style="text-align: left;" >Liste des abonnements</h1>
 <br>
+
+<form class="d-none d-md-flex ms-1" id="search-form" action="{{ path('Find_Abonnement') }}">
+    <input class="form-control border-0.5" type="search"  name="q" placeholder="Rechercher..." value="{{ query }}">
+</form>
+
+<br>
 <table class="table" style="text-align: center;">
-    <tr style="text-align: center; vertical-align: middle;">
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Prix</th>
-        <th>Date début</th>
-        <th>Date fin</th>
-        <th>Salle</th>
-        <th>Editer</th>
-    </tr>
-    {% for a in Abonnements %}
-    <tr style="text-align: center; vertical-align: middle;">
-        <td>
-            {{a.getId()}}
-        </td>
-        <td>
-            {{a.getNomA()}}
-        </td>
-        <td>
-            {{a.getTypeA()}}
-        </td>
-        <td>
-            {{a.getDescriptionA()}}
-        </td>
-        <td>
-            {{a.getPrixA()}}TND
-        </td>
-        <td>
-            {{a.getDebutA()|date("d/m/Y")}}
-        </td>
-        <td>
-            {{a.getFinA()|date("d/m/Y")}}
-        </td>
-        <td>
-            <ul>
-                {% for s in a.getSalleA() %}
-                    <li>
-                    {{s.getNomS()}}
-                    </li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td>
-            <div style="text-align: center;">
-<<<<<<< Updated upstream
-                <a href="{{path('Update_Abonnement',{'id':a.id})}}" class="btn btn-primary" type="submit" >Modifier</a> 
-                <br>
-                <br>
-                <a href="{{path('Delete_Abonnement',{'id':a.id})}}" class="btn btn-primary" type="submit" >Supprimer</a>
-=======
-                <a href="{{path('Update_Abonnement',{'id':a.id})}}" class="btn btn-warning mt-2" type="submit" >Modifier</a> 
-                <a href="{{path('Delete_Abonnement',{'id':a.id})}}" class="btn btn-danger mt-2" type="submit" >Supprimer</a>
->>>>>>> Stashed changes
-            </div>
-        </td>
-    </tr>
-    {% else %}
-    <tr>
-        <td colspan="4" style="text-align: center;">no records found</td>
-    </tr>
-    {% endfor %}
+    <thead>
+        <tr style="text-align: center; vertical-align: middle;">
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>
+                Prix
+                <a href="{{path('sortByAscPrix_Abonnement')}}">&#8593;</a>
+                <a href="{{path('sortByDescPrix_Abonnement')}}">&#8595;</a>
+            </th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Salle</th>
+            <th>Editer</th>
+        </tr>
+    </thead>
+    <tbody id="search-results">
+        {% for a in Abonnements %}
+        <tr style="text-align: center; vertical-align: middle;">
+            <td>
+                {{a.getId()}}
+            </td>
+            <td>
+                {{a.getNomA()}}
+            </td>
+            <td>
+                {{a.getTypeA()}}
+            </td>
+            <td>
+                {{a.getDescriptionA()|raw}}
+            </td>
+            <td>
+                {{a.getPrixA()}} TND
+            </td>
+            <td>
+                {{a.getDebutA()|date("d/m/Y")}}
+            </td>
+            <td>
+                {{a.getFinA()|date("d/m/Y")}}
+            </td>
+            <td>
+                <ul>
+                    {% for s in a.getSalleA() %}
+                        <li>
+                        {{s.getNomS()}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <div style="text-align: center;">
+                    <a href="{{path('Update_Abonnement',{'id':a.id})}}" class="btn btn-warning mt-2" type="submit" >Modifier</a> 
+                    <a href="{{path('Delete_Abonnement',{'id':a.id})}}" class="btn btn-danger mt-2" type="submit" onclick="return confirm('Etes vous sure ?')">Supprimer</a>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" style="text-align: center;">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tbody id="search"></tbody>
 </table>
+<div style="position: relative; left: 860px;">
+    <a href="{{ path('abonnement_generate_pdf') }}" class="btn btn-info" >Générer PDF</a>
+</div>
 <div style="text-align: center;">
     <br>
-<<<<<<< Updated upstream
-    <a href="{{path('Create_Abonnement')}}" class="btn btn-primary" type="submit" style="text-align: center;">Ajouter un abonnement</a>
-    <br>
-    <br>
-    <a href="{{path('Create_Salle')}}" class="btn btn-primary" type="submit" style="text-align: center;">Ajouter un salle</a>
-=======
     <a href="{{path('Create_Abonnement')}}" class="btn btn-primary mt-2" type="submit" style="text-align: center;">Ajouter un abonnement</a>
     <br>
     <a href="{{path('Create_Salle')}}" class="btn btn-primary mt-2" type="submit" style="text-align: center;">Ajouter un salle</a>
->>>>>>> Stashed changes
     <br>
     <br>
 </div>
+<script>
+    $(function () {
+        $('#search-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#search-results').html(data);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

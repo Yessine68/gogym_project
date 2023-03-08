@@ -1,49 +1,135 @@
 {% extends 'baseBack.html.twig' %}
 
-{% block title %}Liste des reservations{% endblock %}
+{% block title %}Liste des reservations
+{% endblock %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<style>
+		#calendrier {
+			width: 80%;
+			margin: auto;
+			height: 500px;
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-<h1>Liste des reservations</h1>
-<table class="table">
-    <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Cours</th>
-        <th>Editer</th>
-    </tr>
-    {% for r in Reservations %}
-    <tr>
-        <td>
-            {{r.getId()}}
-        </td>
-        <td>
-            {{r.getDate()|date("d/m/Y")}}
-        </td>
-        <td>
-            {{r.getType()}}
-        </td>
-        <td>
-            <ul>
-                {% for c in r.getCours() %}
-                    <li>
-                    {{a.getNom()}}
-                    </li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td>
-            <a href="{{path('Delete_Reservation',{'id':r.id})}}" class="btn btn-primary" type="submit" >Supprimer</a>
-            <a href="{{path('Update_Reservation',{'id':r.id})}}" class="btn btn-primary" type="submit" >Modifier</a>
-        </td>
-    </tr>
-    {% else %}
-    <tr>
-        <td colspan="4">no records found</td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<a href="{{path('Create_Reservation')}}" class="btn btn-primary" type="submit" >Ajouter un Resevation</a>
-<br>
+	<div id="calendrier"></div>
+	<div id="div_chart"></div>
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		{{ gc_draw(piechart, "div_chart") }}</script>
+	<h1>Liste des reservations</h1>
+
+	{{ form_start(form) }}
+	{{ form_widget(form.date) }}
+	{{ form_end(form) }}
+
+    
+    <a class="btn btn-primary" href="{{path('sort_by_asc_date')}}">Tri Ascendant par date</a>
+    <a class="btn btn-primary" href="{{path('sort_by_desc_date')}}">Tri Descendant par date</a>
+
+	<table class="table">
+		<tr>
+			{# <th>ID</th> #}
+			<th>Date</th>
+			<th>Type</th>
+			<th>Cours</th>
+			<th>Editer</th>
+		</tr>
+		{% for r in Reservations %}
+			<tr>
+				{# <td>
+					{{r.getId()}}
+				</td> #}
+				<td>
+					{{r.getDate()|date("d/m/Y")}}
+				</td>
+				<td>
+					{{r.getType()}}
+				</td>
+				<td>
+					{{r.getCours().getNom()}}
+				</td>
+				<td>
+					<a href="{{path('Delete_Reservation',{'id':r.id})}}" class="btn btn-primary" type="submit">Supprimer</a>
+					<a href="{{path('Update_Reservation',{'id':r.id})}}" class="btn btn-primary" type="submit">Modifier</a>
+				</td>
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="4">no records found</td>
+			</tr>
+		{% endfor %}
+	</table>
+	<br>
+	<a href="{{path('Create_Reservation')}}" class="btn btn-primary" type="submit">Ajouter un Resevation</a>
+	<br>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		window.onload = () => {
+let calendarElt = document.querySelector("#calendrier")
+let calendar = new FullCalendar.Calendar(calendarElt, {
+initialView: 'dayGridMonth',
+locale: 'fr',
+timeZone: 'Europe/Paris',
+headerToolbar: {
+start: 'prev,next today',
+center: 'title',
+end: 'dayGridMonth,timeGridWeek'
+},
+events: {{ data|raw }},
+editable: false,
+eventResizableFromStart: false
+})
+calendar.on('eventChange', (e) => {
+let url = `/api/${
+e.event.id
+}/edit`
+console.log(e.event.type)
+let donnees = {
+"id": e.event.id,
+"type": e.event.title,
+"date": e.event.start,
+"cours": e.event.title,
+"title": e.event.title,
+"description": e.event.extendedProps.type,
+"start": e.event.start,
+"end": e.event.start,
+"backgroundColor": e.event.backgroundColor,
+"borderColor": e.event.borderColor,
+"textColor": e.event.textColor,
+"allDay": e.event.allDay
+}
+
+let xhr = new XMLHttpRequest
+xhr.open("PUT", url)
+xhr.send(JSON.stringify(donnees))
+})
+calendar.render()
+}
+	</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js" integrity="sha256-DBxkGZLxKsLKhz054qUpBqtotG00r9AELGpSigJujLg=" crossorigin="anonymous"></script>
+    
+    <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css')}}" rel="stylesheet">
+    <link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css')}}" rel="stylesheet">
+    <script src="{{asset('https://code.jquery.com/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('back/lib/chart/chart.min.js')}}"></script>
+    <script src="{{asset('back/lib/easing/easing.min.js')}}"></script>
+    <script src="{{asset('back/lib/waypoints/waypoints.min.js')}}"></script>
+    <script src="{{asset('back/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+    <script src="{{asset('back/lib/tempusdominus/js/moment.min.js')}}"></script>
+    <script src="{{asset('back/lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
+    <script src="{{asset('back/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <script src="{{asset('back/js/main.js')}}"></script>
+	
+    <script src="js/main.js"></script>
+
 {% endblock %}

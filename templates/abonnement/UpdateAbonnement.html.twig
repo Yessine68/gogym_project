@@ -11,109 +11,60 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Nom</label>
                     <div class="col-sm-10">
-                        {{ form_widget(form.nom_a,{ 'attr': {'class': 'form-control'} }) }}   
-                        {{ form_errors(form.nom_a) }}                       
+                        {{ form_widget(form.nom_a,{ 'attr': {'class': 'form-control'} }) }}  
+                        {{ form_errors(form.nom_a) }}                        
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Type</label>
                     <div class="col-sm-10">
-                        {{ form_widget(form.type_a,{ 'attr': {'class': 'form-control'} }) }}     
-                        {{ form_errors(form.type_a) }}                     
+                        {{ form_widget(form.type_a,{ 'attr': {'class': 'form-control', 'placeholder': 'Mensuel, Bimestriel, trimestriel, semestriel, annuel...'} }) }} 
+                        {{ form_errors(form.type_a) }}                         
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Description</label>
                     <div class="col-sm-10">
-                        {{ form_widget(form.description_a,{ 'attr': {'class': 'form-control'} }) }}  
-                        {{ form_errors(form.description_a) }}                        
+                        {{ form_widget(form.description_a,{ 'attr': {'class': 'form-control'} }) }} 
+                        {{ form_errors(form.description_a) }}                         
                     </div>
                 </div>
-
-
                 <div class="row mb-3">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    <label class="col-sm-2 col-form-label">Prix</label>
-=======
                     <label class="col-sm-2 col-form-label">Prix (TND)</label>
->>>>>>> Stashed changes
-=======
-                    <label class="col-sm-2 col-form-label">Prix (TND)</label>
->>>>>>> Stashed changes
                     <div class="col-sm-10">
-                        {{ form_widget(form.prix_a,{ 'attr': {'class': 'form-control'} }) }}   
-                        {{ form_errors(form.prix_a) }}                       
+                        {{ form_widget(form.prix_a,{ 'attr': {'class': 'form-control'} }) }}  
+                        {{ form_errors(form.prix_a) }}                         
                     </div>
                 </div>
                 <div class="row mb-3">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    <label class="col-sm-2 col-form-label">Debut</label>
-=======
                     <label class="col-sm-2 col-form-label">Date début</label>
->>>>>>> Stashed changes
-=======
-                    <label class="col-sm-2 col-form-label">Date début</label>
->>>>>>> Stashed changes
                     <div class="col-sm-10">
-                        {{ form_widget(form.debut_a,{ 'attr': {'class': 'form-control'} }) }} 
-                        {{ form_errors(form.debut_a) }}                         
+                        {{ form_widget(form.debut_a,{ 'attr': {'class': 'form-control'} }) }}
+                        {{ form_errors(form.debut_a) }}                          
                     </div>
                 </div>
                 <div class="row mb-3">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    <label class="col-sm-2 col-form-label">Fin</label>
-=======
                     <label class="col-sm-2 col-form-label">Date fin</label>
->>>>>>> Stashed changes
-=======
-                    <label class="col-sm-2 col-form-label">Date fin</label>
->>>>>>> Stashed changes
                     <div class="col-sm-10">
-                        {{ form_widget(form.fin_a,{ 'attr': {'class': 'form-control'} }) }}  
-                        {{ form_errors(form.fin_a) }}                        
+                        {{ form_widget(form.fin_a,{ 'attr': {'class': 'form-control'} }) }}   
+                        {{ form_errors(form.fin_a) }}                       
                     </div>
                 </div>
                 <div class="row mb-3">
                     <legend class="col-form-label col-sm-2 pt-0">Salles</legend>
                     <div class="col-sm-10">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                        <div class="form-check-label">
-                            {{ form_widget(form.salle_a,{ 'attr': {'class': 'form-check-label'} }) }}
-=======
-                        <div class="checkboxes">
-                            {{ form_widget(form.salle_a,{ 'attr': {'class': 'checkboxes'} }) }}
->>>>>>> Stashed changes
-=======
-                        <div class="checkboxes">
-                            {{ form_widget(form.salle_a,{ 'attr': {'class': 'checkboxes'} }) }}
->>>>>>> Stashed changes
-                            {{ form_errors(form.salle_a) }} 
-                        </div>
+                        {{ form_widget(form.salle_a,{ 'attr': {'class': 'checkboxes'} }) }}
+                        {{ form_errors(form.salle_a) }} 
                     </div>
                 </div>
                 <br>    
-                <a href="{{path('Read_Back_Abonnement')}}" class="btn" type="submit" >Liste des abonnement</a>
+                <a href="{{path('Read_Back_Abonnement')}}" class="mt-2" >Liste des abonnement</a>
                 <br>
                 <br>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
-            {{form_end(form)}}
-=======
-=======
->>>>>>> Stashed changes
                 <div style="text-align: right;">
                     {{ form_widget(form.Envoyer,{ 'attr': {'class': 'btn btn-primary'} }) }}
                 </div>
-                {{form_end(form)}}
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+            {{form_end(form)}}
         </div>
     </div>
     <!-- Form End -->
