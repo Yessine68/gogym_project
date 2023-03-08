@@ -14,6 +14,10 @@ use App\Entity\Reservation;
 use App\Entity\Cours;
 
 use App\Form\ReservationType;
+<<<<<<< Updated upstream
+=======
+use App\Form\FilterType;
+>>>>>>> Stashed changes
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,6 +27,11 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
+<<<<<<< Updated upstream
+=======
+use Symfony\Component\Validator\Constraints\DateTime;
+
+>>>>>>> Stashed changes
 class ReservationController extends AbstractController
 {
     #[Route('/Reservation/Read/Front', name: 'FRead_Reservation')]
@@ -33,10 +42,219 @@ class ReservationController extends AbstractController
         return $this->render('reservation/FReadReservation.html.twig', [
             'Reservations' => $Reservations,
         ]);
+<<<<<<< Updated upstream
+=======
+    }
+    
+    #[Route('/sortByAscDate', name: 'sort_by_asc_date')]
+    public function sortAscDate(ReservationRepository $repository, Request $request)
+    {
+        $Reservations = $repository->findAll();
+        $Reservations = $repository->sortByAscDate();       
+        
+        $data = $this->getDoctrine()
+            ->getRepository(Reservation::class)
+            ->findBy([], ['id' => 'desc']);
+
+        $pieChart = new PieChart();
+
+        $reservationsData = $this->getDoctrine()
+            ->getRepository(Reservation::class)
+            ->findAll();
+        $coursData = $this->getDoctrine()
+            ->getRepository(Cours::class)
+            ->findAll();
+
+        // dd($coursData);
+
+        $charts = [['Reservations', 'Nombre par Cours']];
+        // dd($charts);
+        foreach ($coursData as $c) {
+            $coursN = 0;
+            foreach ($reservationsData as $r) {
+                if ($c == $r->getCours()) {
+                    $coursN++;
+                }
+            }
+
+            array_push($charts, [$c->getNom(), $coursN]);
+        }
+
+        // dd($charts);
+
+        $pieChart->getData()->setArrayToDataTable($charts);
+
+        // dd($pieChart);
+
+        $pieChart->getOptions()->setTitle('Taux de réservations par Cours');
+        $pieChart->getOptions()->setHeight(400);
+        $pieChart->getOptions()->setWidth(400);
+        $pieChart
+            ->getOptions()
+            ->getTitleTextStyle()
+            ->setColor('#07600');
+        $pieChart
+            ->getOptions()
+            ->getTitleTextStyle()
+            ->setFontSize(25);
+
+        $rsrvs = [];
+
+        foreach ($Reservations as $reservation) {
+            $rsrvs[] = [
+                'id' => $reservation->getId(),
+                'date' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'type' => $reservation->getType(),
+                'cours' => $reservation->getCours()->getNom(),
+                'start' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'end' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'title' => $reservation->getCours()->getNom(),
+                'description' => $reservation->getType(),
+                'backgroundColor' => $reservation->getType(),
+                'borderColor' => $reservation->getType(),
+                'textColor' => $reservation->getType(),
+                'allDay' => $reservation->getType(),
+            ];
+        }
+
+        $data = json_encode($rsrvs);
+
+        // dd($data);
+        
+        $form = $this->createForm(FilterType::class);
+        $form->handleRequest($request);
+
+        $reservations = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = $form->getData()['date'];
+
+            $reservations = $this->getDoctrine()
+                ->getRepository(Reservation::class)
+                ->findBy(['date' => $date]);
+        } else {
+            $reservations = $this->getDoctrine()
+                ->getRepository(Reservation::class)
+                ->findAll();
+        }
+
+       
+    
+        return $this->render("reservation/BReadReservation.html.twig",[
+            'Reservations' => $Reservations,
+            'piechart' => $pieChart,
+            'data' => $data,
+            'form' => $form->createView(),
+            'reservations' => $reservations,
+        ]);
+    }
+    
+    #[Route('/sortByDescDate', name: 'sort_by_desc_date')]
+    public function sortDescDate(ReservationRepository $repository, Request $request)
+    {
+        $Reservations = $repository->findAll();
+        $Reservations = $repository->sortByDescDate();    
+        
+        $data = $this->getDoctrine()
+            ->getRepository(Reservation::class)
+            ->findBy([], ['id' => 'desc']);
+
+        $pieChart = new PieChart();
+
+        $reservationsData = $this->getDoctrine()
+            ->getRepository(Reservation::class)
+            ->findAll();
+        $coursData = $this->getDoctrine()
+            ->getRepository(Cours::class)
+            ->findAll();
+
+        // dd($coursData);
+
+        $charts = [['Reservations', 'Nombre par Cours']];
+        // dd($charts);
+        foreach ($coursData as $c) {
+            $coursN = 0;
+            foreach ($reservationsData as $r) {
+                if ($c == $r->getCours()) {
+                    $coursN++;
+                }
+            }
+
+            array_push($charts, [$c->getNom(), $coursN]);
+        }
+
+        // dd($charts);
+
+        $pieChart->getData()->setArrayToDataTable($charts);
+
+        // dd($pieChart);
+
+        $pieChart->getOptions()->setTitle('Taux de réservations par Cours');
+        $pieChart->getOptions()->setHeight(400);
+        $pieChart->getOptions()->setWidth(400);
+        $pieChart
+            ->getOptions()
+            ->getTitleTextStyle()
+            ->setColor('#07600');
+        $pieChart
+            ->getOptions()
+            ->getTitleTextStyle()
+            ->setFontSize(25);
+
+        $rsrvs = [];
+
+        foreach ($Reservations as $reservation) {
+            $rsrvs[] = [
+                'id' => $reservation->getId(),
+                'date' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'type' => $reservation->getType(),
+                'cours' => $reservation->getCours()->getNom(),
+                'start' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'end' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'title' => $reservation->getCours()->getNom(),
+                'description' => $reservation->getType(),
+                'backgroundColor' => $reservation->getType(),
+                'borderColor' => $reservation->getType(),
+                'textColor' => $reservation->getType(),
+                'allDay' => $reservation->getType(),
+            ];
+        }
+
+        $data = json_encode($rsrvs);
+
+        // dd($data);
+        
+        $form = $this->createForm(FilterType::class);
+        $form->handleRequest($request);
+
+        $reservations = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = $form->getData()['date'];
+
+            $reservations = $this->getDoctrine()
+                ->getRepository(Reservation::class)
+                ->findBy(['date' => $date]);
+        } else {
+            $reservations = $this->getDoctrine()
+                ->getRepository(Reservation::class)
+                ->findAll();
+        }
+
+       
+    
+        return $this->render("reservation/BReadReservation.html.twig",[
+            'Reservations' => $Reservations,
+            'piechart' => $pieChart,
+            'data' => $data,
+            'form' => $form->createView(),
+            'reservations' => $reservations,
+        ]);
+>>>>>>> Stashed changes
     }
 
     #[Route('/Reservation/Read/Back', name: 'BRead_Reservation')]
-    public function bReadReservation(ReservationRepository $repo): Response
+    public function bReadReservation(ReservationRepository $repo, Request $request): Response
     {
         $Reservations = $repo->findAll();
 
@@ -86,9 +304,57 @@ class ReservationController extends AbstractController
             ->getTitleTextStyle()
             ->setFontSize(25);
 
+<<<<<<< Updated upstream
         return $this->render('reservation/BReadReservation.html.twig', [
             'Reservations' => $Reservations,
             'piechart' => $pieChart,
+=======
+        $rsrvs = [];
+
+        foreach ($Reservations as $reservation) {
+            $rsrvs[] = [
+                'id' => $reservation->getId(),
+                'date' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'type' => $reservation->getType(),
+                'cours' => $reservation->getCours()->getNom(),
+                'start' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'end' => $reservation->getDate()->format('Y-m-d H:i:s'),
+                'title' => $reservation->getCours()->getNom(),
+                'description' => $reservation->getType(),
+                'backgroundColor' => $reservation->getType(),
+                'borderColor' => $reservation->getType(),
+                'textColor' => $reservation->getType(),
+                'allDay' => $reservation->getType(),
+            ];
+        }
+
+        $data = json_encode($rsrvs);
+
+        // dd($data);
+        
+        $form = $this->createForm(FilterType::class);
+        $form->handleRequest($request);
+
+        $Reservations = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = $form->getData()['date'];
+
+            $Reservations = $this->getDoctrine()
+                ->getRepository(Reservation::class)
+                ->findBy(['date' => $date]);
+        } else {
+            $Reservations = $this->getDoctrine()
+                ->getRepository(Reservation::class)
+                ->findAll();
+        }
+
+        return $this->render('reservation/BReadReservation.html.twig', [
+            'Reservations' => $Reservations,
+            'piechart' => $pieChart,
+            'data' => $data,
+            'form' => $form->createView(),
+>>>>>>> Stashed changes
         ]);
     }
 
@@ -108,8 +374,13 @@ class ReservationController extends AbstractController
             $em->flush();
 
             $email = (new TemplatedEmail())
+<<<<<<< Updated upstream
                 ->from('fourat.abdellatif@esprit.tn')
                 ->to('fourat.abdellatifo99@gmail.com')
+=======
+                ->from('ines.mahjoubi@esprit.tn')
+                ->to('ines.mahjoubi@esprit.tn')
+>>>>>>> Stashed changes
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
@@ -162,5 +433,78 @@ class ReservationController extends AbstractController
             'form' => $form,
         ]);
     }
+<<<<<<< Updated upstream
+=======
+
+    /**
+     * @Route("/api/{id}/edit", name="api_reservation_edit", methods={"PUT"})
+     */
+    public function MajReservation(Reservation $reservation, Request $request)
+    {
+        // On récupère les données
+        $donnees = json_decode($request->getContent());
+
+        if (
+            isset($donnees->type) &&
+            !empty($donnees->type) &&
+            isset($donnees->date) &&
+            !empty($donnees->date) &&
+            isset($donnees->cours) &&
+            !empty($donnees->cours) &&
+            isset($donnees->title) &&
+            !empty($donnees->title) &&
+            isset($donnees->start) &&
+            !empty($donnees->start) &&
+            isset($donnees->description) &&
+            !empty($donnees->description) &&
+            isset($donnees->backgroundColor) &&
+            !empty($donnees->backgroundColor) &&
+            isset($donnees->borderColor) &&
+            !empty($donnees->borderColor) &&
+            isset($donnees->textColor) &&
+            !empty($donnees->textColor)
+        ) {
+            // Les données sont complètes
+            // On initialise un code
+            $code = 200;
+
+            // On vérifie si l'id existe
+            if (!$reservation) {
+                // On instancie un rendez-vous
+                $reservation = new Reservation();
+
+                // On change le code
+                $code = 201;
+            }
+
+            // On hydrate l'objet avec les données
+            $reservation->setType($donnees->type);
+            $reservation->setDate($donnees->date);
+            $reservation->setCours($donnees->cours);
+            $reservation->setTitle($donnees->title);
+            $reservation->setDescription($donnees->description);
+            $reservation->setStart($donnees->start);
+            $reservation->setEnd($donnees->start);
+            $reservation->setAllDay($donnees->allDay);
+            $reservation->setBackgroundColor($donnees->backgroundColor);
+            $reservation->setBorderColor($donnees->borderColor);
+            $reservation->setTextColor($donnees->textColor);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+
+            // On retourne le code
+            return new Response('Ok', $code);
+        } else {
+            // Les données sont incomplètes
+            return new Response('Données incomplètes', 404);
+        }
+
+        return $this->render('api/index.html.twig', [
+            'controller_name' => 'ApiController',
+        ]);
+    }
+>>>>>>> Stashed changes
 }
 ?>

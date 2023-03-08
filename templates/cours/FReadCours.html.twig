@@ -3,6 +3,53 @@
 {% block title %}Liste des cours
 {% endblock %}
 {% block body %}
+    <style>
+/* Float four columns side by side */
+.cours-column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.cours-row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.cours-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.cours-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  transition: 0.3s;
+}
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .cours-column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* On mouse-over, add a deeper shadow */
+.cours-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.cours-container {
+  padding: 2px 16px;
+}
+    
+    </style>
 
 	<!-- Page top section -->
 	<section class="page-top-section set-bg" data-setbg="/Front/img/header-bg/2.jpg">
@@ -14,6 +61,7 @@
 
 	<!-- Service section -->
 	<section class="service-section">
+<<<<<<< Updated upstream
 		{% for c in Cours %}
 			<div class="container">
 				<div class="row">
@@ -23,11 +71,26 @@
 							<h4>{{c.getNom()}}</h4>
 							<p>{{c.getDuree()}}</p>
 							<p>{{c.getIntensite()}}</p>
+=======
+				<div class="cours-row">
+		{% for c in Cours %}
+				<div class="cours-column">
+			<div class="cours-card">
+						<div class="cours-container icon-box-item">
+							<img src="{{ asset('uploads/' ~ c.image) }}" alt="" width="300" height="300" style="margin-bottom: 20px;" />
+							<h4>{{c.getNom()}}</h4>
+							<p>{{c.getDuree()}} H</p>
+							<p>Level: {{c.getIntensite()}}</p>
+						<a href="{{path('reserver_cours',{'id':c.id})}}" class="btn btn-primary" type="submit">Reserver</a>
+>>>>>>> Stashed changes
 						</div>
 					</div>
-				</div>
 			</div>
 		{% endfor %}
+<<<<<<< Updated upstream
+=======
+				</div>
+>>>>>>> Stashed changes
 	</section>
 	<!-- Service section end -->
 	<!-- Activités section -->
