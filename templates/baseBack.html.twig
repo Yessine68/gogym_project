@@ -140,10 +140,10 @@
                             <a href="#" class="dropdown-item text-center">See all message</a>
                         </div>
                     </div>
-                    <div class="nav-item dropdown">
+                    {# <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
@@ -163,7 +163,59 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item text-center">See all notifications</a>
                         </div>
+                    </div> #}
+
+
+                    {# TE3BA ENNESS #}
+                    {# <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                             <span class="d-none d-lg-inline-flex">Notifications{% if numUnread > 0 %} <span class="badge badge-danger">{{ numUnread }}</span>{% endif %}</span>
+                        </a>
+                             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                         {% for notification in notifications %}
+                              <a href="{{ path('notification_view', { 'id': notification.id }) }}" class="dropdown-item"> hedha COMMENTTTTTTTTTT
+                              <a href="{{ path('notification_read', { 'id': notification.id }) }}" class="dropdown-item">Mark as read</a>
+
+                            <h6 class="fw-normal mb-0">{{ notification.getMessage }}</h6>
+                         <small>{{ notification.getCreatedAt|date('Y-m-d H:i:s') }}</small>
+                         </a>
+                         <hr class="dropdown-divider">
+                           {% endfor %}
+                                 <a href="{{ path('notification_list') }}" class="dropdown-item text-center">See all notifications</a>
+                             </div>
                     </div>
+                    #}
+                   <div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-bell me-lg-2"></i>
+        <span class="d-none d-lg-inline-flex">Notifications</span>
+                {% set currentUser = app.user %}
+                {% set unreadNotificationsCount = currentUser.unreadNotificationsCount %}
+
+        {% if unreadNotificationsCount > 0 %}
+            <span class="badge bg-danger rounded-pill ms-1">{{ unreadNotificationsCount }}</span>
+        {% endif %}
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+        {# {% if app.user.notifications|length == 0 %}
+            <a href="#" class="dropdown-item text-center">No notifications</a>
+        {% else %} #}
+            {% for n in notification %}
+                <a href="{{ path('notification_read', { 'id': n.id }) }}" class="dropdown-item{% if not n.read %} fw-bold{% endif %}">
+                    <h6 class="fw-normal mb-0">{{ n.title }}</h6>
+                    <p class="mb-0">{{ n.message }}</p>
+                    <small class="text-muted">{{ n.createdAt|date('Y-m-d H:i:s') }}</small>
+                </a>
+                <hr class="dropdown-divider">
+            {% endfor %}
+            <a href="#" class="dropdown-item text-center">See all notifications</a>
+        {# {% endif %} #}
+    </div>
+</div>
+                   
+                   
+                   
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="/Back/img/user.jpg" alt="" style="width: 40px; height: 40px;">
@@ -197,11 +249,11 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
+                            &copy; <a href="#">Go Gym</a>, All Right Reserved. 
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                           
                         </div>
                     </div>
                 </div>

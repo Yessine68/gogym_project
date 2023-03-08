@@ -14,31 +14,62 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
+    
+    private $entityManager;
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager)
     {
-    }
+        $this->entityManager = $entityManager;
 
+    }
     public function authenticate(Request $request): Passport
     {
-        $username = $request->request->get('username', '');
+    $username = $request->request->get('username', '');
 
-        $request->getSession()->set(Security::LAST_USERNAME, $username);
+    $request->getSession()->set(Security::LAST_USERNAME, $username);
 
-        return new Passport(
-            new UserBadge($username),
-            new PasswordCredentials($request->request->get('password', '')),
-            [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
-            ]
-        );
+    $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+
+    if (!$user) {
+        throw new CustomUserMessageAuthenticationException('Username could not be found.');
     }
+
+    if ($user->getStatus() === 'disabled') {
+        throw new CustomUserMessageAuthenticationException('Your account has been disabled. Please contact an administrator.');
+    }
+
+    return new Passport(
+        new UserBadge($username),
+        new PasswordCredentials($request->request->get('password', '')),
+        [
+            new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+        ]
+    );
+    }
+
+    // public function authenticate(Request $request): Passport
+    // {
+    //     $username = $request->request->get('username', '');
+
+    //     $request->getSession()->set(Security::LAST_USERNAME, $username);
+
+    //     return new Passport(
+    //         new UserBadge($username),
+    //         new PasswordCredentials($request->request->get('password', '')),
+    //         [
+    //             new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+    //         ]
+    //     );
+    // }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {

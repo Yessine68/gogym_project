@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
@@ -20,33 +21,87 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("User")]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups("User")]
     private ?string $username = null;
 
     #[ORM\Column]
+    #[Groups("User")]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups("User")]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("User")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("User")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("User")]
     private ?string $email = null;
 
     // #[ORM\Column(length: 255)]
     // private ?string $type = null;
 
+    //RESET TOKEN
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $resetToken;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: "user", cascade: ["persist", "remove"], targetEntity: Notification::class)]
+    #[ORM\JoinColumn(name: "notification_id", referencedColumnName: "id")]
+    private $notifications;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class)]
+    private Collection $Notifications;
+    public function __construct()
+    {
+        $this->notifications = new ArrayCollection();
+        $this->Notifications = new ArrayCollection();
+    }
+
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+    
+    public function getUnreadNotificationsCount(): int
+    {
+    $count = 0;
+    foreach ($this->notifications as $notification) {
+        if (!$notification->isRead()) {
+            $count++;
+        }
+    }
+    return $count;
+    }
+    
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+    //RESET
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -178,4 +233,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     //     return $this;
     // }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->Notifications->contains($notification)) {
+            $this->Notifications->add($notification);
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->Notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    
 }
