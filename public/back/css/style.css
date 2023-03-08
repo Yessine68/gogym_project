@@ -274,3 +274,10 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.btnproduit{
+    border: solid 1px;
+    border-color: #009CFF;
+    border-radius: 9px;
+    padding: 5px;
+}

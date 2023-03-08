@@ -84,11 +84,12 @@ class ProduitController extends AbstractController
         $pagination = new Pagerfanta($adapter);
         $pagination->setMaxPerPage(8);
         $pagination->setCurrentPage($request->query->get('page', 1));
-
+        $meilleurproduits = $produitRepository->getProdsbyRating();
 
         return $this->render('produit/showfront.html.twig', [
             'produits' => $pagination,
             'categories' => $categorieRepository->findAll(),
+            'meilleurprods' => $meilleurproduits,
             
         ]);
         
@@ -169,13 +170,55 @@ class ProduitController extends AbstractController
 
         ]);
     }
+    #[Route('/triprix', name: 'app_produit_tri_prix')]
+     public function triprix(Request $request,CategorieRepository $categorieRepository, ProduitRepository $produitRepository): Response
+     {
+         $produit = new Produit();
+ 
+         $produits = [];
+         $val = $request->query->get('val');
+            
+        $produits = $produitRepository->triProdByPrice($val);
+        return $this->render('produit/showfrontajax.html.twig', [
+            'produits' => $produits,
+            'categories' => $categorieRepository->findAll(),
+        ]);
+    }
+    #[Route('/addrate', name: 'app_produit_add_rate')]
+     public function addrate(Request $request,CategorieRepository $categorieRepository, ProduitRepository $produitRepository)
+     {
+         $produit = new Produit();
+ 
+         $produits = [];
+         //$val = $request->query->get('val');
+         $id_user = $request->query->get('id_user'); 
+         $id_prod = $request->query->get('id_prod');
+         $rate = $request->query->get('rate');
+
+        $produits = $produitRepository->addrateprod($id_user,$id_prod,$rate);
+        return $this->render('produit/showfront2.html.twig', [
+            'produits' => $produits,
+            'categories' => $categorieRepository->findAll(),
+        ]);
+    }
     #[Route('/item/{id}', name: 'app_produit_afficher_item', methods: ['GET'])]
-    public function afficheritem(Produit $produit): Response
+    public function afficheritem($id,Produit $produit,ProduitRepository $produitRepository): Response
     {
+        
+        $user_signed_in = "true"; //false si non connecte -- true si connecte
+        $rate = 0; // 0 si pas de rate - de 1 a 5 si c deja 
+        $user_id = 5; //0 si non connecte - id si connecte
+        $rates = $produitRepository->checkRateProd($user_id,$id); // check rate 
+        
+        if (!empty($rates)){
+            $rate =  $rates[0]["rate"];
+        }
+
         return $this->render('produit/showitem.html.twig', [
             'produit' => $produit,
-            //'categories' => $categorieRepository->findAll(),
-            
+            'user_signed_in' => $user_signed_in,
+            'user_id' => $user_id,
+            'rate' => $rate,
         ]);
         
     }
@@ -208,12 +251,12 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_produit_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
+        //if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $produitRepository->remove($produit, true);
-        }
+        //}
 
         return $this->redirectToRoute('app_produit_afficher', [], Response::HTTP_SEE_OTHER);
   

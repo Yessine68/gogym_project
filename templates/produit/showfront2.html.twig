@@ -1,3 +1,4 @@
+
 {% extends 'baseFront.html.twig' %}
 
 {% block title %}Produit{% endblock %}
@@ -94,7 +95,7 @@
 			<li><a href="Activités.html">Activités</a></li>
 			<li><a href="offres.html">Offres</a></li>
 			<li><a href="Evénements.html">Evénements</a></li>
-			<li><a class="active" href="boutique.html">Boutique</a></li>
+			<li><a class="active" href="{{ path('app_produit_afficher_front') }}">Boutique</a></li>
 			<li><a href="contact.html">Contact</a></li>
 			<li class="header-right">
 				<div class="menu-right pull-right">

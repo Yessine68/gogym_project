@@ -29,9 +29,9 @@
                 <td>{{ produit.getNbrProds() }}</td>
                 <td>{{ produit.getCategorie() }}</td>
                 <td>
-                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
-                    <a href="{{ path('app_produit_delete', {'id': produit.id}) }}">Delete</a>
+                    <a class="btnproduit" href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
+                    <a class="btnproduit" href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                    <a class="btnproduit" href="{{ path('app_produit_delete', {'id': produit.id}) }}">Delete</a>
                 </td>
             </tr>
         {% else %}
@@ -42,8 +42,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
-    <a href="{{ path('app_produit_stats') }}">Stats</a>
+    <a class="btnproduit" href="{{ path('app_produit_new') }}">Create new</a>
+    <a class="btnproduit" href="{{ path('app_produit_stats') }}">Stats</a>
 
 
 {% endblock %}
