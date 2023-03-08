@@ -113,8 +113,39 @@ class EvenementController extends AbstractController
     #[Route('/afficher', name: 'app_evenement_afficher', methods: ['GET'])]
     public function afficher(EvenementRepository $evenementRepository,CategorieEvenementRepository $categorieEvenementRepository): Response
     {
+     
         return $this->render('evenement/afficher.html.twig', [
             'evenements' => $evenementRepository->findAll(),
+
+            //'CategorieEvenements' => $categorieEvenementRepository->findAll(),
+            
+        ]);
+        
+    }
+    #[Route('/afficherc', name: 'app_evenement_afficherc', methods: ['GET'])]
+    public function affichercalendar(EvenementRepository $evenementRepository,CategorieEvenementRepository $categorieEvenementRepository): Response
+    {
+        $lista = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+
+        $resa = [] ;
+
+        foreach ($lista as $xa)
+        {
+            $resa[] = [
+                //'id'=> $x->getId(),
+                'title'=>$xa->getNomE(),
+                //'Client'=>$x->getClient()->getName() ,
+                'start'=>$xa->getDateE(),
+                'end'=>$xa->getDateE(),
+            ] ;
+
+        }
+
+        $dataa = json_encode($resa);
+        return $this->render('dashboard/index.html.twig', [
+            'evenements' => $evenementRepository->findAll(),
+            'dataa'=>$dataa ,
+
             //'CategorieEvenements' => $categorieEvenementRepository->findAll(),
             
         ]);
@@ -237,13 +268,14 @@ class EvenementController extends AbstractController
 //id_part
 //id_event
 //verif_code
+        // get id user from session 
         $iduser= 1;
         $em= $this->getDoctrine()->getManager();
 
         $user = $em->getRepository(User::class)->find($iduser);
 
-        $email= "ibrahim.souissi@esprit.tn";
-        $name= "ibrahim" ;
+        $email= "ibrahim.souissi@esprit.tn"; // change it to email from session  get email 
+        $name= "ibrahim" ; // ->getnom
         $Event = $em->getRepository(Evenement::class)->find($id);
         $eventId=$Event->getId();
         $nameEvent=$Event->getNomE();
@@ -257,7 +289,8 @@ class EvenementController extends AbstractController
             $Event->setEtat("Complet");
         }
 
-        if (  !$userr)
+
+        if (  !$userr && $Event->getNbrParticipants()!=0)
         {
             $Participation= new Participate();
             $em= $this->getDoctrine()->getManager();

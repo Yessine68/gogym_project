@@ -255,11 +255,11 @@
 	<h1>Evenement</h1>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-8" style="height:40%">
 				<div class="blog-card blog-card-blog">
 					<div class="blog-card-image">
 						<a href="#">
-							<img src="{{ asset("uploads/evenement/") }}{{ event.getImage() }}">
+							<img style="height:400px" src="{{ asset("uploads/evenement/") }}{{ event.getImage() }}">
 						</a>
 						<div class="ripple-cont"></div>
 					</div>
@@ -287,20 +287,31 @@
 								{{event.getNbrParticipants()}}</a>
 						</h4>
 						<br>
-						   {% for message in app.flashes('error') %}
-                                    <div class="alert alert-danger">
-                                        {{ message }}
-                                    </div>
-                                {% endfor %}
-						<a href="{{ path('ParticiperEvent', {'id': event.id}) }}" class="custom-btn btn-1" style="margin-left:35%">Participer</a>
+						{% for message in app.flashes('error') %}
+							<div class="alert alert-danger">
+								{{ message }}
+							</div>
+						{% endfor %}
+						<div style="padding-left:45%">
+							{% if event.getEtat() !="Complet"%}
+								<a href="{{ path('ParticiperEvent', {'id': event.id}) }}" class="custom-btn btn-1">Participer</a>
+
+							{% endif %}
+
+						</div>
 
 					</div>
 				</div>
 			</div>
-
+			<div class="col-md-4">
+				<iframe width="65%" height="95%" src="https://maps.google.com/maps?q=<?php echo {{event.getLieuE()}}; ?>&output=embed"></iframe>
+			</div>
 
 		</div>
+		<p>
+			{{event.getLieuE()}}</p>
 	</div>
+
 </div></div><!-- Blog section end --><!-- Call To Section Begin --><section class="callto-section">
 <div class="container">
 	<div class="row">
@@ -388,7 +399,7 @@
 	transition: all 0.3s ease;
 	position: relative;
 	display: inline-block;
-	box-shadow: inset 2px 2px 2px 0 rgba(255, 255, 255, .5), 7px 7px 20px 0 rgba(0, 0, 0, .1), 4px 4px 5px 0 rgba(0, 0, 0, .1);
+	box-shadow: inset 2px 2px 2px 0 rgba(255, 255, 255, 0.5), 7px 7px 20px 0 rgba(0, 0, 0, 0.1), 4px 4px 5px 0 rgba(0, 0, 0, 0.1);
 	outline: none;
 }
 
