@@ -156,6 +156,7 @@
 .sidebar .navbar .dropdown-toggle::after {
     position: absolute;
     top: 15px;
+    right: 15px;
     border: none;
     content: "\f107";
     font-family: "Font Awesome 5 Free";
@@ -273,11 +274,4 @@
 .testimonial-carousel .owl-dot.active {
     background: var(--dark);
     border-color: var(--primary);
-}
-
-.btnproduit{
-    border: solid 1px;
-    border-color: #009CFF;
-    border-radius: 9px;
-    padding: 5px;
 }
