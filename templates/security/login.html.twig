@@ -1,0 +1,102 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <section class="login-page section-b-space">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3>Login</h3>
+                    <div class="theme-card">
+                        <form class="theme-form">
+                            <div class="form-group">
+                                <label for="inputUsername">Username</label>
+                                <input type="text" value="{{ last_username }}" name="username" id="Username" class="form-control" autocomplete="username" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword">Password</label>
+                                <input type="password" name="password" id="Password" class="form-control" autocomplete="current-password" required>
+
+                                <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+                            </div><button class="btn btn-solid" type="submit">
+        Sign in
+    </button>
+                            {# <a href="#" class="btn btn-solid">test</a> #}
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 right-login">
+                    <h3>New Customer</h3>
+                    <div class="theme-card authentication-right">
+                        <h6 class="title-font">Create A Account</h6>
+                        <p>Sign up for a free account at our store. Registration is quick and easy. It allows you to be
+                            able to order from our shop. To start shopping click register.</p><a href="/User/Create"
+                            class="btn btn-solid">Create an Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+
+
+
+{% endblock %}
+
+
+{# security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        from_database:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            logout:
+                path: /logout
+                target: app_login
+
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+            # http_basic: true
+
+            form_login:
+                check_path: login
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/User, roles: ROLE_USER }
+        #  - { path: ^/produit, roles: ROLE_ADMIN }
+        #  - { path: ^/categorie, roles: ROLE_ADMIN }
+        #  - { path: ^/type, roles: ROLE_ADMIN }
+        #  - { path: ^/event, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+    
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 4 #}

@@ -1,2 +1,90 @@
-{{form_start(form)}}
-{{form_end(form)}}
+{% extends 'baseFront.html.twig' %}
+
+{% block body %}
+
+<section class="register-page section-b-space">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>create account</h3>
+                    <div class="theme-card">
+                        <div class="theme-form">
+                        {{ form_start(form) }}
+                            <div class="form-row row">
+                                <div class="col-md-6">
+                                    <label for="email">First Name</label>
+                                    {{ form_row(form.nom) }}
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="review">Last Name</label>
+
+                                    {{ form_row(form.prenom) }}
+                                </div>
+                            </div>
+                            <div class="form-row row">
+                                <div class="col-md-6">
+                                    <label for="email">email</label>
+                                    {{ form_row(form.email) }}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="username">username</label>
+                                    {{ form_row(form.username) }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="review">Password</label>
+                                    {{ form_row(form.password) }}
+                                </div>
+                                 {# <div class="col-md-6">
+                                    <label for="review">Type</label>
+                                    {{ form_row(form.type) }}
+                                </div> #}
+                            </div>
+                            <button class="btn btn-solid w-auto" type="submit" onclick="return validateForm()"> create Account </button>
+                            
+                        {{ form_end(form, {'render_rest': false}) }}    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script type="text/javascript">
+ function validateForm() {
+ /* let x = document.forms["user"]["user[email]"].value;
+  if (x == "a") {
+    alert("Email non valide");
+    return false; */
+    var email = document.forms["user"]["user[email]"].value;
+            var email2 = document.forms["user"]["user[email]"];
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+   // nom
+   var nom = document.forms["user"]["user[nom]"].value;
+            var nom2 = document.forms["user"]["user[nom]"];
+    var reNom =/^[a-zA-Z ]+$/;
+// prenom
+     var prenom = document.forms["user"]["user[prenom]"].value;
+             var prenom2 = document.forms["user"]["user[prenom]"];
+     var rePrenom =/^[a-zA-Z ]+$/;
+            
+             if (!reNom.test(nom)) {
+                //alert("done");
+                nom2.style.border = "red solid 3px";
+                return false;
+                
+            }
+             else if (!rePrenom.test(prenom)) {
+                 //alert("done");
+                 prenom2.style.border = "red solid 3px";
+               return false;
+                
+             }
+            else if (!re.test(email)) {
+                email2.style.border = "red solid 3px";
+                return false;
+                //alert("done");
+            }
+  }
+</script>
+{% endblock %}   
