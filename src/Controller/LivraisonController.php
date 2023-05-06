@@ -5,21 +5,77 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Repository\LivraisonRepository;
-
 use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Livreur;
 use App\Entity\Livraison;
-
 use App\Form\LivraisonType; 
-
 use Symfony\Component\HttpFoundation\Request;
 
 class LivraisonController extends AbstractController
 {
 
-    #[Route('/Livraison/Read', name: 'Read_Livraison')]
+    /**
+     * @Route("/livraison", name="livraison")
+     */
+    public function index(): Response
+    {
+        $livraison= $this->getDoctrine()
+            ->getRepository(Livraison::class)->findAll();
+        return $this->render('livraison/index.html.twig',
+            array("tablivraison"=>$livraison));
+    }
+
+    /**
+     * @Route("/Ajout_livraison", name="livraison_new", methods={"GET", "POST"})
+     */
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $livraison = new Livraison();
+        $form = $this->createForm(LivraisonType::class, $livraison);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($livraison);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('livraison', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('livraison/Ajout-livraison.html.twig', [
+            'livraison' => $livraison,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/livraison/supprimer/{id}",name="supprimerLivraison")
+     */
+    /*public function supprimerLivraison(LivraisonRepository $c,$id,EntityManagerInterface $em)
+    {
+        $emp= $c->find($id);
+        $em->remove($emp);
+        $em->flush();
+        return $this->redirectToRoute("livraison");
+    }*/
+
+    public function supprimerLivraison(ManagerRegistry $doctrine, $id): Response 
+    {
+        $em= $doctrine->getManager();
+        $repo= $doctrine->getRepository(Livraison::class);
+        $Livraison= $repo->find($id);
+        $em->remove($Livraison);
+        $em->flush();
+
+        return $this->redirectToRoute("livraison");
+    }
+
+
+
+
+
+    /*#[Route('/Livraison/Read', name: 'Read_Livraison')]
     public function ReadLivraison(LivraisonRepository $repo): Response
     {
         $Livraisons = $repo->findAll();
@@ -75,7 +131,7 @@ class LivraisonController extends AbstractController
 
         return $this->renderForm('Livraison/CreateLivraison.html.twig',['form'=>$form]);
 
-    }
+    }*/
 
 }
 ?>

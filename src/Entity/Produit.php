@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
-class Produit
+class Produit implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -134,5 +134,28 @@ class Produit
     public function __toString()
     {
         return $this->nom_Prod.' '.$this->id;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'categorie' => $this->categorie,
+            'nom' => $this->nom_Prod,
+            'description' => $this->description,
+            'image' => $this->image,
+            'prix' => $this->prix,
+            'nombre' => $this->nbr_Prods
+        );
+    }
+
+    public function constructor($categorie, $nom, $description, $image, $prix, $nombre)
+    {
+        $this->categorie = $categorie;
+        $this->nom_Prod = $nom;
+        $this->description = $description;
+        $this->image = $image;
+        $this->prix = $prix;
+        $this->nbr_Prods = $nombre;
     }
 }

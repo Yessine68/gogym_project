@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Salle PDF</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; vertical-align: middle;">Salles</h1>
+    <br>
+    <br>
+    <table>
+        <thead>
+            <tr style="text-align: center; vertical-align: middle;">
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th>Périmetre</th>
+                <th>Abonnement disponible</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in Salles %}
+            <tr style="text-align: center; vertical-align: middle;">
+                <td>
+                    {{s.getId()}}
+                </td>
+                <td>
+                    Go Gym {{s.getNomS()}}
+                </td>
+                <td>
+                    <img src="{{ absolute_url(asset('Uploads/' ~ s.getImageS())) }}" width="100" height="100" />
+                </td>
+                <td>
+                +216
+                    <span>{{ s.getTelS()[0:2] }} </span> 
+                    <span>{{ s.getTelS()[2:3] }} </span> 
+                    <span>{{ s.getTelS()[5:8] }} </span>
+                </td>
+                <td>
+                    {{s.getEmailS()}}
+                </td>
+                <td>
+                    {{s.getAdresseS()}}, {{s.getVilleS()}}
+                </td>
+                <td>
+                    {{s.getVilleS()}}
+                </td>
+                <td>
+                    {{s.getPerimetreS()}} m²
+                </td>
+                <td>
+                    <ul>
+                        {% for a in s.getAbonnements() %}
+                            <li>
+                            {{a.getNomA()}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <p style="text-align: right; vertical-align: right;">Generated on {{ "now"|date("d/m/Y") }}</p>
+</body>
+</html>

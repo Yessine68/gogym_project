@@ -39,6 +39,31 @@ class SalleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByNomOrVille($query) : array
+    {
+        return $this->createQueryBuilder('s')
+        ->andWhere('s.nom_s LIKE :searchNor OR s.ville_s LIKE :searchNor')
+        ->setParameter('searchNor', '%'.$query.'%')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function sortByAscPerimetre(): array
+    {
+        return $this->createQueryBuilder('s')
+        ->orderBy('s.perimetre_s', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+    
+    public function sortByDescPerimetre(): array
+    {
+        return $this->createQueryBuilder('s')
+        ->orderBy('s.perimetre_s', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
+
 //    /**
 //     * @return Salle[] Returns an array of Salle objects
 //     */

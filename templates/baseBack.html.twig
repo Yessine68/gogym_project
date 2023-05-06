@@ -29,6 +29,93 @@
 
     <!-- Template Stylesheet -->
     <link href="/Back/css/style.css" rel="stylesheet">
+
+    {# Style HANA #}
+    <style>
+    .checkboxes {
+    text-align:left;
+    }
+
+    .checkboxes input{
+    margin: 0px 0px 0px 0px;
+    }
+
+    .checkboxes label{
+    margin: 0px 30px 0px 3px;
+    }
+    
+    ul {
+        list-style: none; /* enlever les points */
+        text-align: center; /* centrer la liste */
+    }
+    
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+
+    <!-- JS Map HANA -->
+    {% block jsmaphana %}
+        <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin="" ></script>
+        <script>
+
+            const longitude_s = document.getElementById("salle_longitude_s");
+            const latitude_s = document.getElementById("salle_latitude_s");
+
+            const map = L.map("map").setView([36.70365959719456, 10.17818283871446], 7);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+            if (longitude_s.value != "") {
+                L.marker([longitude_s.value, latitude_s.value])
+                .addTo(map)
+                .bindPopup("Bienvenue")
+                .openPopup();
+            }
+            // add marker on click
+            map.on("click", addMarker);
+
+            function addMarker(e) {
+                map.eachLayer((layer) => {
+                if (layer["_latlng"] != undefined) layer.remove();
+                });
+            
+                // Add marker to map at click location
+                const markerPlace = document.querySelector(".marker-position");
+                
+                // markerPlace.textContent = new marker: ${e.latlng.lat}, ${e.latlng.lng};
+                const marker = new L.marker(e.latlng, { draggable: true }).addTo(map);
+
+                // event remove marker
+                marker.on("popupopen", removeMarker);
+
+                // event draged marker
+                marker.on("dragend", dragedMaker);
+                longitude_s.value = e.latlng.lat;
+                latitude_s.value = e.latlng.lng;
+            }
+
+            const buttonRemove = '<button type="button" class="remove"></button>';
+
+            // remove marker
+            function removeMarker() {
+                const marker = this;
+                const btn = document.querySelector(".remove");
+                btn.addEventListener("click", function () {
+                const markerPlace = document.querySelector(".marker-position");
+                markerPlace.textContent = "goodbye marker";
+                map.removeLayer(marker);
+                });
+            }
+
+            // draged
+            function dragedMaker() {
+                const markerPlace = document.querySelector(".marker-position");
+                markerPlace.textContent = `change position: ${this.getLatLng().lat}, ${
+                this.getLatLng().lng
+                }`;
+            }
+
+        </script>
+    {% endblock %}
+    <!-- JS Map HANA end-->
 </head>
 
 <body>
@@ -43,44 +130,87 @@
 
 
         <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
+       <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>GOGYM</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="/Back/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="{{ asset('back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">Yessine</h6>
+                        <h6 class="mb-0">Yessine Jarray</h6>
                         <span>Admin</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="index.html" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
+                    <!-- <div class="nav-item dropdown">-->
+
+                         
+
+                        <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Gerer Produit</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="button.html" class="dropdown-item">Buttons</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                            <a href="{{path ('app_produit_new')}}" class="dropdown-item">Ajouter Produit</a>
+                            <a href="{{path ('app_produit_afficher')}}" class="dropdown-item">Liste des Produits</a>
+                        </div>
+                         <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Categorie Produit</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{path ('app_categorie_new')}}" class="dropdown-item">Ajouter Categorie Produit</a>
+                            <a href="{{path ('app_categorie_index')}}" class="dropdown-item">Liste Des Categories Produits </a>
+                        </div>
+
+
+                          <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Gerer Evenement</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{path ('app_evenement_new')}}" class="dropdown-item">Ajouter Evenement</a>
+                            <a href="{{path ('app_evenement_afficher')}}" class="dropdown-item">Liste Des Evenements </a>
+                        </div> 
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Categorie Evenement</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{path ('app_categorieE_new')}}" class="dropdown-item">Ajouter Categorie Evenement</a>
+                            <a href="{{path ('app_categorieE_index')}}" class="dropdown-item">Liste Categorie Evenement </a>
+                        </div>
+                    </div>     
+                     <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Abonnement</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{path ('Create_Abonnement')}}" class="dropdown-item">Ajout</a>
+                            <a href="{{path ('Read_Back_Abonnement')}}" class="dropdown-item">Liste</a>
+                        </div>
+                    </div>                
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Salle</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{path ('Create_Salle')}}" class="dropdown-item">Ajout</a>
+                            <a href="{{path ('Read_Back_Salle')}}" class="dropdown-item">Liste</a>
                         </div>
                     </div>
-                    <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
-                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Cours</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item active">Blank Page</a>
+                            <a href="{{path ('Create_Cours')}}" class="dropdown-item">Ajout</a>
+                            <a href="{{path ('BRead_Cours')}}" class="dropdown-item">Liste</a>
                         </div>
                     </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Reservation</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{{path ('Create_Reservation')}}" class="dropdown-item">Ajout</a>
+                            <a href="{{path ('BRead_Reservation')}}" class="dropdown-item">Liste</a>
+                        </div>
+                    </div>
+                </div>
+               
+                   
+                   <!--  </div> -->
+                    
                 </div>
             </nav>
         </div>

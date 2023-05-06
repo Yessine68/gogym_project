@@ -85,7 +85,19 @@ class UserController extends AbstractController
     }
 
 
-
+    // [Route('/home', name: 'app_home')]
+    // public function index(Security $security): Response
+    // {   
+    //     if ($security->isGranted('ROLE_ADMIN')) {
+    //         return $this->render('admin/dashboard.html.twig');
+    //     }
+    //     if ($security->isGranted('ROLE_USER')) {
+    //         return $this->redirectToRoute('app_user_dashboard');
+    //     } 
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => 'HomeController',
+    //     ]);
+    // }
 
 
 

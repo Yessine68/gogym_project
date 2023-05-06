@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
-class Categorie
+class Categorie implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -75,5 +75,18 @@ class Categorie
     public function __toString()
     {
         return $this->nom.' '.$this->id;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'nom' => $this->nom
+        );
+    }
+
+    public function constructor($nom)
+    {
+        $this->nom = $nom;
     }
 }

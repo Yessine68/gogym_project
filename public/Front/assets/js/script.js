@@ -1910,7 +1910,7 @@
             showProgressbar: true,
             placement: {
                 from: "top",
-                align: "right"
+                align: "center"
             },
             offset: 20,
             spacing: 10,

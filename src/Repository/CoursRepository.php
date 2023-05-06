@@ -39,6 +39,27 @@ class CoursRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByNom($txt)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager
+            ->createQuery("SELECT c from APP\Entity\Cours c where c.Nom like :txt OR c.intensite like :txt")
+            ->setParameter('txt', '%' . $txt . '%');
+        return $query->getResult();
+    }
+
+    public function searchCours($query)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->like('e.Nom', ':query'),
+            $qb->expr()->like('e.intensite', ':query')
+        ));
+        $qb->setParameter('query', '%'.$query.'%');
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Cours[] Returns an array of Cours objects
 //     */

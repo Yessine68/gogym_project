@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: AbonnementRepository::class)]
-class Abonnement
+class Abonnement implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -168,5 +168,28 @@ class Abonnement
 
     public function __toString(): string {
         return $this->nom_a;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'nom' => $this->nom_a,
+            'type' => $this->type_a,
+            'description' => $this->description_a,
+            'prix' => $this->prix_a,
+            'debut' => $this->debut_a->format("d-m-Y"),
+            'fin' => $this->fin_a->format("d-m-Y"),
+        );
+    }
+
+    public function constructor($nom, $type, $description, $prix, $debut, $fin)
+    {
+        $this->nom_a = $nom;
+        $this->type_a = $type;
+        $this->description_a = $description;
+        $this->prix_a = $prix;
+        $this->debut_a = $debut;
+        $this->fin_a = $fin;
     }
 }

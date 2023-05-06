@@ -1,10 +1,11 @@
-{% extends 'baseFront.html.twig' %}
+{% extends 'brahim.html.twig' %}
 
-{% block title %}Evenement{% endblock %}
+{% block title %}Evenement
+{% endblock %}
 
 {% block body %}
-   
-    <!-- Page Preloder -->
+
+	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
@@ -15,103 +16,105 @@
 			<a href="index.html" class="site-logo">
 				<img src={{ asset("Front/img/logo.png") }} alt="">
 			</a>
-			<li><a href="index.html">Accueil</a></li>
-			<li><a href="Apropos.html">À propos</a></li>
-			<li><a href="salles.html">Salles</a></li>
-			<li><a href="Activités.html">Activités</a></li>
-			<li><a href="offres.html">Offres</a></li>
-			<li><a class="active" href="Evénements.html">Evénements</a></li>
-			<li><a href="boutique.html">Boutique</a></li>
-			<li><a href="contact.html">Contact</a></li>
+			<li><a href="/Front/">Accueil</a></li>
+            <li><a href="/Apropos.html">À propos</a></li>
+            <li><a href="{{path('Read_Front_Salle')}}">Salles</a></li>
+            <li><a href="/Cours/Read/Front">Activités</a></li>
+            <li><a href="/Abonnement/Read_Front">Offres</a></li>
+            <li><a class="active" href="/evenement/front">Evénements</a></li>
+            <li><a href="{{ path('app_produit_afficher_front') }}">Boutique</a></li>
+            <li><a href="/Front/contact.html">Contact</a></li>
 			<li class="header-right">
 				<div class="menu-right pull-right">
-				<div class="hr-box">
-					<div class="icon-nav">
-						<ul>
-							<li class="onhover-div mobile-search">
-								<div><img src="assets/images/icon/search.png" onclick="openSearch()"
-										class="img-fluid blur-up lazyload" alt="">
-									<i class="ti-search" onclick="openSearch()"></i>
-								</div>
-								<div id="search-overlay" class="search-overlay">
-									<div>
-										<span class="closebtn" onclick="closeSearch()"
-											title="Close Overlay">×</span>
-										<div class="overlay-content">
-											<div class="container">
-												<div class="row">
-													<div class="col-xl-12">
-														<form>
-															<div class="form-group">
-																<input type="text" class="form-control"
-																	id="exampleInputPassword1"
-																	placeholder="Search a Product">
-															</div>
-															<button type="submit" class="btn btn-primary"><i
-																	class="fa fa-search"></i></button>
-														</form>
+					<div class="hr-box">
+						<div class="icon-nav">
+							<ul>
+								<li class="onhover-div mobile-search">
+									<div><img src="assets/images/icon/search.png" onclick="openSearch()" class="img-fluid blur-up lazyload" alt="">
+										<i class="ti-search" onclick="openSearch()"></i>
+									</div>
+									<div id="search-overlay" class="search-overlay">
+										<div>
+											<span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
+											<div class="overlay-content">
+												<div class="container">
+													<div class="row">
+														<div class="col-xl-12">
+															<form>
+																<div class="form-group">
+																	<input type="text" class="form-control" id="exampleInputPassword1" placeholder="Search a Product">
+																</div>
+																<button type="submit" class="btn btn-primary">
+																	<i class="fa fa-search"></i>
+																</button>
+															</form>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</li>
-							<li class="onhover-div mobile-cart">
-								<div><img src="assets/images/icon/cart.png"
-										class="img-fluid blur-up lazyload" alt="">
-									<i class="ti-shopping-cart"></i>
-								</div>
-								<ul class="show-div shopping-cart">
-									<li>
-										<div class="media">
-											<a href="#"><img class="me-3"
-													src="assets/images/fashion/product/1.jpg"
-													alt="Generic placeholder image"></a>
-											<div class="media-body">
-												<a href="#">
-													<h4>item name</h4>
-												</a>
-												<h4><span>1 x $ 299.00</span></h4>
+								</li>
+								<li class="onhover-div mobile-cart">
+									<div><img src="assets/images/icon/cart.png" class="img-fluid blur-up lazyload" alt="">
+										<i class="ti-shopping-cart"></i>
+									</div>
+									<ul class="show-div shopping-cart">
+										<li>
+											<div class="media">
+												<a href="#"><img class="me-3" src="assets/images/fashion/product/1.jpg" alt="Generic placeholder image"></a>
+												<div class="media-body">
+													<a href="#">
+														<h4>item name</h4>
+													</a>
+													<h4>
+														<span>1 x $ 299.00</span>
+													</h4>
+												</div>
 											</div>
-										</div>
-										<div class="close-circle">
-											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
-										</div>
-									</li>
-									<li>
-										<div class="media">
-											<a href="#"><img class="me-3"
-													src="assets/images/fashion/product/2.jpg"
-													alt="Generic placeholder image"></a>
-											<div class="media-body">
+											<div class="close-circle">
 												<a href="#">
-													<h4>item name</h4>
+													<i class="fa fa-times" aria-hidden="true"></i>
 												</a>
-												<h4><span>1 x $ 299.00</span></h4>
 											</div>
-										</div>
-										<div class="close-circle">
-											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
-										</div>
-									</li>
-									<li>
-										<div class="total">
-											<h5>subtotal : <span>$299.00</span></h5>
-										</div>
-									</li>
-									<li>
-										<div class="buttons">
-											<a href="cart.html" class="view-cart">view cart</a>
-											<a href="#" class="checkout">checkout</a>
-										</div>
-									</li>
-								</ul>
-							</li>
-						</ul>
+										</li>
+										<li>
+											<div class="media">
+												<a href="#"><img class="me-3" src="assets/images/fashion/product/2.jpg" alt="Generic placeholder image"></a>
+												<div class="media-body">
+													<a href="#">
+														<h4>item name</h4>
+													</a>
+													<h4>
+														<span>1 x $ 299.00</span>
+													</h4>
+												</div>
+											</div>
+											<div class="close-circle">
+												<a href="#">
+													<i class="fa fa-times" aria-hidden="true"></i>
+												</a>
+											</div>
+										</li>
+										<li>
+											<div class="total">
+												<h5>subtotal :
+													<span>$299.00</span>
+												</h5>
+											</div>
+										</li>
+										<li>
+											<div class="buttons">
+												<a href="cart.html" class="view-cart">view cart</a>
+												<a href="#" class="checkout">checkout</a>
+											</div>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</div>
 			</li>
 		</ul>
 	</header>
@@ -120,7 +123,7 @@
 	<!-- Page top section -->
 	<section class="page-top-section set-bg" data-setbg={{ asset("Front/img/header-bg/3.jpg")}}>
 		<div class="container">
-			<h2>Blog</h2>
+			<h2>Evenement</h2>
 		</div>
 	</section>
 	<!-- Page top section end -->
@@ -131,112 +134,311 @@
 			<div class="row">
 				<div class="col-lg-8">
 
-				 {% for event in evenements %}
+					{% for event in evenements %}
+						{% if event.getEtat() =="Complet"%}
+							<div class="ribbon ribbon-top-left">
+								<span>Complet</span>
+							</div>
+						{% endif %}
+						<div class="blog-item">
 
-					<div class="blog-item">
-						<img src={{ asset("Front/img/blog/1.jpg")}} alt="">
-						<h2>{{event.getNomE()}}  </h2>
-						
-						<p>DESCRIPTION : {{event.getDescriptionE()}}</p>
-						
-						<div class="site-btn">
-						<a href="{{ path('app_evenement_afficher_blog', {'id': event.id }) }}"</a>Read More
-						
+							<img src="{{ asset("uploads/evenement/") }}{{ event.getImage() }}" style="width:70%">
+							<h2>{{event.getNomE()}}
+							</h2>
+
+							<div class="row">
+								<div class="col-lg-4">
+									<p>DESCRIPTION :
+										{{event.getDescriptionE()}}</p>
+								</div>
+								<div class="col">
+									<div class="row">
+
+										<div class="col">
+											<li  style="color:#dc3545">
+												<span class="icon flaticon-comment-1"></span>
+												{% set difference =
+                                                    date(event.getDateE()).diff(date(
+                                                        date().timestamp)) %}
+												{% set leftDays = difference.days %}
+												{% if leftDays == 1 %}
+													left : 1 day
+												{% else %}
+													left :
+													{{ leftDays }}
+													days
+												{% endif %}
+											</li>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="site-btn">
+								<a href="{{ path('app_evenement_afficher_blog', {'id': event.id }) }}">more
+								</a>
+							</div>
 						</div>
-						
-					</div>
-									{% else %}
-                <h3>no records found</h3>
-        {% endfor %}
+					{% else %}
+						<h3>
+							records found</h3>
+					{% endfor %}
 				</div>
 				<div class="col-lg-4 col-md-7 col-sm-9 sidebar">
 					<div class="widget-area">
 						<form class="search-widget">
 							<input type="text" placeholder="Search">
-							<button><img src="img/icons/search.png" alt=""></button>
 						</form>
 					</div>
 					<div class="widget-area">
-						<h2 class="widget-title">Categories</h2>
-						<ul>
-						 {% for cat in CategorieEvenements %}
-							<li><a href="">{{ cat.getNomCatE() }}</a></li>
-							{% else %}
-                <h3>no records found</h3>
-        {% endfor %}
-						</ul>
-					</div>
-					
-					
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Blog section end -->
-
-	<!-- Call To Section Begin -->
-	<section class="callto-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="callto-text">
-						<h2>Come & Train With Us</h2>
-						<p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						<a href="#" class="primary-btn callto-btn"><font color="#FFFFFF">Join Now</font></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Call To Section End -->
-	<!-- Footer Section Begin -->
-	<footer class="footer-section">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer-text">
-						<div class="col-md-9 align-content-center">
-							<ul class="footer-menu">
-								<li><a href="">Accueil</a></li>
-								<li><a href="">À propos de nous</a></li>
-								<li><a href="">Salles</a></li>
-								<li><a href="">Activités</a></li>
-								<li><a href="">Offres</a></li>
-								<li><a href="">Evénements</a></li>
-								<li><a href="">Contact</a></li>
+						<h2 class="widget-title">
+							<ul>
+								{% for cat in CategorieEvenements %}
+									<li>
+										<a href="">{{ cat.getNomCatE() }}</a>
+									</li>
+								{% else %}
+									<h3>no records found</h3>
+								{% endfor %}
 							</ul>
 						</div>
-						<br>
-                        <div class="social-links">
-							<a href="#"><i class="fa fa-email"></i></a>
-							<a href="#"><i class="fa fa-phone"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-						</div>
-						<br>
-						<div class="reserved">
-							<p>
-								<font color="#FFFFFF">
-									Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by SAYHII</a>
-								</font>
-							</p>
-						</div>
-                    </div>
-                </div>
-			</div>
-        </div>
-    </footer>
-    <!-- Footer Section End -->
-	
-    <!-- tap to top -->
-    <div class="tap-top gradient-top">
-        <div>
-            <i class="fa fa-angle-double-up"></i>
-        </div>
-    </div>
-    <!-- tap to top End -->
 
-	
-		</script>	
-{% endblock %}
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Blog section end -->
+
+		<!-- Call To Section Begin -->
+		<section class="callto-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="callto-text">
+							<h2>Come & Train With Us</h2>
+							<p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<a href="#" class="primary-btn callto-btn">
+								<font color="#FFFFFF">Join Now</font>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Call To Section End -->
+		<!-- Footer Section Begin -->
+		<footer class="footer-section">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="footer-text">
+							<div class="col-md-9 align-content-center">
+								<ul class="footer-menu">
+									<li>
+										<a href="">Accueil</a>
+									</li>
+									<li>
+										<a href="">À propos de nous</a>
+									</li>
+									<li>
+										<a href="">Salles</a>
+									</li>
+									<li>
+										<a href="">Activités</a>
+									</li>
+									<li>
+										<a href="">Offres</a>
+									</li>
+									<li>
+										<a href="">Evénements</a>
+									</li>
+									<li>
+										<a href="">Contact</a>
+									</li>
+								</ul>
+							</div>
+							<br>
+							<div class="social-links">
+								<a href="#">
+									<i class="fa fa-email"></i>
+								</a>
+								<a href="#">
+									<i class="fa fa-phone"></i>
+								</a>
+								<a href="#">
+									<i class="fa fa-pinterest"></i>
+								</a>
+								<a href="#">
+									<i class="fa fa-facebook"></i>
+								</a>
+								<a href="#">
+									<i class="fa fa-twitter"></i>
+								</a>
+							</div>
+							<br>
+							<div class="reserved">
+								<p>
+									<font color="#FFFFFF">
+										Copyright &copy;<script>
+											document.write(new Date().getFullYear());
+										</script>
+										All rights reserved by SAYHII</a>
+								</p>
+							</font>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- Footer Section End -->
+<style>
+	.ribbon {
+		width: 150px;
+		height: 150px;
+		overflow: hidden;
+		position: absolute;
+		z-index: 10;
+
+	}
+	.ribbon::before,
+	.ribbon::after {
+		position: absolute;
+		z-index: -1;
+		content: '';
+		display: block;
+		border: 5px solid #ff0014;
+	}
+	.ribbon span {
+		position: absolute;
+		display: block;
+		width: 225px;
+		padding: 15px 0;
+		background-color: #ff0000;
+		box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+		color: #fff;
+		font: 700 18px / 1 'Lato', sans-serif;
+		text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	/* top left*/
+	.ribbon-top-left {
+		top: -10px;
+		left: -10px;
+	}
+	.ribbon-top-left::before,
+	.ribbon-top-left::after {
+		border-top-color: transparent;
+		border-left-color: transparent;
+	}
+	.ribbon-top-left::before {
+		top: 0;
+		right: 0;
+	}
+	.ribbon-top-left::after {
+		bottom: 0;
+		left: 0;
+	}
+	.ribbon-top-left span {
+		right: -25px;
+		top: 30px;
+		transform: rotate(-45deg);
+	}
+
+	/* top right*/
+	.ribbon-top-right {
+		top: -10px;
+		right: -10px;
+	}
+	.ribbon-top-right::before,
+	.ribbon-top-right::after {
+		border-top-color: transparent;
+		border-right-color: transparent;
+	}
+	.ribbon-top-right::before {
+		top: 0;
+		left: 0;
+	}
+	.ribbon-top-right::after {
+		bottom: 0;
+		right: 0;
+	}
+	.ribbon-top-right span {
+		left: -25px;
+		top: 30px;
+		transform: rotate(45deg);
+	}
+
+	/* bottom left*/
+	.ribbon-bottom-left {
+		bottom: -10px;
+		left: -10px;
+	}
+	.ribbon-bottom-left::before,
+	.ribbon-bottom-left::after {
+		border-bottom-color: transparent;
+		border-left-color: transparent;
+	}
+	.ribbon-bottom-left::before {
+		bottom: 0;
+		right: 0;
+	}
+	.ribbon-bottom-left::after {
+		top: 0;
+		left: 0;
+	}
+	.ribbon-bottom-left span {
+		right: -25px;
+		bottom: 30px;
+		transform: rotate(225deg);
+	}
+
+	/* bottom right*/
+	.ribbon-bottom-right {
+		bottom: -10px;
+		right: -10px;
+	}
+	.ribbon-bottom-right::before,
+	.ribbon-bottom-right::after {
+		border-bottom-color: transparent;
+		border-right-color: transparent;
+	}
+	.ribbon-bottom-right::before {
+		bottom: 0;
+		left: 0;
+	}
+	.ribbon-bottom-right::after {
+		top: 0;
+		right: 0;
+	}
+	.ribbon-bottom-right span {
+		left: -25px;
+		bottom: 30px;
+		transform: rotate(-225deg);
+	}
+</style>
+<!-- tap to top -->
+<div class="tap-top gradient-top">
+	<div>
+		<i class="fa fa-angle-double-up"></i>
+	</div>
+</div>
+<!--Start of Tawk.to Script-->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6408f26e4247f20fefe4c7d5/1gr1f60v5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<!--End of Tawk.to Script-->
+<!-- tap to top End --></script>{% endblock %}

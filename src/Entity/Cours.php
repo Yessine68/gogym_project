@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
-class Cours
+class Cours implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -148,5 +148,27 @@ class Cours
         $this->image = $image;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'nom' => $this->Nom,
+            'duree' => $this->duree,
+            'intensite' => $this->intensite,
+            'bienfaits' => $this->bienfaits,
+            'image' => $this->image
+
+        );
+    }
+
+    public function constructor($nom, $duree, $intensite, $bienfaits, $image)
+    {
+        $this->Nom = $nom;
+        $this->duree = $duree;
+        $this->intensite = $intensite;
+        $this->bienfaits = $bienfaits;
+        $this->image = $image;
     }
 }

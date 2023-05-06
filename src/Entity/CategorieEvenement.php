@@ -6,10 +6,12 @@ use App\Repository\CategorieEvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[ORM\Entity(repositoryClass: CategorieEvenementRepository::class)]
-class CategorieEvenement
+class CategorieEvenement implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,6 +19,7 @@ class CategorieEvenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom de Categorie ne doit pas être vide.')]
     private ?string $nom_cat_e = null;
 
     #[ORM\OneToMany(mappedBy: 'categorieEvenement', targetEntity: Evenement::class,cascade:["remove"], orphanRemoval:true)]
@@ -73,5 +76,18 @@ class CategorieEvenement
     public function __toString()
     {
         return $this->nom_cat_e.' '.$this->id;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'nom' => $this->nom_cat_e
+        );
+    }
+
+    public function constructor($nom)
+    {
+        $this->nom_cat_e = $nom;
     }
 }

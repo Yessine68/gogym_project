@@ -1,0 +1,115 @@
+{% extends 'hanaBack.html.twig' %}
+
+{% block title %}Liste des salles{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('notice') %}
+    <div class="alert alert-success ">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<h1 style="text-align: left;" >Liste des salles</h1>
+<br>
+
+<form class="d-none d-md-flex ms-1" id="search-form" action="{{ path('Find_Salle') }}">
+    <input class="form-control border-0.5" type="search"  name="q" placeholder="Rechercher..." value="{{ query }}">
+</form>
+
+<br>
+<table class="table" style="text-align: center;">
+    <thead>
+        <tr style="text-align: center; vertical-align: middle;">
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Image</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>
+                Périmetre
+                <a href="{{path('sortByAscPerimetre_Salle')}}">&#8593;</a>
+                <a href="{{path('sortByDescPerimetre_Salle')}}">&#8595;</a>
+            </th>
+            <th>Abonnement disponible</th>
+            <th>Editer</th>
+        </tr>
+    </thead>
+    <tbody id="search-results">
+        {% for s in Salles %}
+        <tr style="text-align: center; vertical-align: middle;">
+            <td>
+                {{s.getId()}}
+            </td>
+            <td>
+                Go Gym {{s.getNomS()}}
+            </td>
+            <td>
+                <img src="{{ asset('Uploads/' ~ s.getImageS()) }}" alt="" width="100" height="100" />
+            </td>
+            <td>
+            +216
+                <span>{{ s.getTelS()[0:2] }} </span> 
+                <span>{{ s.getTelS()[2:3] }} </span> 
+                <span>{{ s.getTelS()[5:8] }} </span>
+            </td>
+            <td>
+                {{s.getEmailS()}}
+            </td>
+            <td>
+                {{s.getAdresseS()}}, {{s.getVilleS()}}
+            </td>
+            <td>
+                {{s.getVilleS()}}
+            </td>
+            <td>
+                {{s.getPerimetreS()}} m²
+            </td>
+            <td>
+                <ul>
+                    {% for a in s.getAbonnements() %}
+                        <li>
+                        {{a.getNomA()}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <div style="text-align: center;">
+                    <a href="{{path('Update_Salle',{'id':s.id})}}" class="btn btn-warning mt-2" type="submit" > Modifier </a>
+                    <a href="{{path('Delete_Salle',{'id':s.id})}}" class="btn btn-danger mt-2" type="submit" onclick="return confirm('Etes vous sure ?')"> Supprimer </a>
+                    <br>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" style="text-align: center;">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tbody id="search"></tbody>
+</table>
+<br>
+<div style="position: relative; left: 10px;">
+    <a href="{{path('Read_Back_Salle')}}" type="submit">Return</a> 
+</div>
+<br>
+<script>
+    $(function () {
+        $('#search-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#search-results').html(data);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

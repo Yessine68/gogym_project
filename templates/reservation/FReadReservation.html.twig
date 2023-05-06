@@ -1,0 +1,153 @@
+{% extends 'HanaInes.html.twig' %}
+
+{% block title %}Liste des reservations{% endblock %}
+
+{% block body %}
+	<!-- Header section -->
+	<header class="header-section">
+		<ul class="main-menu">
+			<a href="index.html" class="site-logo">
+				<img src="{{asset('Front/img/logo.png')}}" alt="">
+			</a>
+			<li><a href="/Front/">Accueil</a></li>
+            <li><a href="/Apropos.html">À propos</a></li>
+            <li><a href="{{path('Read_Front_Salle')}}">Salles</a></li>
+            <li><a href="/Cours/Read/Front">Activités</a></li>
+            <li><a href="/Abonnement/Read_Front">Offres</a></li>
+            <li><a href="/evenement/front">Evénements</a></li>
+            <li><a href="{{ path('app_produit_afficher_front') }}">Boutique</a></li>
+            <li><a href="/Front/contact.html">Contact</a></li>
+			<li class="header-right">
+				<div class="menu-right pull-right">
+				<div class="hr-box">
+					<div class="icon-nav">
+						<ul>
+							<li class="onhover-div mobile-search">
+								<div><img src="{{asset('Front/assets/images/icon/search.png')}}" onclick="openSearch()"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-search" onclick="openSearch()"></i>
+								</div>
+								<div id="search-overlay" class="search-overlay">
+									<div>
+										<span class="closebtn" onclick="closeSearch()"
+											title="Close Overlay">×</span>
+										<div class="overlay-content">
+											<div class="container">
+												<div class="row">
+													<div class="col-xl-12">
+														<form>
+															<div class="form-group">
+																<input type="text" class="form-control"
+																	id="exampleInputPassword1"
+																	placeholder="Search a Product">
+															</div>
+															<button type="submit" class="btn btn-primary"><i
+																	class="fa fa-search"></i></button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="onhover-div mobile-cart">
+								<div><img src="{{asset('Front/assets/images/icon/cart.png')}}"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-shopping-cart"></i>
+								</div>
+								<ul class="show-div shopping-cart">
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="{{asset('Front/assets/images/fashion/product/1.jpg')}}"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="{{asset('Front/assets/images/fashion/product/2.jpg')}}"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="total">
+											<h5>subtotal : <span>$299.00</span></h5>
+										</div>
+									</li>
+									<li>
+										<div class="buttons">
+											<a href="cart.html" class="view-cart">view cart</a>
+											<a href="#" class="checkout">checkout</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			</li>
+		</ul>
+	</header>
+	<div class="clearfix"></div>
+	<!-- Header section end -->
+<h1 align="center">Liste des reservations</h1>
+
+
+
+
+	<!-- Blog section -->
+	<section class="blog-section">
+        {% for r in Reservations %}
+		<div class="container">
+			<div class="row">
+				<div class="col-lg" align="center">
+					<div class="blog-item">
+						<h2>{{r.getDate()|date("d/m/Y")}}</h2>
+						<p>{{r.getCours()}}</p>
+						<div class="site-btn">Read More</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        {% endfor %}
+	</section>
+	<!-- Blog section end -->
+
+<!-- Call To Section Begin -->
+<section class="callto-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<div class="callto-text">
+					<h2>Come & Train With Us</h2>
+					<p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+					<a href="#" class="primary-btn callto-btn"><font color="#FFFFFF">Join Now</font></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Call To Section End -->
+
+{% endblock %}

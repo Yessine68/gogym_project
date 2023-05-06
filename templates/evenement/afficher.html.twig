@@ -1,47 +1,59 @@
 {% extends 'base1.html.twig' %}
 
-{% block title %}evenement index{% endblock %}
+{% block title %}evenement index
+{% endblock %}
 
 {% block body %}
-    <h1>evenement index</h1>
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-              <th>nom_e</th>
-                <th>description_e</th>
-                <th>evenements</th>
-                <th>Image</th>
-                <th>lieu_e</th>
-                <th>nbr_participants</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for evenement in evenements %}
-            <tr>
-                <td>{{ evenement.id }}</td>
-                <td>{{ evenement.getNomE() }}</td>
-                <td>{{ evenement.getDescriptionE()}}</td>
-                <td>{{ evenement.getImage() }}</td>
-                <td>{{ evenement.getCategorieEvenement() }}</td>
-                <td>{{ evenement.getDateE() }}</td>
-                <td>{{ evenement.getLieuE() }}</td>
-                <td>{{ evenement.getNbrParticipants() }}</td>
-                <td>
-                    <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
 
-    <a href="{{ path('app_evenement_new') }}">Create new</a>
+	<h1>evenement index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>nom_e</th>
+				<th>description_e</th>
+				<th>Image</th>
+				<th>Date</th>
+				<th>lieu_e</th>
+				<th>nbr_participants</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for evenement in evenements %}
+				<tr>
+					<td>{{ evenement.id }}</td>
+					<td>{{ evenement.getNomE() }}</td>
+					<td>{{ evenement.getDescriptionE()}}</td>
+					<td>{{ evenement.getImage() }}</td>
+					<td>{{ evenement.getDateE() }}</td>
+					<td>{{ evenement.getLieuE() }}</td>
+					<td>{{ evenement.getNbrParticipants() }}</td>
+					<td>
+						<a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
+						<a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_evenement_new') }}">Create new</a>
 
 {% endblock %}
