@@ -1,4 +1,4 @@
-{% extends 'baseFront.html.twig' %}
+{% extends 'HanaInes.html.twig' %}
 
 {% block title %}Liste des abonnements{% endblock %}
 
@@ -10,14 +10,14 @@
 			<a href="index.html" class="site-logo">
 				<img src="{{asset('Front/img/logo.png')}}" alt="">
 			</a>
-			<li><a href="index.html">Accueil</a></li>
-			<li><a href="Apropos.html">À propos</a></li>
-			<li><a href="{{path('Read_Front_Salle')}}">Salles</a></li>
-			<li><a href="activité.html">Activités</a></li>
-			<li><a class="active" href="{{path('Read_Front_Abonnement')}}">Offres</a></li>
-			<li><a href="Evénements.html">Evénements</a></li>
-			<li><a href="boutique.html">Boutique</a></li>
-			<li><a href="contact.html">Contact</a></li>
+			<li><a href="/Front/">Accueil</a></li>
+            <li><a href="/Apropos.html">À propos</a></li>
+            <li><a href="{{path('Read_Front_Salle')}}">Salles</a></li>
+            <li><a href="/Cours/Read/Front">Activités</a></li>
+            <li><a class="active" href="/Abonnement/Read_Front">Offres</a></li>
+            <li><a href="/evenement/front">Evénements</a></li>
+            <li><a href="{{ path('app_produit_afficher_front') }}">Boutique</a></li>
+            <li><a href="/Front/contact.html">Contact</a></li>
 			<li class="header-right">
 				<div class="menu-right pull-right">
 				<div class="hr-box">
@@ -114,17 +114,22 @@
 	<!-- Header section end -->
 
 	<!-- Pricing section end -->
-	<section class="pricing-section set-bg" data-setbg="/Front/img/haan.png">
+	<section class="pricing-section set-bg" data-setbg="/Front/img/haan.jpg" >
 		<div class="container">
 			<div class="page-top-section set-bg section-title text-white text-center">
                 <h2>Abonnements</h2>
 			</div>
-			<div class="row">
+			<form class="d-none d-md-flex ms-1" id="search-form" action="{{ path('Find_Abonnement_Front') }}">
+				<input class="form-control border-0.5" type="search"  name="q" placeholder="Rechercher..." value="{{ query }}">
+			</form>
+			<br>
+			<br>
+			<div class="row" id="search-results">
                 {% for a in Abonnements %}
 				<div class="col-lg-3 col-sm-6">
 					<div class="pricing-box">
                         <br>
-						<h2>{{a.getPrixA()}}</h2>
+						<h2>{{a.getPrixA()}} TND</h2>
 						<p>{{a.getTypeA()}}</p>
                         <br>
                         <br>
@@ -141,7 +146,30 @@
 				</div>
                 {% endfor %}
 			</div>
+			<div id="search"></div>
+		</div>
+		<br>
+		<br>
+		<div class="d-flex justify-content-center">
+			{% do Abonnements.setPageRange(2) %}
+			{{ knp_pagination_render(Abonnements, 'abonnement/pagination.html.twig') }}
 		</div>
 	</section>
 	<!-- Pricing section  -->
+
+<script>
+    $(function () {
+        $('#search-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#search-results').html(data);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

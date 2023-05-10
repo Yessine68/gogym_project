@@ -1,0 +1,221 @@
+{% extends 'HanaInes.html.twig' %}
+
+{% block title %}Information sur une salle{% endblock %}
+
+{% block body %}
+	<!-- Header section -->
+	<header class="header-section">
+		<ul class="main-menu">
+			<a href="index.html" class="site-logo">
+				<img src="{{asset('Front/img/logo.png')}}" alt="">
+			</a>
+			<li><a href="/Front/">Accueil</a></li>
+            <li><a href="/Apropos.html">À propos</a></li>
+            <li><a class="active" href="{{path('Read_Front_Salle')}}">Salles</a></li>
+            <li><a href="/Cours/Read/Front">Activités</a></li>
+            <li><a href="/Abonnement/Read_Front">Offres</a></li>
+            <li><a href="/evenement/front">Evénements</a></li>
+            <li><a href="{{ path('app_produit_afficher_front') }}">Boutique</a></li>
+            <li><a href="/Front/contact.html">Contact</a></li>
+			<li class="header-right">
+				<div class="menu-right pull-right">
+				<div class="hr-box">
+					<div class="icon-nav">
+						<ul>
+							<li class="onhover-div mobile-search">
+								<div><img src="{{asset('Front/assets/images/icon/search.png')}}" onclick="openSearch()"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-search" onclick="openSearch()"></i>
+								</div>
+								<div id="search-overlay" class="search-overlay">
+									<div>
+										<span class="closebtn" onclick="closeSearch()"
+											title="Close Overlay">×</span>
+										<div class="overlay-content">
+											<div class="container">
+												<div class="row">
+													<div class="col-xl-12">
+														<form>
+															<div class="form-group">
+																<input type="text" class="form-control"
+																	id="exampleInputPassword1"
+																	placeholder="Search a Product">
+															</div>
+															<button type="submit" class="btn btn-primary"><i
+																	class="fa fa-search"></i></button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="onhover-div mobile-cart">
+								<div><img src="{{asset('Front/assets/images/icon/cart.png')}}"
+										class="img-fluid blur-up lazyload" alt="">
+									<i class="ti-shopping-cart"></i>
+								</div>
+								<ul class="show-div shopping-cart">
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="{{asset('Front/assets/images/fashion/product/1.jpg')}}"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="media">
+											<a href="#"><img class="me-3"
+													src="{{asset('Front/assets/images/fashion/product/2.jpg')}}"
+													alt="Generic placeholder image"></a>
+											<div class="media-body">
+												<a href="#">
+													<h4>item name</h4>
+												</a>
+												<h4><span>1 x $ 299.00</span></h4>
+											</div>
+										</div>
+										<div class="close-circle">
+											<a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
+										</div>
+									</li>
+									<li>
+										<div class="total">
+											<h5>subtotal : <span>$299.00</span></h5>
+										</div>
+									</li>
+									<li>
+										<div class="buttons">
+											<a href="cart.html" class="view-cart">view cart</a>
+											<a href="#" class="checkout">checkout</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			</li>
+		</ul>
+	</header>
+	<div class="clearfix"></div>
+	<!-- Header section end -->
+	
+    <!-- Salle slider -->
+    <div class="full-banner gym-parallax parallax p-0 ratio_square">
+        <br>
+        <br>
+        <br>
+        <a href="{{ path('Read_Front_Salle') }}" class="btn btn-primary mt-2" type="submit" style="text-align: center;">Return</a>
+        <div class="section-t-space section-b-space gym-product">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h2>Go Gym {{salle.getNomS()}}</h2>
+                </div>
+                <img src="{{ asset('Uploads/' ~ salle.getImageS()) }}" alt="" width="800" height="500" />
+                <br>
+                <br>
+                <table class="table" style="text-align: center;">
+                    <tbody style="text-align: center; vertical-align: middle;">
+                        <tr>
+							<th>Nombre de likes</th>
+							<td>
+								{{salle.getLikeS()}}
+							</td>
+						</tr>
+						<tr>
+                            <th>Téléphone</th>
+                            <td>
+                                +216
+                                <span>{{ salle.getTelS()[0:2] }} </span> 
+                                <span>{{ salle.getTelS()[2:3] }} </span> 
+                                <span>{{ salle.getTelS()[5:8] }} </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{salle.getEmailS()}}</td>
+                        </tr>
+                        <tr>
+                            <th>Adresse</th>
+                            <td>{{salle.getAdresseS()}}, {{salle.getVilleS()}}</td>
+                        </tr>
+						<tr>
+                            <th>Ville</th>
+                            <td>{{salle.getVilleS()}}</td>
+                        </tr>
+						<tr>
+                            <th style="text-align: center; vertical-align: middle;">Localisation</th>
+                            <td>
+								<div id="map">
+                        		</div>
+							</td>
+                        </tr>
+                        <tr>
+                            <th>Périmetre</th>
+                            <td>{{salle.getPerimetreS()}} m²</td>
+                        </tr>
+                        <tr>
+                            <th>Abonnement disponible</th>
+                            <td>
+                                <ul>
+                                    {% for a in salle.getAbonnements() %}
+                                        <li>
+                                        {{a.getNomA()}}, 
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+				<br>
+				<br>
+            </div>
+        </div>
+    </div>
+    <!-- Salle slider end -->
+
+	<!-- Call To Section Begin -->
+	<section class="callto-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="callto-text">
+						<h2>Come & Train With Us</h2>
+						<p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<a href="#" class="primary-btn callto-btn">
+							<font color="#FFFFFF">Join Now</font>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Call To Section End -->
+
+	<!-- maphana -->
+	<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+	<script>
+		const p1 = {{ salle.getLongitudeS()|json_encode() }};
+		const p2 = {{ salle.getLatitudeS()|json_encode() }}
+
+		var map = L.map('map').setView([36.70365959719456, 10.17818283871446], 7);
+		var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+
+		L.marker([p1, p2]).addTo(map).bindPopup('Bienvenu').openPopup();
+	</script>
+	<!-- maphana end -->
+
+{% endblock %}

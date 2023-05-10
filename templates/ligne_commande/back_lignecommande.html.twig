@@ -1,0 +1,182 @@
+{% extends 'samehbaseBack.html.twig' %}
+
+{% block title %}Commande index{% endblock %}
+
+{% block body %}
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+       
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="{{asset('Back/img/user.jpg')}}" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">Jhon Doe</h6>
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    
+                    <a href="" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="button.html" class="dropdown-item">Buttons</a>
+                            <a href="typography.html" class="dropdown-item">Typography</a>
+                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                        </div>
+                    </div>
+                    
+                    
+                    <a href="" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Utilisateur</>
+                    
+                    <a href="" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Categorie Produit </>
+                    
+                    <a href="" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Produit</>
+
+                    <a href="{{ path('commande_index') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Commande</a>
+
+                    <a href="{{ path('lignecommande') }}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Ligne Commande</a>
+
+                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
+
+                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="signin.html" class="dropdown-item">Sign In</a>
+                            <a href="signup.html" class="dropdown-item">Sign Up</a>
+                            <a href="404.html" class="dropdown-item">404 Error</a>
+                            <a href="blank.html" class="dropdown-item">Blank Page</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+        <!-- partial -->
+            <div class="content-wrapper">
+                <h3 class="page-heading mb-4">Commande</h3>
+
+                <div class="row mb-2">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Table Commande</h5>
+                                <div class="table-responsive">
+                                 <a href="{{ path('StatCommande') }}"><button  type="button" class="btn btn-outline-info"> Statistique</button></a>
+
+                                    <table class="table center-aligned-table">
+
+                                        <thead>
+                                        <tr class="text-primary">
+
+                                            <th>Id Commande</th>
+                                            <th>Id Produit</th>
+                                            <th>Nom Produit</th>
+                                            <th>Quantite</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for lignecommande in lignecommandes %}
+                                            <tr class="">
+
+                                                <td><label class="badge badge-success">{{ lignecommande.getIdCommande()}}</label></td>
+                                                <td>{{ lignecommande.getId()}}</td>
+                                                <td>{{ lignecommande.produit.getNomProd()}}</td>
+                                                <td></td>
+                                                <td>{{ lignecommande.qte_dem }}</td>
+
+                                                <td>{{ include('ligne_commande/form_delete.html.twig') }}</td>
+
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="6">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" id="search" class="form-control" placeholder="Search item">
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                                <ul class="nav" id="side-menu">
+                                    <li>
+                                        <ul class="nav nav-second-level" id="entitiesNav"></ul>
+                                            </li>
+                                        </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery is necessary -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            $("#search").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#entitiesNav").html('');
+                if (value.length >= minlength ) {
+                    if (searchRequest != null)
+                        searchRequest.abort();
+                    searchRequest = $.ajax({
+                        type: "GET",
+                        url: "{{ path('ajax_search') }}",
+                        data: {
+                            'q' : value
+                        },
+                        dataType: "text",
+                        success: function(msg){
+                            //we need to check if the value is the same
+
+                            if (value==$(that).val()) {
+                                var result = JSON.parse(msg);
+                                $.each(result, function(key, arr) {
+                                    $.each(arr, function(id, value) {
+                                        if (key == 'LigneCommande') {
+                                            if (id != 'error') {
+
+                                                console.log(id , value)
+                                                entitySelector.append('<li><b>'+value[0]+'</b><a href="/list/'+id+'">'+'<img src="/uploads/images'+'" style="width: 50px; height: 50px"/>'+'</a></li>');
+
+
+                                            } else {
+                                                entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+

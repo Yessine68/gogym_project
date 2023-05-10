@@ -6,7 +6,7 @@ use App\Repository\ParticipateRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParticipateRepository::class)]
-class Participate
+class Participate implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -61,5 +61,20 @@ class Participate
         $this->VerificationCode = $VerificationCode;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'user' => $this->idUser,
+            'evenement' => $this->idEvent
+        );
+    }
+
+    public function constructor($user, $evenement)
+    {
+        $this->idUser = $user;
+        $this->idEvent = $evenement;
     }
 }

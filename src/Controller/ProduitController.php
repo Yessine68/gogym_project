@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Entity\User;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use App\Repository\CategorieRepository;
@@ -18,6 +19,14 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Options\PieChart\PieSlice;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\BarChart;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Entity\Notification;
+use App\Repository\NotificationRepository;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -39,8 +48,9 @@ class ProduitController extends AbstractController
     }
    
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProduitRepository $produitRepository): Response
-    {
+    public function new(Request $request, ProduitRepository $produitRepository, Security $security): Response
+    {   $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
+        if ($security->isGranted('ROLE_ADMIN')) {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
@@ -74,7 +84,11 @@ class ProduitController extends AbstractController
         return $this->renderForm('produit/new.html.twig', [
             'produit' => $produit,
             'form' => $form,
-        ]);
+            'notifications' => $notifications,
+        ]);}
+        if ($security->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('afterlogin');}
+            return $this->redirectToRoute('app_login');
     }
     #[Route('/front', name: 'app_produit_afficher_front', methods: ['GET'])]
     public function afficherfront(Request $request, ProduitRepository $produitRepository,CategorieRepository $categorieRepository): Response
@@ -95,14 +109,18 @@ class ProduitController extends AbstractController
         
     }
     #[Route('/afficher', name: 'app_produit_afficher', methods: ['GET'])]
-    public function afficher(ProduitRepository $produitRepository,CategorieRepository $categorieRepository): Response
-    {
+    public function afficher(ProduitRepository $produitRepository,CategorieRepository $categorieRepository, Security $security): Response
+    {    $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
+        if ($security->isGranted('ROLE_ADMIN')) {
         return $this->render('produit/afficher.html.twig', [
             'produits' => $produitRepository->findAll(),
-            //'categories' => $categorieRepository->findAll(),
-            
-        ]);
-        
+            'notifications' => $notifications,
+            //'categories' => $categorieRepository->findAll(),        
+        ]);}
+        if ($security->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('afterlogin');}
+
+            return $this->redirectToRoute('app_login');
     }
     
     #[Route('/search', name: 'app_produit_rechercher')]
@@ -124,7 +142,7 @@ class ProduitController extends AbstractController
     }
     #[Route('/stats', name: 'app_produit_stats')]
     public function stats(Request $request,CategorieRepository $categorieRepository, ProduitRepository $produitRepository): Response
-    {
+    {   $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
          $produit = new Produit();
  
          $produits = [];
@@ -152,6 +170,7 @@ class ProduitController extends AbstractController
              
         return $this->render('produit/afficherstats.html.twig', [
             'piechart' => $bar,
+            'notifications' => $notifications,
 
         ]);
     }
@@ -202,12 +221,13 @@ class ProduitController extends AbstractController
         ]);
     }
     #[Route('/item/{id}', name: 'app_produit_afficher_item', methods: ['GET'])]
-    public function afficheritem($id,Produit $produit,ProduitRepository $produitRepository): Response
+    public function afficheritem($id,Produit $produit,ProduitRepository $produitRepository, UserRepository $usersRepository  , Security $security): Response
     {
-        
-        $user_signed_in = "true"; //false si non connecte -- true si connecte
-        $rate = 0; // 0 si pas de rate - de 1 a 5 si c deja 
-        $user_id = 5; //0 si non connecte - id si connecte
+        // $user = $usersRepository->findOneByResetToken($token);
+        $user_signed_in = $security->isGranted('IS_AUTHENTICATED_FULLY');
+        $user = $security->getUser();
+        $rate =  $user->getUsername(); // 0 si pas de rate - de 1 a 5 si c deja 
+        $user_id = $user->getId(); //0 si non connecte - id si connecte
         $rates = $produitRepository->checkRateProd($user_id,$id); // check rate 
         
         if (!empty($rates)){
@@ -224,9 +244,10 @@ class ProduitController extends AbstractController
     }
     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
-    {
+    {   $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
         return $this->render('produit/show.html.twig', [
             'produit' => $produit,
+            'notifications' => $notifications,
         ]);
     }
     
@@ -234,7 +255,7 @@ class ProduitController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
-    {
+    {   $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
@@ -248,17 +269,20 @@ class ProduitController extends AbstractController
         return $this->renderForm('produit/edit.html.twig', [
             'produit' => $produit,
             'form' => $form,
+            'notifications' => $notifications,
         ]);
     }
 
     #[Route('/delete/{id}', name: 'app_produit_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
-    {
+    {   $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
         //if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $produitRepository->remove($produit, true);
         //}
 
-        return $this->redirectToRoute('app_produit_afficher', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_produit_afficher', [
+            'notifications' => $notifications,
+        ], Response::HTTP_SEE_OTHER);
   
   
   }
@@ -281,7 +305,7 @@ class ProduitController extends AbstractController
 
      #[Route("/updateproduit/{id}", name: "updateproduitJSON")]
      public function updateTypeCarnetsJSON(Request $req, $id, NormalizerInterface $Normalizer)
-     {
+     {  $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
  
          $em = $this->getDoctrine()->getManager();
          $produit = $em->getRepository(Produit::class)->find($id);
@@ -295,7 +319,10 @@ class ProduitController extends AbstractController
         
          $em->flush();
  
-         $jsonContent = $Normalizer->normalize( $produit, 'json', ['groups' => 'produit']);
+         $jsonContent = $Normalizer->normalize( $produit, 'json', [
+            'groups' => 'produit',
+            'notifications' => $notifications,
+        ]);
          return new Response("Type Carnet updated successfully " . json_encode($jsonContent));
      }
  

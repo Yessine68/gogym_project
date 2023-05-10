@@ -12,11 +12,15 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use App\Entity\Cours;
 
+use App\Entity\Reservation;
+
 use App\Form\CoursType; 
+use App\Form\ReservationType; 
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use DateTimeImmutable;
 
 class CoursController extends AbstractController
 {
@@ -30,11 +34,17 @@ class CoursController extends AbstractController
     }
 
     #[Route('/Cours/Read/Back', name: 'BRead_Cours')]
-    public function BReadCours(CoursRepository $repo): Response
+    public function BReadCours(CoursRepository $repo,Request $request): Response
     {
         $Cours = $repo->findAll();
         
-        return $this->render('Cours/BReadCours.html.twig', ["Cours"=>$Cours]);
+        $query = $request->query->get('q');
+        $Cours = $this->getDoctrine()
+            ->getRepository(Cours::class)
+            ->searchCours($query);
+                                        
+        
+        return $this->render('Cours/BReadCours.html.twig', ["Cours"=>$Cours, "query"=>$query]);
     }
     
     #[Route('/Cours/Create', name: 'Create_Cours')]
@@ -101,6 +111,45 @@ class CoursController extends AbstractController
 
         return $this->renderForm('Cours/UpdateCours.html.twig',['form'=>$form]);
 
+    }
+    
+    #[Route('/reserver/{id}', name: 'reserver_cours', methods: ['GET', 'POST'])]
+    public function reserverCours(ManagerRegistry $doctrine, Request $req, $id): Response 
+    {
+        $date = new DateTimeImmutable();
+        $em = $doctrine->getManager();
+        $Reservation = new Reservation();
+        $repo= $doctrine->getRepository(Cours::class);
+        $Cours= $repo->find($id);
+        $Reservation->setType('cours');
+        $Reservation->setDate($date);
+            $Reservation->setCours($Cours);
+            $em->persist($Reservation);
+            $em->flush();
+            
+            return $this->redirectToRoute('FRead_Cours');
+
+        return $this->renderForm('Cours/FReadCours.html.twig',[
+            'form'=>$form,
+            'Cours' => $Cours
+        ]);
+    
+    }
+    
+    /**
+     * @Route("/search", name="cours_search")
+     */
+    public function search(Request $request): Response
+    {
+        $query = $request->query->get('q');
+        $Cours = $this->getDoctrine()
+            ->getRepository(Cours::class)
+            ->searchCours($query);
+
+        return $this->render('cours/search.html.twig', [
+            'Cours' => $Cours,
+            'query' => $query,
+        ]);
     }
 
 //* Partie Mobile

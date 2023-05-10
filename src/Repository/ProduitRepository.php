@@ -68,8 +68,7 @@ class ProduitRepository extends ServiceEntityRepository
     }
     public function getProdsforPag()
     {
-            return $this->createQueryBuilder('produit')
-            ;
+            return $this->createQueryBuilder('produit');
             
     }
     public function triProdByPrice(String $val): array

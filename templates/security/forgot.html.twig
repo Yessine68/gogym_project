@@ -1,8 +1,18 @@
-
-                {{form_start(requestPassForm)}}
-                {{form_row(requestPassForm.email)}}
-                <button type="submit" class="cmn--btn bg--base me-3">
-                            Submit                        </button>
-                {{form_end(requestPassForm)}}
+{% extends 'baseFront.html.twig' %}
+     {% block title %}Reset Password{% endblock %}           
                 
-           
+                
+          {% block body %}   
+                
+           <section class="container my-3">
+    <div class="row">
+        <div class="col">
+            <h1>Reset Password</h1>
+            {{form_start(requestPassForm)}}
+                 {{form_row(requestPassForm.email)}}
+                <button type="submit" class="btn btn-primary">Send Forget Password Mail</button>
+           {{form_end(requestPassForm)}}
+        </div>
+    </div>
+</section>
+{% endblock %}

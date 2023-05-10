@@ -1,4 +1,4 @@
-{% extends 'baseFront.html.twig' %}
+{% extends 'adem.html.twig' %}
 
 {% block title %}Produit
 {% endblock %}
@@ -144,30 +144,14 @@
 			<a href="index.html" class="site-logo">
 				<img src={{ asset("Front/img/logo.png") }} alt="">
 			</a>
-			<li>
-				<a href="index.html">Accueil</a>
-			</li>
-			<li>
-				<a href="Apropos.html">À propos</a>
-			</li>
-			<li>
-				<a href="salles.html">Salles</a>
-			</li>
-			<li>
-				<a href="Activités.html">Activités</a>
-			</li>
-			<li>
-				<a href="offres.html">Offres</a>
-			</li>
-			<li>
-				<a href="Evénements.html">Evénements</a>
-			</li>
-			<li>
-				<a class="active" href="{{ path('app_produit_afficher_front') }}">Boutique</a>
-			</li>
-			<li>
-				<a href="contact.html">Contact</a>
-			</li>
+			<li><a href="/Front/">Accueil</a></li>
+            <li><a href="/Apropos.html">À propos</a></li>
+            <li><a href="{{path('Read_Front_Salle')}}">Salles</a></li>
+            <li><a href="/Cours/Read/Front">Activités</a></li>
+            <li><a href="/Abonnement/Read_Front">Offres</a></li>
+            <li><a href="/evenement/front">Evénements</a></li>
+            <li><a class="active" href="{{ path('app_produit_afficher_front') }}">Boutique</a></li>
+            <li><a href="/Front/contact.html">Contact</a></li>
 			<li class="header-right">
 				<div class="menu-right pull-right">
 					<div class="hr-box">
@@ -349,6 +333,7 @@
 													TND</h4>
 											</div>
 										</div>
+
 									</a>
 								</div>
 							{% else %}

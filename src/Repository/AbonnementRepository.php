@@ -39,13 +39,40 @@ class AbonnementRepository extends ServiceEntityRepository
         }
     }
 
-    public function findById($id) : array {
+    public function findById($id) : array
+    {
         return $this->createQueryBuilder('a')
         ->where('a.id LIKE :id')
         ->setParameter('id',$id)
         ->getQuery()
         ->getResult();
     }
+
+    public function findByNomOrType($query) : array
+    {
+        return $this->createQueryBuilder('a')
+        ->andWhere('a.nom_a LIKE :searchNot OR a.type_a LIKE :searchNot')
+        ->setParameter('searchNot', '%'.$query.'%')
+        ->getQuery()
+        ->getResult();
+    }
+    
+    public function sortByAscPrix(): array
+    {
+        return $this->createQueryBuilder('a')
+        ->orderBy('a.prix_a', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+    
+    public function sortByDescPrix(): array
+    {
+        return $this->createQueryBuilder('a')
+        ->orderBy('a.prix_a', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
+    
 
 //    /**
 //     * @return Abonnement[] Returns an array of Abonnement objects

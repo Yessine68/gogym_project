@@ -1,0 +1,85 @@
+{% extends 'HanaBack.html.twig' %}
+
+{% block title %}Liste des cours
+{% endblock %}
+
+{% block body %}
+<div class="table-wrapper" style="margin :50px;">
+	<h1>Liste des cours</h1> 
+
+    <form id="search-form" action="{{ path('cours_search') }}" method="get">
+        <div class="form-group">
+            <input type="text" name="q" class="form-control" value="{{ query }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <hr>
+
+	<table class="table">
+		<thead>
+			<tr>
+				{# <th>ID</th> #}
+				<th>Nom</th>
+				<th>Durée</th>
+				<th>Intensité</th>
+				<th>Bienfaits</th>
+				<th>Image</th>
+				<th>Editer</th>
+			</tr>
+		</thead>
+    <tbody id="search-results">
+			{% for c in Cours %}
+				<tr>
+					{# <td>
+						{{c.getId()}}
+					</td> #}
+					<td>
+						{{c.getNom()}}
+					</td>
+					<td>
+						{{c.getDuree()}}
+					</td>
+					<td>
+						{{c.getIntensite()}}
+					</td>
+					<td>
+						{{c.getBienfaits()}}
+					</td>
+					<td>
+						<img src="{{ asset('uploads/' ~ c.image) }}" alt="" width="100" height="100"/>
+					</td>
+					<td>
+						<a href="{{path('Delete_Cours',{'id':c.id})}}" class="btn btn-primary" type="submit">Supprimer</a>
+						<a href="{{path('Update_Cours',{'id':c.id})}}" class="btn btn-primary" type="submit">Modifier</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="4">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tbody id="search"></tbody>
+	</table>
+	<br>
+	<a href="{{path('Create_Cours')}}" class="btn btn-primary" type="submit">Ajouter un Cours</a>
+	<br>
+
+</div>
+    <script>
+        $(function () {
+            $('#search-form').submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#search-results').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

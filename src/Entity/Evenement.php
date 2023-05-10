@@ -3,39 +3,68 @@
 namespace App\Entity;
 
 use App\Repository\EvenementRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
-class Evenement
+class Evenement implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("event")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("event")]
+    #[Assert\NotBlank(message: 'Le nom ne doit pas être vide.')]
     private ?string $nom_e = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("event")]
+    #[Assert\NotBlank(message: 'La Description ne doit pas être vide.')]
     private ?string $description_e = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("event")]
+    #[Assert\Date(message: 'La date  doit être de type DD/MM/YY.')]
     private ?string $date_e = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("event")]
+    #[Assert\NotBlank(message: 'Le lieu ne doit pas être vide.')]
     private ?string $lieu_e = null;
 
     #[ORM\Column]
+    #[Groups("event")]
+    #[Assert\NotBlank(message: 'La nombre de participant ne doit pas être vide.')]
+    #[Assert\GreaterThanOrEqual(value: 0, message: 'La nombre de participant doit être supérieur ou égal à 1.')]
     private ?int $nbr_participants = null;
 
     #[ORM\Column(length: 1000)]
+    #[Groups("event")]
     private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'evenements')]
     private ?CategorieEvenement $categorieEvenement = null;
+
+    #[ORM\OneToMany(mappedBy: 'idEvent', targetEntity: Participate::class)]
+    private Collection $participates;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Etat = null;
+
+    public function __construct()
+    {
+        $this->participates = new ArrayCollection();
+    }
+
 
     public function getId(): ?int   
     {
@@ -47,9 +76,9 @@ class Evenement
         return $this->nom_e;
     }
  public function getImage(): ?string
-    {
-        return $this->image;
-    }
+                                                 {
+                                                     return $this->image;
+                                                 }
 
     public function setImage(string $image): self
     {
@@ -129,4 +158,74 @@ class Evenement
     {
         return $this->nom_e.' '.$this->id;
     }
+
+    /**
+     * @return Collection<int, Participate>
+     */
+    public function getParticipates(): Collection
+    {
+        return $this->participates;
+    }
+
+    public function addParticipate(Participate $participate): self
+    {
+        if (!$this->participates->contains($participate)) {
+            $this->participates->add($participate);
+            $participate->setIdEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipate(Participate $participate): self
+    {
+        if ($this->participates->removeElement($participate)) {
+            // set the owning side to null (unless already changed)
+            if ($participate->getIdEvent() === $this) {
+                $participate->setIdEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->Etat;
+    }
+
+    public function setEtat(?string $Etat): self
+    {
+        $this->Etat = $Etat;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'id' => $this->id,
+            'categorieEvenement' => $this->categorieEvenement,
+            'nom' => $this->nom_e,
+            'description' => $this->description_e,
+            'date' => $this->date_e,
+            'lieu' => $this->lieu_e,
+            'nbrParticipants' => $this->nbr_participants,
+            'image' => $this->image
+        );
+    }
+
+
+    public function constructor($categorieEvenement, $nom, $description, $date, $lieu, $nbrParticipants, $image)
+    {
+        $this->categorieEvenement = $categorieEvenement;
+        $this->nom_e = $nom;
+        $this->description_e = $description;
+        $this->date_e = $date;
+        $this->lieu_e = $lieu;
+        $this->nbr_participants = $nbrParticipants;
+        $this->image = $image;
+    }
+
+  
 }

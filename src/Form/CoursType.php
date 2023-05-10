@@ -7,16 +7,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CoursType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom_cours')
-            ->add('description_cours')
-            ->add('duree_cours')
+            ->add('Nom')
+            ->add('duree')
+            ->add('intensite')
+            ->add('bienfaits')
+            ->add('image', FileType::class, ['mapped' => false])
             ->add('Envoyer',SubmitType::class)
         ;
     }

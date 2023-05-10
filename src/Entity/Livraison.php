@@ -11,55 +11,77 @@ class Livraison
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_liv = null;
+    private ?int $id_livraison = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description_liv = null;
+    public ?string $description_livraison = null;
 
     #[ORM\Column]
-    private ?bool $etat_liv = null;
+    public ?bool $etat_livraison = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adresse_liv = null;
+    public ?string $Adresse_livraison = null;
 
-    public function getId_Liv(): ?int
+    /**
+     * @ORM\ManyToOne(targetEntity=Livreur::class, inversedBy="livraisons")
+     * @ORM\JoinColumn(name="id_livreur", referencedColumnName="id_livreur")
+     */
+    private $id_livreur;
+
+
+    public function getId_livraison(): ?int
     {
-        return $this->id_liv;
+        return $this->id_livraison;
     }
 
-    public function getDescriptionLiv(): ?string
+    public function getDescriptionLivraison(): ?string
     {
-        return $this->description_liv;
+        return $this->description_livraison;
     }
 
-    public function setDescriptionLiv(string $description_liv): self
+    public function setDescriptionLivraison(string $description_livraison): self
     {
-        $this->description_liv = $description_liv;
+        $this->description_livraison = $description_livraison;
 
         return $this;
     }
 
-    public function isEtatLiv(): ?bool
+    public function isEtatLivraison(): ?bool
     {
-        return $this->etat_liv;
+        return $this->etat_livraison;
     }
 
-    public function setEtatLiv(bool $etat_liv): self
+    public function setEtatLivraison(bool $etat_livraison): self
     {
-        $this->etat_liv = $etat_liv;
+        $this->etat_livraison = $etat_livraison;
 
         return $this;
     }
 
-    public function getAdresseLiv(): ?string
+    public function getIdLivreur(): ?Livreur
     {
-        return $this->adresse_liv;
+        return $this->id_livreur;
     }
 
-    public function setAdresseLiv(string $adresse_liv): self
+    public function setIdLivreur(?Livreur $id_livreur): self
     {
-        $this->adresse_liv = $adresse_liv;
+        $this->id_livreur = $id_livreur;
 
         return $this;
     }
+
+
+    public function getAdresseLivraison(): ?string
+    {
+        return $this->Adresse_livraison;
+    }
+
+    public function setAdresseLivraison(string $Adresse_livraison): self
+    {
+        $this->Adresse_livraison = $Adresse_livraison;
+
+        return $this;
+    }
+
+    
 }
